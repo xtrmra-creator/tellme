@@ -72,6 +72,12 @@ function generateBunkerData(isNever: boolean, date?: string) {
   return { bunkerId, role, threatLevel, rarity };
 }
 
+function bearerToken(req: Request): string | null {
+  const h = req.headers.get("authorization") || "";
+  const m = /^Bearer\s+(.+)$/i.exec(h.trim());
+  return m?.[1]?.trim() || null;
+}
+
 export async function POST(req: Request) {
   try {
     const supabase = getSupabaseServer();
@@ -82,6 +88,40 @@ export async function POST(req: Request) {
     const ip = clientIp(req);
     if (!rateLimit(`pred:${ip}`, 4, 10 * 60_000)) {
       return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+    }
+
+    let userId: string | null = null;
+    const token = bearerToken(req);
+    if (token) {
+      const { data: authData } = await supabase.auth.getUser(token);
+      userId = authData.user?.id ?? null;
+    }
+
+    if (userId) {
+      const { data: existing } = await supabase
+        .from("predictions")
+        .select("id, nationality, locale, predicted_date, is_never, bunker_id, threat_level")
+        .eq("user_id", userId)
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      if (existing) {
+        return NextResponse.json(
+          {
+            error: "already_voted",
+            prediction: {
+              bunkerId: existing.bunker_id,
+              threatLevel: existing.threat_level,
+              predictedDate: existing.predicted_date,
+              isNever: existing.is_never,
+              nationality: existing.nationality,
+              locale: existing.locale,
+            },
+          },
+          { status: 409 },
+        );
+      }
     }
 
     const body = await req.json();
@@ -120,11 +160,15 @@ export async function POST(req: Request) {
       user_agent: userAgent,
     };
     if (ip !== "unknown") row.ip_address = ip;
+    if (userId) row.user_id = userId;
 
     const { error } = await supabase.from("predictions").insert(row);
 
     if (error) {
       console.error("Supabase error:", error);
+      if (error.code === "23505" && userId) {
+        return NextResponse.json({ error: "already_voted" }, { status: 409 });
+      }
       return NextResponse.json({ error: "Database error" }, { status: 500 });
     }
 

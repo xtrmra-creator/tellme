@@ -61,7 +61,48 @@ export default function WTFDynamicApp({ topic, resume = null }) {
   );
   const sealedRef = useRef(initialResume?.step === "result");
   const skipLocaleNationality = useRef(Boolean(initialResume?.nationality));
+  const [voteLocked, setVoteLocked] = useState(false);
   const { mode: liveMode, simFloor, byCountry } = useLiveCount();
+
+  const applyExistingPrediction = (pred) => {
+    if (!pred) return;
+    const warOpt = topic.options.find((o) => o.type === "negative") ?? null;
+    const peaceOpt = topic.options.find((o) => o.type === "positive") ?? null;
+    if (pred.isNever) {
+      setSelectedOpt(peaceOpt);
+    } else {
+      setSelectedOpt(warOpt);
+      const raw = String(pred.predictedDate || "").slice(0, 10);
+      const [y, m, d] = raw.split("-");
+      if (y) setYear(y);
+      if (m) setMonth(m);
+      if (d) setDay(d);
+    }
+    if (pred.nationality) setNationality(pred.nationality);
+    setStep("result");
+    setIsUnlockedWithData(true);
+    setIsBadgeOnly(false);
+    sealedRef.current = true;
+    setVoteLocked(true);
+    skipLocaleNationality.current = true;
+    saveSealResume({
+      topicId: "ww3",
+      step: "result",
+      optionId: pred.isNever ? "nowar" : "war",
+      day: pred.isNever
+        ? "01"
+        : String(pred.predictedDate || "").slice(8, 10) || "01",
+      month: pred.isNever
+        ? "10"
+        : String(pred.predictedDate || "").slice(5, 7) || "10",
+      year: pred.isNever
+        ? "2027"
+        : String(pred.predictedDate || "").slice(0, 4) || "2027",
+      nationality: pred.nationality || hookCountryFromLocale(locale),
+      userHandle: userHandle,
+      notifyAiTopic,
+    });
+  };
 
   const liveTallies = useMemo(() => {
     const sim = simTalliesForCount(simFloor);
@@ -106,6 +147,7 @@ export default function WTFDynamicApp({ topic, resume = null }) {
   }, [statsPage, statsPageCount]);
 
   const handleOptionClick = (opt) => {
+    if (voteLocked) return;
     setSelectedOpt(opt);
     if (opt.type === "positive") {
       setStep("country");
@@ -115,6 +157,7 @@ export default function WTFDynamicApp({ topic, resume = null }) {
   };
 
   const handleResetChoice = () => {
+    if (voteLocked) return;
     setStep("initial");
     setSelectedOpt(null);
     setIsUnlockedWithData(false);
@@ -123,7 +166,10 @@ export default function WTFDynamicApp({ topic, resume = null }) {
     clearSealResume();
   };
 
-  const sealForecast = () => setStep("result");
+  const sealForecast = () => {
+    if (voteLocked) return;
+    setStep("result");
+  };
 
   const formattedDate = `${day} ${MONTHS.find((m) => m.value === month)?.label} ${year}`;
   const isEmailValid = emailInput.includes("@") && emailInput.includes(".");
@@ -167,22 +213,38 @@ export default function WTFDynamicApp({ topic, resume = null }) {
   );
 
   useEffect(() => {
-    if (step !== "result" || sealedRef.current || !selectedOpt) return;
+    if (step !== "result" || sealedRef.current || !selectedOpt || voteLocked)
+      return;
     sealedRef.current = true;
     const isNever = selectedOpt.type === "positive";
-    void fetch("/api/predictions", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        locale,
-        nationality,
-        isNever,
-        date: isNever ? undefined : `${year}-${month}-${day}`,
-      }),
-    }).catch(() => {
-      /* keep local seal even if the API is down */
-    });
-  }, [step, selectedOpt, locale, nationality, year, month, day]);
+    void (async () => {
+      let authHeader = {};
+      if (supabase) {
+        const { data } = await supabase.auth.getSession();
+        const token = data.session?.access_token;
+        if (token) authHeader = { Authorization: `Bearer ${token}` };
+      }
+      const res = await fetch("/api/predictions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...authHeader },
+        body: JSON.stringify({
+          locale,
+          nationality,
+          isNever,
+          date: isNever ? undefined : `${year}-${month}-${day}`,
+        }),
+      }).catch(() => null);
+      if (res?.status === 409) {
+        const body = await res.json().catch(() => null);
+        if (body?.prediction) applyExistingPrediction(body.prediction);
+        else setVoteLocked(true);
+      } else if (res?.ok && supabase) {
+        const { data } = await supabase.auth.getSession();
+        if (data.session) setVoteLocked(true);
+      }
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step, selectedOpt, locale, nationality, year, month, day, voteLocked]);
 
   const submitEmailAndUnlock = () => {
     setIsUnlockedWithData(true);
@@ -233,16 +295,40 @@ export default function WTFDynamicApp({ topic, resume = null }) {
   useEffect(() => {
     if (!supabase) return;
     let cancelled = false;
+
+    const loadMine = async (accessToken) => {
+      try {
+        const res = await fetch("/api/predictions/mine", {
+          headers: { Authorization: `Bearer ${accessToken}` },
+          cache: "no-store",
+        });
+        if (!res.ok || cancelled) return;
+        const body = await res.json();
+        if (!cancelled && body?.prediction) {
+          applyExistingPrediction(body.prediction);
+        } else if (!cancelled) {
+          setIsUnlockedWithData(true);
+        }
+      } catch {
+        if (!cancelled) setIsUnlockedWithData(true);
+      }
+    };
+
     void supabase.auth.getSession().then(({ data }) => {
-      if (!cancelled && data.session) setIsUnlockedWithData(true);
+      if (cancelled) return;
+      if (data.session?.access_token) {
+        void loadMine(data.session.access_token);
+      }
     });
     const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (session) setIsUnlockedWithData(true);
+      if (!session?.access_token) return;
+      void loadMine(session.access_token);
     });
     return () => {
       cancelled = true;
       sub.subscription.unsubscribe();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleShare = (platform: SharePlatform) => {
@@ -416,7 +502,7 @@ export default function WTFDynamicApp({ topic, resume = null }) {
       )}
 
       <div className="relative p-8 border border-zinc-800 bg-zinc-900/10 min-h-[400px] flex flex-col justify-center items-center rounded-3xl overflow-visible">
-        {step === "result" && (
+        {step === "result" && !voteLocked && (
           <button
             onClick={handleResetChoice}
             className="absolute top-6 left-6 z-30 text-[10px] font-mono tracking-wide text-zinc-500 hover:text-amber-500 transition-colors flex items-center gap-1 cursor-pointer"
