@@ -437,7 +437,7 @@ export default function Page() {
           ) : (
             <div className="w-full flex flex-col items-center animate-in fade-in duration-1000">
               <HomeWorldGrid
-                className="w-full max-w-3xl px-4 pt-12 pb-14 mb-10 sm:pt-14 sm:pb-16"
+                className="w-full max-w-3xl px-4 pt-12 pb-8 sm:pt-14 sm:pb-10"
                 coords={{
                   nw: t("home.mottoNw"),
                   n: t("home.mottoN"),
@@ -468,12 +468,15 @@ export default function Page() {
                       <div className="bg-emerald-500 w-1/2" />
                     </div>
                   </div>
-
-                  <p className="mt-6 max-w-[18rem] sm:max-w-md px-2 text-center font-mono text-[10px] sm:text-[11px] leading-snug tracking-[0.16em] sm:tracking-[0.2em] uppercase text-zinc-400">
-                    {t("home.brandExpand")}
-                  </p>
                 </div>
               </HomeWorldGrid>
+
+              <p
+                className="mt-3 mb-8 sm:mt-4 sm:mb-10 max-w-[18rem] sm:max-w-md px-3 text-center font-mono text-[10px] sm:text-[11px] leading-snug tracking-[0.16em] sm:tracking-[0.2em] uppercase"
+                style={{ color: "#666666" }}
+              >
+                {t("home.brandExpand")}
+              </p>
 
               <div className="w-full max-w-4xl">
                 <div className="flex items-end justify-between gap-4 mb-3">
