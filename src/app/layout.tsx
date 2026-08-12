@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { LocaleProvider } from "@/components/LocaleProvider";
 import { t } from "@/lib/i18n";
+import { Analytics } from "@vercel/analytics/react";
 
 export const metadata: Metadata = {
   title: t("meta.title"),
@@ -30,6 +31,7 @@ export default function RootLayout({
     <html lang="en">
       <body className="bg-black text-white antialiased min-h-screen">
         <LocaleProvider>{children}</LocaleProvider>
+        <Analytics />
       </body>
     </html>
   );
