@@ -1,0 +1,232 @@
+{
+  "meta": {
+    "title": "WWtellme",
+    "description": "Globale Krisenvorhersage- und Umfrageplattform",
+    "ogDescription": "Was sagt dein Land? Versiegle eine Prognose und sieh die Verteilung."
+  },
+  "brand": {
+    "footer": "© 2026 wwtellme.com // Globales Prognosesystem"
+  },
+  "nav": {
+    "backHome": "Zur Startseite",
+    "backTopics": "Zurück zu den Themen",
+    "soundOn": "Ton an",
+    "soundOff": "Ton aus",
+    "langTr": "TR",
+    "langEn": "EN",
+    "langDe": "DE",
+    "langFr": "FR",
+    "langEs": "ES",
+    "langRu": "RU"
+  },
+  "home": {
+    "tagline": "Uns interessiert, was Gesellschaften denken — nicht, was Staaten sagen.",
+    "mottoNw": "Was sagt die Welt?",
+    "mottoN": "Was fehlt, ist deine Einschätzung.",
+    "mottoSe": "Komm und vervollständige uns.",
+    "sectionTitle": "Darüber diskutiert die Welt",
+    "liveCount": "Bisher haben {count} Personen eine Prognose versiegelt",
+    "liveCountLabel": "erfasste Meinungen",
+    "statusActive": "Aktuelles Thema",
+    "statusStandby": "System im Standby",
+    "statusTeaser": "Noch nicht geöffnet",
+    "ctaEnter": "Lasst mich auch rein",
+    "locked": "[ Gesperrt ]",
+    "topics": {
+      "ww3": {
+        "title": "Dritter Weltkrieg",
+        "description": "Wann bricht die Krise aus? Gib deine Prognose ab und sieh, wie andere Länder dastehen."
+      },
+      "ai": {
+        "title": "KI-Apokalypse",
+        "description": "Wann stellt allgemeine künstliche Intelligenz (AGI) die Menschheit auf die Uhr?",
+        "badge": "Demnächst"
+      }
+    }
+  },
+  "intro": {
+    "message": "Auf dem Planeten schlafen 8,1 Milliarden Menschen ein im Glauben, die Sonne werde wieder aufgehen. Doch die Kriegstrommeln schlagen erneut am Horizont. Die Geschichte ist voller Dinge, die man einst für unmöglich hielt — bis sie geschahen. Bildschirme tun so, als sei alles in Ordnung; die Straße spürt die Wahrheit immer zuerst.",
+    "ask": "Was denkst du?",
+    "leaveDate": "Ein Datum in der Zukunft hinterlassen",
+    "noWar": "Kein Krieg — bleibt ruhig"
+  },
+  "months": {
+    "10": "Oktober",
+    "11": "November",
+    "12": "Dezember",
+    "01": "Januar",
+    "02": "Februar",
+    "03": "März",
+    "04": "April",
+    "05": "Mai",
+    "06": "Juni",
+    "07": "Juli",
+    "08": "August",
+    "09": "September"
+  },
+  "topics": {
+    "ww3": {
+      "title": "Dritter Weltkrieg",
+      "subtitle": "Globale Spannungsprognose",
+      "description": "Zentralbanken, Lieferketten und nukleare Risiken liegen auf dem Tisch. Wann kommt deiner Meinung nach der Bruchpunkt?",
+      "options": {
+        "war": {
+          "label": "Krieg bricht aus",
+          "badgeTitle": "Krieg bricht aus (82%)"
+        },
+        "nowar": {
+          "label": "Kein Krieg — bleibt ruhig",
+          "badgeTitle": "Welcher Krieg? (Frieden) ☕"
+        }
+      }
+    }
+  },
+  "dynamic": {
+    "back": "← Zurück",
+    "boardTitle": "Globale Kriegsprognose-Tafel",
+    "myPrediction": "Meine Prognose:",
+    "seal": "Versiegeln",
+    "sealed": "✓ Prognose versiegelt",
+    "sealedHint": "Deine Wahl ist gespeichert. Verteilung und Erkennungsmarke siehst du unten.",
+    "displayNamePlaceholder": "Name in der Freigabe",
+    "shareSocial": "In sozialen Medien teilen",
+    "unlockStatsLead": "Um das globale Gleichgewicht zu steuern und die Statistiken freizuschalten",
+    "unlockStatsSub": "Hinterlasse deine soziale Signatur und setze deine Meinung in die Welt.",
+    "emailPlaceholder": "deine E-Mail-Adresse",
+    "view": "Ansehen",
+    "notifyAiTopic": "Sag mir Bescheid, wenn die KI-Apokalypse zur Abstimmung öffnet!",
+    "continueGoogle": "Mit Google fortfahren",
+    "continueApple": "Mit Apple fortfahren",
+    "badgeOnly": "Nein danke — meine Marke zu teilen reicht",
+    "verified": "Verified",
+    "tagSignature": "Rufzeichen / Marke",
+    "threatTitle": "Bedrohungstitel",
+    "myGuess": "Meine Prognose",
+    "peaceLine": "Kein Krieg — bleibt ruhig",
+    "worldSays": "Was sagt die Welt?",
+    "shareHook": "{country}: {risk}% Krieg. Ich habe {prediction} versiegelt. Was sagt dein Land?",
+    "shareHookPeace": "{country}: {risk}% Krieg. Ich sagte: kein Krieg. Was sagt dein Land?",
+    "shareHookAsk": "Was sagt dein Land?",
+    "yourCountry": "Dein Land",
+    "anon": "@anon",
+    "shareAlertX": "Auf X teilen!",
+    "shareAlertIg": "Auf Instagram teilen!",
+    "shareAlertTt": "Auf TikTok teilen!",
+    "shareAlertTg": "Auf Telegram teilen!",
+    "shareAlertWa": "Auf WhatsApp teilen!",
+    "shareAlertFb": "Auf Facebook teilen!",
+    "shareAlertVk": "Auf VK teilen!",
+    "statRisk": "Krieg",
+    "statStable": "Frieden",
+    "statCountries": {
+      "US": "Amerika",
+      "DE": "Deutschland",
+      "TR": "Türkei",
+      "GB": "Großbritannien",
+      "RU": "Russland",
+      "CN": "China",
+      "FR": "Frankreich",
+      "IL": "Israel",
+      "ES": "Spanien",
+      "IT": "Italien",
+      "PL": "Polen",
+      "PT": "Portugal",
+      "IN": "Indien",
+      "BR": "Brasilien",
+      "JP": "Japan",
+      "KR": "Südkorea",
+      "UA": "Ukraine",
+      "NL": "Niederlande",
+      "SE": "Schweden",
+      "NO": "Norwegen",
+      "FI": "Finnland",
+      "GR": "Griechenland",
+      "RO": "Rumänien",
+      "HU": "Ungarn",
+      "CZ": "Tschechien",
+      "AT": "Österreich",
+      "CH": "Schweiz",
+      "BE": "Belgien",
+      "IE": "Irland",
+      "CA": "Kanada",
+      "MX": "Mexiko",
+      "AR": "Argentinien",
+      "AU": "Australien",
+      "SA": "Saudi-Arabien",
+      "EG": "Ägypten",
+      "ZA": "Südafrika",
+      "ID": "Indonesien",
+      "PK": "Pakistan",
+      "IR": "Iran"
+    }
+  },
+  "badgeModal": {
+    "close": "[ Schließen ]",
+    "eyebrow": "WWtellme // Globale Prognose-Marke",
+    "title": "Prognose versiegelt",
+    "handleLabel": "Dein Name / Social-Handle:",
+    "handlePlaceholder": "@benutzername",
+    "signature": "Rufzeichen / Marke:",
+    "topicLabel": "Thema:",
+    "targetDate": "Zieldatum:",
+    "worldSays": "Die Welt sagt:",
+    "shareCta": "Meine Prognose teilen — den Moment behalten",
+    "copied": "Marke in die Zwischenablage kopiert!"
+  },
+  "worldThink": {
+    "close": "[ Schließen ]",
+    "eyebrow": "WTF // WorldThink-Marke",
+    "sealed": "Prognose versiegelt",
+    "handleLabel": "Dein Name / Social-Handle:",
+    "handlePlaceholder": "@benutzername",
+    "signature": "Rufzeichen / Marke:",
+    "location": "Ziellocation:",
+    "markedDate": "Markiertes Datum:",
+    "systemDecision": "Systementscheidung:",
+    "sealedFor": "Diese Marke ist für {handle} versiegelt. Mach einen Screenshot und teile sie!",
+    "shareCta": "Meine Prognose teilen — den Moment behalten",
+    "copied": "Marke in die Zwischenablage kopiert! (Simulation)",
+    "selectNationality": "Nationalität wählen",
+    "day": "Tag",
+    "month": "Monat",
+    "year": "Jahr",
+    "peopleThink": "Was denken die Menschen in {country}?",
+    "readyHint": "Wir sind bereit, die Prognosen der Bürger für dieses Datum zu speichern. Triff deine Wahl, um mitzumachen.",
+    "rebelCta": "⚡ Mir ist egal, was sie denken — teile meine Prognose-Marke",
+    "orConnect": "Oder verbinde dich, um die globale Verteilung zu sehen:",
+    "emailPlaceholder": "Deine E-Mail",
+    "view": "Ansehen",
+    "emailNote": "* Nur per E-Mail verifizierte Personen fließen in die Verhältnisse ein.",
+    "google": "Google",
+    "apple": "Apple",
+    "liveCount": "Bisher haben {count} Personen eine Prognose versiegelt",
+    "statWar": "Krieg bricht aus",
+    "statPeace": "Welcher Krieg?",
+    "decisionWar": "Krieg bricht aus (82%)",
+    "decisionPeace": "Welcher Krieg? (Frieden)",
+    "anon": "@anon"
+  },
+  "countrySelector": {
+    "title": "Land / Nationalität wählen",
+    "hint": "Aus welchem Land prognostizierst du? Das fließt in die globale Karte ein.",
+    "searchLabel": "Anderes Land suchen",
+    "searchPlaceholder": "Ländernamen eingeben...",
+    "countries": {
+      "TR": "Türkei",
+      "US": "Vereinigte Staaten",
+      "DE": "Deutschland",
+      "FR": "Frankreich",
+      "GB": "Vereinigtes Königreich",
+      "JP": "Japan",
+      "CN": "China",
+      "RU": "Russland",
+      "IN": "Indien",
+      "BR": "Brasilien",
+      "CA": "Kanada",
+      "AU": "Australien"
+    }
+  },
+  "topicCard": {
+    "makePrediction": "[ACCESS_GRANTED] Gib deine Prognose ab →"
+  }
+}

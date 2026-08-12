@@ -1,0 +1,232 @@
+{
+  "meta": {
+    "title": "WWtellme",
+    "description": "Küresel kriz tahmin ve oylama platformu",
+    "ogDescription": "Ülken ne diyor? Tahminini mühürle, dünyanın oranını gör."
+  },
+  "brand": {
+    "footer": "© 2026 wwtellme.com // Küresel öngörü sistemi"
+  },
+  "nav": {
+    "backHome": "Ana Ekrana Dön",
+    "backTopics": "Gündemlere Dön",
+    "soundOn": "Ses açık",
+    "soundOff": "Ses kapalı",
+    "langTr": "TR",
+    "langEn": "EN",
+    "langDe": "DE",
+    "langFr": "FR",
+    "langEs": "ES",
+    "langRu": "RU"
+  },
+  "home": {
+    "tagline": "Devletlerin değil, toplumların ne düşündüğüyle ilgileniyoruz.",
+    "mottoNw": "Dünya ne söylüyor?",
+    "mottoN": "Eksik olan senin fikrin.",
+    "mottoSe": "Lütfen gel ve bizi tamamla.",
+    "sectionTitle": "Dünya bunu tartışıyor",
+    "liveCount": "Şimdiye kadar {count} kişi tahminini mühürledi",
+    "liveCountLabel": "belirtilen görüş",
+    "statusActive": "Güncel konu",
+    "statusStandby": "Sistem beklemede",
+    "statusTeaser": "Henüz açık değil",
+    "ctaEnter": "Hadi beni de içeri alın",
+    "locked": "[ Kilitli ]",
+    "topics": {
+      "ww3": {
+        "title": "3. Dünya Savaşı",
+        "description": "Kriz ne zaman patlayacak? Tahminini yap ve diğer ülkelerin oranlarını gör."
+      },
+      "ai": {
+        "title": "Yapay zeka kıyameti",
+        "description": "İnsanlığın sonunu getirecek olan genel yapay zeka (AGI) ne zaman devreye girecek?",
+        "badge": "Yakında"
+      }
+    }
+  },
+  "intro": {
+    "message": "Dünyada 8.1 milyar insan, her gece güneşin yeniden doğacağı umuduyla uykuya dalıyor. Fakat bugünlerde ufukta yine savaş tamtamları çalıyor. Tarih boyunca 'asla olmaz' denilen nice ihtimalin gün gelip gerçekleştiği görüldü. Ekranlar her şey yolundaymış gibi yapsa da, gerçeği daima sokağın tecrübesi sezer.",
+    "ask": "Sence?",
+    "leaveDate": "Geleceğe tarih bırak",
+    "noWar": "Savaş çıkmaz, rahat olun"
+  },
+  "months": {
+    "10": "Ekim",
+    "11": "Kasım",
+    "12": "Aralık",
+    "01": "Ocak",
+    "02": "Şubat",
+    "03": "Mart",
+    "04": "Nisan",
+    "05": "Mayıs",
+    "06": "Haziran",
+    "07": "Temmuz",
+    "08": "Ağustos",
+    "09": "Eylül"
+  },
+  "topics": {
+    "ww3": {
+      "title": "3. Dünya Savaşı",
+      "subtitle": "Küresel gerilim öngörüsü",
+      "description": "Küresel merkez bankaları, tedarik zincirleri ve nükleer riskler masada. Sence kırılma noktası ne zaman?",
+      "options": {
+        "war": {
+          "label": "Savaş çıkar",
+          "badgeTitle": "Savaş çıkar (%82)"
+        },
+        "nowar": {
+          "label": "Savaş çıkmaz, rahat olun",
+          "badgeTitle": "Ne savaşı? (Barış) ☕"
+        }
+      }
+    }
+  },
+  "dynamic": {
+    "back": "← Geri",
+    "boardTitle": "Küresel savaş öngörü tablosu",
+    "myPrediction": "Benim tahminim:",
+    "seal": "Mühürle",
+    "sealed": "✓ Öngörü mühürlendi",
+    "sealedHint": "Seçiminiz kaydedildi. Dağılımı ve künyenizi aşağıda görebilirsiniz.",
+    "displayNamePlaceholder": "Paylaşımda görünecek ad",
+    "shareSocial": "Sosyal medyada paylaş",
+    "unlockStatsLead": "Küresel dengeye yön vermek ve istatistikleri açmak için",
+    "unlockStatsSub": "Sosyal imzanı at ve dünyaya bir fikirde sen bırak.",
+    "emailPlaceholder": "e-posta adresiniz",
+    "view": "Gör",
+    "notifyAiTopic": "Yapay zeka kıyameti oylamaya açılınca haber ver!",
+    "continueGoogle": "Google ile devam",
+    "continueApple": "Apple ile devam",
+    "badgeOnly": "Yok, künyemi paylaşsam yeter",
+    "verified": "Verified",
+    "tagSignature": "İmza / Künye",
+    "threatTitle": "Tehdit başlığı",
+    "myGuess": "Benim tahminim",
+    "peaceLine": "Savaş çıkmaz, rahat olun",
+    "worldSays": "Dünya ne söylüyor?",
+    "shareHook": "{country}: %{risk} savaş. Ben {prediction} mühürledim. Senin ülken ne diyor?",
+    "shareHookPeace": "{country}: %{risk} savaş. Ben savaş çıkmaz dedim. Senin ülken ne diyor?",
+    "shareHookAsk": "Senin ülken ne diyor?",
+    "yourCountry": "Ülken",
+    "anon": "@anonim",
+    "shareAlertX": "X Paylaşım!",
+    "shareAlertIg": "Instagram Paylaşım!",
+    "shareAlertTt": "TikTok Paylaşım!",
+    "shareAlertTg": "Telegram Paylaşım!",
+    "shareAlertWa": "WhatsApp Paylaşım!",
+    "shareAlertFb": "Facebook Paylaşım!",
+    "shareAlertVk": "VK Paylaşım!",
+    "statRisk": "savaş",
+    "statStable": "barış",
+    "statCountries": {
+      "US": "Amerika",
+      "DE": "Almanya",
+      "TR": "Türkiye",
+      "GB": "İngiltere",
+      "RU": "Rusya",
+      "CN": "Çin",
+      "FR": "Fransa",
+      "IL": "İsrail",
+      "ES": "İspanya",
+      "IT": "İtalya",
+      "PL": "Polonya",
+      "PT": "Portekiz",
+      "IN": "Hindistan",
+      "BR": "Brezilya",
+      "JP": "Japonya",
+      "KR": "Güney Kore",
+      "UA": "Ukrayna",
+      "NL": "Hollanda",
+      "SE": "İsveç",
+      "NO": "Norveç",
+      "FI": "Finlandiya",
+      "GR": "Yunanistan",
+      "RO": "Romanya",
+      "HU": "Macaristan",
+      "CZ": "Çekya",
+      "AT": "Avusturya",
+      "CH": "İsviçre",
+      "BE": "Belçika",
+      "IE": "İrlanda",
+      "CA": "Kanada",
+      "MX": "Meksika",
+      "AR": "Arjantin",
+      "AU": "Avustralya",
+      "SA": "Suudi Arabistan",
+      "EG": "Mısır",
+      "ZA": "Güney Afrika",
+      "ID": "Endonezya",
+      "PK": "Pakistan",
+      "IR": "İran"
+    }
+  },
+  "badgeModal": {
+    "close": "[ Kapa ]",
+    "eyebrow": "WWtellme // Küresel öngörü künyesi",
+    "title": "Öngörü mühürlendi",
+    "handleLabel": "Adınız / sosyal medya künyeniz:",
+    "handlePlaceholder": "@kullaniciadi",
+    "signature": "İmza / künye:",
+    "topicLabel": "Konu başlığı:",
+    "targetDate": "Hedef tarih:",
+    "worldSays": "Dünya ne söylüyor:",
+    "shareCta": "Tahminimi paylaş, anı kalsın",
+    "copied": "Künye panoya kopyalandı!"
+  },
+  "worldThink": {
+    "close": "[ Kapa ]",
+    "eyebrow": "WTF // WorldThink künye",
+    "sealed": "Öngörü mühürlendi",
+    "handleLabel": "Adınız / sosyal medya künyeniz:",
+    "handlePlaceholder": "@kullaniciadi",
+    "signature": "İmza / künye:",
+    "location": "Hedef lokasyon:",
+    "markedDate": "İşaretlenen tarih:",
+    "systemDecision": "Sistem kararı:",
+    "sealedFor": "Bu künye {handle} adına mühürlendi. Şimdi ekran görüntüsü alarak paylaşabilirsin!",
+    "shareCta": "Tahminimi paylaş, anı kalsın",
+    "copied": "Künye panoya kopyalandı! (Simülasyon)",
+    "selectNationality": "Uyruk seçin",
+    "day": "Gün",
+    "month": "Ay",
+    "year": "Yıl",
+    "peopleThink": "{country} halkı ne düşünüyor?",
+    "readyHint": "Vatandaşların bu tarih hakkındaki öngörülerini sisteme kaydetmeye hazırız. Katılmak için seçiminizi yapın.",
+    "rebelCta": "⚡ Kimin ne düşündüğü umrumda değil — tahmin künyemi paylaş, anı kalsın",
+    "orConnect": "Veya küresel dağılımı görmek için bağlan:",
+    "emailPlaceholder": "E-posta adresin",
+    "view": "Gör",
+    "emailNote": "* Oranlamalara sadece mail ile gerçek olduğu kanıtlanan kişiler dahil edilmektedir.",
+    "google": "Google",
+    "apple": "Apple",
+    "liveCount": "Şimdiye kadar {count} kişi tahminini mühürledi",
+    "statWar": "Savaş çıkar",
+    "statPeace": "Ne savaşı?",
+    "decisionWar": "Savaş çıkar (%82)",
+    "decisionPeace": "Ne savaşı? (Barış)",
+    "anon": "@anonim"
+  },
+  "countrySelector": {
+    "title": "Ülkenizi / Uyruğunuzu Seçin",
+    "hint": "Hangi ülkeden tahmin yapıyorsunuz? Bu bilgi küresel harita için kullanılacak.",
+    "searchLabel": "Diğer ülke ara",
+    "searchPlaceholder": "Ülke adı yazın...",
+    "countries": {
+      "TR": "Türkiye",
+      "US": "Amerika Birleşik Devletleri",
+      "DE": "Almanya",
+      "FR": "Fransa",
+      "GB": "Birleşik Krallık",
+      "JP": "Japonya",
+      "CN": "Çin",
+      "RU": "Rusya",
+      "IN": "Hindistan",
+      "BR": "Brezilya",
+      "CA": "Kanada",
+      "AU": "Avustralya"
+    }
+  },
+  "topicCard": {
+    "makePrediction": "[ACCESS_GRANTED] Tahminini Yap →"
+  }
+}

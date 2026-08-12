@@ -1,0 +1,36 @@
+---
+description: Block production go-live until Vercel/Supabase account work and remaining abuse gates are done
+alwaysApply: true
+---
+
+# Go-live gate (Vercel + Supabase)
+
+Code for stats, shared freeze, PII hide, rate limit, and seal/email POST is in the repo. **Do not treat “we're live” as done** until the user has actually run the account steps below.
+
+## Already in code (do not undo)
+
+1. `/api/stats` reads Supabase (`predictions_public` + freeze row).
+2. Shared freeze table `live_counter_state`; clients prefer `simFloor` from the API. Formula stays `frozenSim + realTotal`.
+3. `vercel.json` does not use Node 18 or `@supabase_*` aliases — env vars must be set in the Vercel dashboard.
+4. Anon cannot SELECT IPs (`predictions_public` only) and cannot INSERT after migration `002_go_live.sql`.
+5. Best-effort rate limits on `/api/predictions`, `/api/email`, `/api/geo`, `/api/stats`.
+
+## User must still do before live
+
+1. Create a Supabase project and run `001_initial_schema.sql` then `002_go_live.sql`.
+2. Put `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, and **`SUPABASE_SERVICE_ROLE_KEY`** (server-only) in Vercel env for Production + Preview.
+3. Deploy to Vercel (Git import or `vercel`). Confirm Node 20+.
+4. Turn on Vercel WAF / rate limiting for `/api/*` (in-memory limits do not share across serverless instances).
+5. Smoke-test: seal a vote, email unlock, `/api/stats` returns `total` / `byCountry` / `simFloor`.
+6. When real votes near 1000 or abuse shows up: tighten quota or require membership/email verification. Do not drop the ~20k sim floor.
+
+## Intentional, do not “fix” unless asked
+
+- Simulated ~20k base on the counter is **on purpose**. After 1000 real votes it stays `frozenSim + real`.
+
+## Block pattern
+
+```
+User: canlıya al / Vercel deploy
+Agent: if dashboard/SQL/env steps are not done → remind the ordered user list, do not say we're live
+```

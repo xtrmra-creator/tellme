@@ -1,0 +1,232 @@
+{
+  "meta": {
+    "title": "WWtellme",
+    "description": "Global crisis prediction and polling platform",
+    "ogDescription": "What does your country say? Seal a forecast and see the split."
+  },
+  "brand": {
+    "footer": "© 2026 wwtellme.com // Global forecast system"
+  },
+  "nav": {
+    "backHome": "Back to Home",
+    "backTopics": "Back to Topics",
+    "soundOn": "Sound on",
+    "soundOff": "Sound off",
+    "langTr": "TR",
+    "langEn": "EN",
+    "langDe": "DE",
+    "langFr": "FR",
+    "langEs": "ES",
+    "langRu": "RU"
+  },
+  "home": {
+    "tagline": "We care what societies think — not what states say.",
+    "mottoNw": "What is the world saying?",
+    "mottoN": "What's missing is your take.",
+    "mottoSe": "Come complete us.",
+    "sectionTitle": "The world is debating this",
+    "liveCount": "So far {count} people have sealed a forecast",
+    "liveCountLabel": "recorded views",
+    "statusActive": "Live topic",
+    "statusStandby": "System standby",
+    "statusTeaser": "Not open yet",
+    "ctaEnter": "Let me in too",
+    "locked": "[ Locked ]",
+    "topics": {
+      "ww3": {
+        "title": "World War III",
+        "description": "When does the crisis break? Make your call and see how other countries stack up."
+      },
+      "ai": {
+        "title": "AI apocalypse",
+        "description": "When will artificial general intelligence (AGI) put humanity on the clock?",
+        "badge": "Coming soon"
+      }
+    }
+  },
+  "intro": {
+    "message": "Across the planet, 8.1 billion people fall asleep believing the sun will rise again. But war drums are beating on the horizon once more. History is full of things once called impossible — until they happened. Screens pretend everything is fine; the street always senses the truth first.",
+    "ask": "What do you think?",
+    "leaveDate": "Leave a date in the future",
+    "noWar": "No war — stay calm"
+  },
+  "months": {
+    "10": "October",
+    "11": "November",
+    "12": "December",
+    "01": "January",
+    "02": "February",
+    "03": "March",
+    "04": "April",
+    "05": "May",
+    "06": "June",
+    "07": "July",
+    "08": "August",
+    "09": "September"
+  },
+  "topics": {
+    "ww3": {
+      "title": "World War III",
+      "subtitle": "Global tension forecast",
+      "description": "Central banks, supply chains, and nuclear risk are on the table. When do you think the breaking point hits?",
+      "options": {
+        "war": {
+          "label": "War happens",
+          "badgeTitle": "War happens (82%)"
+        },
+        "nowar": {
+          "label": "No war — stay calm",
+          "badgeTitle": "What war? (Peace) ☕"
+        }
+      }
+    }
+  },
+  "dynamic": {
+    "back": "← Back",
+    "boardTitle": "Global war forecast board",
+    "myPrediction": "My prediction:",
+    "seal": "Seal it",
+    "sealed": "✓ Forecast sealed",
+    "sealedHint": "Your choice is saved. See the split and your dog tag below.",
+    "displayNamePlaceholder": "Name shown on share",
+    "shareSocial": "Share on social",
+    "unlockStatsLead": "To steer the global balance and unlock the stats",
+    "unlockStatsSub": "Leave your social signature and put your take on the world.",
+    "emailPlaceholder": "your email address",
+    "view": "View",
+    "notifyAiTopic": "Tell me when AI apocalypse opens for voting!",
+    "continueGoogle": "Continue with Google",
+    "continueApple": "Continue with Apple",
+    "badgeOnly": "No thanks — sharing my tag is enough",
+    "verified": "Verified",
+    "tagSignature": "Callsign / tag",
+    "threatTitle": "Threat title",
+    "myGuess": "My prediction",
+    "peaceLine": "No war — stay calm",
+    "worldSays": "What is the world saying?",
+    "shareHook": "{country}: {risk}% war. I sealed {prediction}. What does your country say?",
+    "shareHookPeace": "{country}: {risk}% war. I said no war. What does your country say?",
+    "shareHookAsk": "What does your country say?",
+    "yourCountry": "Your country",
+    "anon": "@anon",
+    "shareAlertX": "Share to X!",
+    "shareAlertIg": "Share to Instagram!",
+    "shareAlertTt": "Share to TikTok!",
+    "shareAlertTg": "Share to Telegram!",
+    "shareAlertWa": "Share to WhatsApp!",
+    "shareAlertFb": "Share to Facebook!",
+    "shareAlertVk": "Share to VK!",
+    "statRisk": "war",
+    "statStable": "peace",
+    "statCountries": {
+      "US": "United States",
+      "DE": "Germany",
+      "TR": "Turkey",
+      "GB": "United Kingdom",
+      "RU": "Russia",
+      "CN": "China",
+      "FR": "France",
+      "IL": "Israel",
+      "ES": "Spain",
+      "IT": "Italy",
+      "PL": "Poland",
+      "PT": "Portugal",
+      "IN": "India",
+      "BR": "Brazil",
+      "JP": "Japan",
+      "KR": "South Korea",
+      "UA": "Ukraine",
+      "NL": "Netherlands",
+      "SE": "Sweden",
+      "NO": "Norway",
+      "FI": "Finland",
+      "GR": "Greece",
+      "RO": "Romania",
+      "HU": "Hungary",
+      "CZ": "Czechia",
+      "AT": "Austria",
+      "CH": "Switzerland",
+      "BE": "Belgium",
+      "IE": "Ireland",
+      "CA": "Canada",
+      "MX": "Mexico",
+      "AR": "Argentina",
+      "AU": "Australia",
+      "SA": "Saudi Arabia",
+      "EG": "Egypt",
+      "ZA": "South Africa",
+      "ID": "Indonesia",
+      "PK": "Pakistan",
+      "IR": "Iran"
+    }
+  },
+  "badgeModal": {
+    "close": "[ Close ]",
+    "eyebrow": "WWtellme // Global forecast tag",
+    "title": "Forecast sealed",
+    "handleLabel": "Your name / social handle:",
+    "handlePlaceholder": "@username",
+    "signature": "Callsign / tag:",
+    "topicLabel": "Topic:",
+    "targetDate": "Target date:",
+    "worldSays": "World says:",
+    "shareCta": "Share my prediction — keep the moment",
+    "copied": "Tag copied to clipboard!"
+  },
+  "worldThink": {
+    "close": "[ Close ]",
+    "eyebrow": "WTF // WorldThink tag",
+    "sealed": "Forecast sealed",
+    "handleLabel": "Your name / social handle:",
+    "handlePlaceholder": "@username",
+    "signature": "Callsign / tag:",
+    "location": "Target location:",
+    "markedDate": "Marked date:",
+    "systemDecision": "System call:",
+    "sealedFor": "This tag is sealed for {handle}. Screenshot it and share!",
+    "shareCta": "Share my prediction — keep the moment",
+    "copied": "Tag copied to clipboard! (Simulation)",
+    "selectNationality": "Select nationality",
+    "day": "Day",
+    "month": "Month",
+    "year": "Year",
+    "peopleThink": "What do the people of {country} think?",
+    "readyHint": "We're ready to log citizens' forecasts for this date. Make your pick to join.",
+    "rebelCta": "⚡ I don't care what they think — share my forecast tag",
+    "orConnect": "Or connect to see the global split:",
+    "emailPlaceholder": "Your email",
+    "view": "View",
+    "emailNote": "* Only people verified by email are counted in the ratios.",
+    "google": "Google",
+    "apple": "Apple",
+    "liveCount": "So far {count} people have sealed a forecast",
+    "statWar": "War happens",
+    "statPeace": "What war?",
+    "decisionWar": "War happens (82%)",
+    "decisionPeace": "What war? (Peace)",
+    "anon": "@anon"
+  },
+  "countrySelector": {
+    "title": "Select your country / nationality",
+    "hint": "Which country are you forecasting from? This feeds the global map.",
+    "searchLabel": "Search another country",
+    "searchPlaceholder": "Type a country name...",
+    "countries": {
+      "TR": "Turkey",
+      "US": "United States",
+      "DE": "Germany",
+      "FR": "France",
+      "GB": "United Kingdom",
+      "JP": "Japan",
+      "CN": "China",
+      "RU": "Russia",
+      "IN": "India",
+      "BR": "Brazil",
+      "CA": "Canada",
+      "AU": "Australia"
+    }
+  },
+  "topicCard": {
+    "makePrediction": "[ACCESS_GRANTED] Make your call →"
+  }
+}

@@ -1,0 +1,232 @@
+{
+  "meta": {
+    "title": "WWtellme",
+    "description": "Plataforma global de predicción de crisis y encuestas",
+    "ogDescription": "¿Qué dice tu país? Sella un pronóstico y mira el reparto."
+  },
+  "brand": {
+    "footer": "© 2026 wwtellme.com // Sistema de pronóstico global"
+  },
+  "nav": {
+    "backHome": "Volver al inicio",
+    "backTopics": "Volver a los temas",
+    "soundOn": "Sonido activado",
+    "soundOff": "Sonido desactivado",
+    "langTr": "TR",
+    "langEn": "EN",
+    "langDe": "DE",
+    "langFr": "FR",
+    "langEs": "ES",
+    "langRu": "RU"
+  },
+  "home": {
+    "tagline": "Nos importa lo que piensan las sociedades — no lo que dicen los Estados.",
+    "mottoNw": "¿Qué dice el mundo?",
+    "mottoN": "Lo que falta es tu opinión.",
+    "mottoSe": "Ven y complétanos.",
+    "sectionTitle": "El mundo debate esto",
+    "liveCount": "Hasta ahora {count} personas han sellado una predicción",
+    "liveCountLabel": "opiniones registradas",
+    "statusActive": "Tema en vivo",
+    "statusStandby": "Sistema en espera",
+    "statusTeaser": "Aún no abierto",
+    "ctaEnter": "Déjenme entrar también",
+    "locked": "[ Bloqueado ]",
+    "topics": {
+      "ww3": {
+        "title": "Tercera Guerra Mundial",
+        "description": "¿Cuándo estalla la crisis? Haz tu predicción y mira cómo se posicionan otros países."
+      },
+      "ai": {
+        "title": "Apocalipsis de la IA",
+        "description": "¿Cuándo pondrá la inteligencia artificial general (AGI) a la humanidad contra el reloj?",
+        "badge": "Próximamente"
+      }
+    }
+  },
+  "intro": {
+    "message": "En el planeta, 8100 millones de personas se duermen creyendo que el sol volverá a salir. Pero los tambores de guerra suenan otra vez en el horizonte. La historia está llena de cosas que se creían imposibles — hasta que ocurrieron. Las pantallas fingen que todo va bien; la calle siempre siente la verdad primero.",
+    "ask": "¿Tú qué piensas?",
+    "leaveDate": "Deja una fecha en el futuro",
+    "noWar": "No habrá guerra — mantened la calma"
+  },
+  "months": {
+    "10": "Octubre",
+    "11": "Noviembre",
+    "12": "Diciembre",
+    "01": "Enero",
+    "02": "Febrero",
+    "03": "Marzo",
+    "04": "Abril",
+    "05": "Mayo",
+    "06": "Junio",
+    "07": "Julio",
+    "08": "Agosto",
+    "09": "Septiembre"
+  },
+  "topics": {
+    "ww3": {
+      "title": "Tercera Guerra Mundial",
+      "subtitle": "Pronóstico de tensión global",
+      "description": "Bancos centrales, cadenas de suministro y riesgos nucleares están sobre la mesa. ¿Cuándo crees que llega el punto de ruptura?",
+      "options": {
+        "war": {
+          "label": "Estalla la guerra",
+          "badgeTitle": "Estalla la guerra (82%)"
+        },
+        "nowar": {
+          "label": "No habrá guerra — mantened la calma",
+          "badgeTitle": "¿Qué guerra? (Paz) ☕"
+        }
+      }
+    }
+  },
+  "dynamic": {
+    "back": "← Atrás",
+    "boardTitle": "Tablero de pronóstico de guerra global",
+    "myPrediction": "Mi predicción:",
+    "seal": "Sellar",
+    "sealed": "✓ Pronóstico sellado",
+    "sealedHint": "Tu elección está guardada. Mira la distribución y tu placa abajo.",
+    "displayNamePlaceholder": "Nombre que se muestra al compartir",
+    "shareSocial": "Compartir en redes",
+    "unlockStatsLead": "Para orientar el equilibrio global y desbloquear las estadísticas",
+    "unlockStatsSub": "Deja tu firma social y pon tu opinión en el mundo.",
+    "emailPlaceholder": "tu correo electrónico",
+    "view": "Ver",
+    "notifyAiTopic": "¡Avísame cuando el apocalipsis de la IA abra a votación!",
+    "continueGoogle": "Continuar con Google",
+    "continueApple": "Continuar con Apple",
+    "badgeOnly": "No, gracias — compartir mi placa basta",
+    "verified": "Verified",
+    "tagSignature": "Indicativo / placa",
+    "threatTitle": "Título de la amenaza",
+    "myGuess": "Mi predicción",
+    "peaceLine": "No habrá guerra — mantened la calma",
+    "worldSays": "¿Qué dice el mundo?",
+    "shareHook": "{country}: {risk}% guerra. Sellé {prediction}. ¿Qué dice tu país?",
+    "shareHookPeace": "{country}: {risk}% guerra. Dije que no habría guerra. ¿Qué dice tu país?",
+    "shareHookAsk": "¿Qué dice tu país?",
+    "yourCountry": "Tu país",
+    "anon": "@anon",
+    "shareAlertX": "¡Compartir en X!",
+    "shareAlertIg": "¡Compartir en Instagram!",
+    "shareAlertTt": "¡Compartir en TikTok!",
+    "shareAlertTg": "¡Compartir en Telegram!",
+    "shareAlertWa": "¡Compartir en WhatsApp!",
+    "shareAlertFb": "¡Compartir en Facebook!",
+    "shareAlertVk": "¡Compartir en VK!",
+    "statRisk": "guerra",
+    "statStable": "paz",
+    "statCountries": {
+      "US": "Estados Unidos",
+      "DE": "Alemania",
+      "TR": "Turquía",
+      "GB": "Reino Unido",
+      "RU": "Rusia",
+      "CN": "China",
+      "FR": "Francia",
+      "IL": "Israel",
+      "ES": "España",
+      "IT": "Italia",
+      "PL": "Polonia",
+      "PT": "Portugal",
+      "IN": "India",
+      "BR": "Brasil",
+      "JP": "Japón",
+      "KR": "Corea del Sur",
+      "UA": "Ucrania",
+      "NL": "Países Bajos",
+      "SE": "Suecia",
+      "NO": "Noruega",
+      "FI": "Finlandia",
+      "GR": "Grecia",
+      "RO": "Rumania",
+      "HU": "Hungría",
+      "CZ": "Chequia",
+      "AT": "Austria",
+      "CH": "Suiza",
+      "BE": "Bélgica",
+      "IE": "Irlanda",
+      "CA": "Canadá",
+      "MX": "México",
+      "AR": "Argentina",
+      "AU": "Australia",
+      "SA": "Arabia Saudí",
+      "EG": "Egipto",
+      "ZA": "Sudáfrica",
+      "ID": "Indonesia",
+      "PK": "Pakistán",
+      "IR": "Irán"
+    }
+  },
+  "badgeModal": {
+    "close": "[ Cerrar ]",
+    "eyebrow": "WWtellme // Placa de pronóstico global",
+    "title": "Pronóstico sellado",
+    "handleLabel": "Tu nombre / usuario social:",
+    "handlePlaceholder": "@usuario",
+    "signature": "Indicativo / placa:",
+    "topicLabel": "Tema:",
+    "targetDate": "Fecha objetivo:",
+    "worldSays": "El mundo dice:",
+    "shareCta": "Compartir mi predicción — guardar el momento",
+    "copied": "¡Placa copiada al portapapeles!"
+  },
+  "worldThink": {
+    "close": "[ Cerrar ]",
+    "eyebrow": "WTF // Placa WorldThink",
+    "sealed": "Pronóstico sellado",
+    "handleLabel": "Tu nombre / usuario social:",
+    "handlePlaceholder": "@usuario",
+    "signature": "Indicativo / placa:",
+    "location": "Ubicación objetivo:",
+    "markedDate": "Fecha marcada:",
+    "systemDecision": "Decisión del sistema:",
+    "sealedFor": "Esta placa está sellada para {handle}. ¡Haz una captura y compártela!",
+    "shareCta": "Compartir mi predicción — guardar el momento",
+    "copied": "¡Placa copiada al portapapeles! (Simulación)",
+    "selectNationality": "Seleccionar nacionalidad",
+    "day": "Día",
+    "month": "Mes",
+    "year": "Año",
+    "peopleThink": "¿Qué piensa la gente de {country}?",
+    "readyHint": "Estamos listos para registrar las predicciones de los ciudadanos para esta fecha. Elige para unirte.",
+    "rebelCta": "⚡ No me importa lo que piensen — compartir mi placa de predicción",
+    "orConnect": "O conéctate para ver la distribución global:",
+    "emailPlaceholder": "Tu correo",
+    "view": "Ver",
+    "emailNote": "* Solo las personas verificadas por correo se cuentan en las proporciones.",
+    "google": "Google",
+    "apple": "Apple",
+    "liveCount": "Hasta ahora {count} personas han sellado una predicción",
+    "statWar": "Estalla la guerra",
+    "statPeace": "¿Qué guerra?",
+    "decisionWar": "Estalla la guerra (82%)",
+    "decisionPeace": "¿Qué guerra? (Paz)",
+    "anon": "@anon"
+  },
+  "countrySelector": {
+    "title": "Selecciona tu país / nacionalidad",
+    "hint": "¿Desde qué país haces tu predicción? Esto alimenta el mapa global.",
+    "searchLabel": "Buscar otro país",
+    "searchPlaceholder": "Escribe el nombre del país...",
+    "countries": {
+      "TR": "Turquía",
+      "US": "Estados Unidos",
+      "DE": "Alemania",
+      "FR": "Francia",
+      "GB": "Reino Unido",
+      "JP": "Japón",
+      "CN": "China",
+      "RU": "Rusia",
+      "IN": "India",
+      "BR": "Brasil",
+      "CA": "Canadá",
+      "AU": "Australia"
+    }
+  },
+  "topicCard": {
+    "makePrediction": "[ACCESS_GRANTED] Haz tu predicción →"
+  }
+}
