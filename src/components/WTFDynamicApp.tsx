@@ -257,22 +257,43 @@ export default function WTFDynamicApp({ topic, resume = null }) {
     void shareTo(platform, payload);
   };
 
-  const nationalitySelect = (
-    <div className="relative w-full max-w-xs mx-auto">
-      <select
-        value={nationality}
-        onChange={(e) => setNationality(e.target.value)}
-        className="w-full bg-black border border-zinc-700 rounded-xl text-white p-3 text-sm outline-none focus:border-amber-500 font-mono appearance-none cursor-pointer text-center"
+  const faceSelect = ({ value, display, onChange, children, className = "" }) => (
+    <div
+      className={`relative flex min-w-0 items-stretch overflow-hidden rounded-xl border border-zinc-700 bg-black focus-within:border-amber-500 ${className}`}
+    >
+      <span className="pointer-events-none flex-1 truncate py-3 pl-2 text-center font-mono text-sm text-white">
+        {display}
+      </span>
+      <span
+        aria-hidden
+        className="pointer-events-none flex w-7 shrink-0 items-center justify-center text-[8px] leading-none text-zinc-500"
       >
-        {countryOptions.map((row) => (
+        ▼
+      </span>
+      <select
+        value={value}
+        onChange={onChange}
+        className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+      >
+        {children}
+      </select>
+    </div>
+  );
+
+  const nationalitySelect = (
+    <div className="w-full max-w-xs mx-auto">
+      {faceSelect({
+        value: nationality,
+        display: `${
+          countryOptions.find((row) => row.code === nationality)?.flag ?? ""
+        } ${t(`dynamic.statCountries.${nationality}`)}`,
+        onChange: (e) => setNationality(e.target.value),
+        children: countryOptions.map((row) => (
           <option key={row.code} value={row.code}>
             {row.flag} {t(`dynamic.statCountries.${row.code}`)}
           </option>
-        ))}
-      </select>
-      <div className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 pointer-events-none">
-        ▼
-      </div>
+        )),
+      })}
     </div>
   );
 
@@ -321,54 +342,45 @@ export default function WTFDynamicApp({ topic, resume = null }) {
                 {t("dynamic.myPrediction")}
               </span>
 
-              <div className="flex gap-3 justify-center w-full max-w-md">
-                <div className="relative flex-1">
-                  <select
-                    value={day}
-                    onChange={(e) => setDay(e.target.value)}
-                    className="w-full bg-black border border-zinc-700 rounded-xl text-white p-3 text-sm outline-none focus:border-amber-500 font-mono appearance-none cursor-pointer text-center"
-                  >
-                    {DAYS.map((d) => (
-                      <option key={d} value={d}>
-                        {d}
-                      </option>
-                    ))}
-                  </select>
-                  <div className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 pointer-events-none">
-                    ▼
+              <div className="flex flex-col gap-2 w-full max-w-md sm:flex-row sm:gap-3">
+                <div className="flex gap-2 min-w-0 sm:contents">
+                  <div className="min-w-0 flex-1">
+                    {faceSelect({
+                      value: day,
+                      display: day,
+                      onChange: (e) => setDay(e.target.value),
+                      children: DAYS.map((d) => (
+                        <option key={d} value={d}>
+                          {d}
+                        </option>
+                      )),
+                    })}
+                  </div>
+                  <div className="min-w-0 flex-[1.7] sm:flex-[2]">
+                    {faceSelect({
+                      value: month,
+                      display:
+                        MONTHS.find((m) => m.value === month)?.label ?? month,
+                      onChange: (e) => setMonth(e.target.value),
+                      children: MONTHS.map((m) => (
+                        <option key={m.value} value={m.value}>
+                          {m.label}
+                        </option>
+                      )),
+                    })}
                   </div>
                 </div>
-                <div className="relative flex-[2]">
-                  <select
-                    value={month}
-                    onChange={(e) => setMonth(e.target.value)}
-                    className="w-full bg-black border border-zinc-700 rounded-xl text-white p-3 text-sm outline-none focus:border-amber-500 font-mono appearance-none cursor-pointer text-center"
-                  >
-                    {MONTHS.map((m) => (
-                      <option key={m.value} value={m.value}>
-                        {m.label}
-                      </option>
-                    ))}
-                  </select>
-                  <div className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 pointer-events-none">
-                    ▼
-                  </div>
-                </div>
-                <div className="relative flex-1">
-                  <select
-                    value={year}
-                    onChange={(e) => setYear(e.target.value)}
-                    className="w-full bg-black border border-zinc-700 rounded-xl text-white p-3 text-sm outline-none focus:border-amber-500 font-mono appearance-none cursor-pointer text-center"
-                  >
-                    {YEARS.map((y) => (
+                <div className="w-full sm:min-w-[8rem] sm:w-auto sm:flex-[1.25]">
+                  {faceSelect({
+                    value: year,
+                    display: year,
+                    onChange: (e) => setYear(e.target.value),
+                    children: YEARS.map((y) => (
                       <option key={y} value={y}>
                         {y}
                       </option>
-                    ))}
-                  </select>
-                  <div className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 pointer-events-none">
-                    ▼
-                  </div>
+                    )),
+                  })}
                 </div>
               </div>
 

@@ -82,6 +82,18 @@ body::after {
   animation: blink 1s step-end infinite;
 }
 
+/* Native select chevron off — we draw our own, and year is too narrow for both */
+.board-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: none;
+}
+
+.board-select::-ms-expand {
+  display: none;
+}
+
 /* Nefes Alan Buton Animasyonu (Açık Amber -> Koyu Kor/Kiremit Tonu) */
 @keyframes breathingPulse {
   0%, 100% {
