@@ -29,12 +29,38 @@ export default function Page() {
   const [taglineScan, setTaglineScan] = useState(false);
   const taglineRef = useRef(null);
 
+  type AppView = "home" | "intro-ww3" | "ww3";
+
+  const applyView = (view: AppView) => {
+    if (view === "home") {
+      stopTypingAmbience();
+      setSelectedTopicId(null);
+      setIntroStep(0);
+      setTypedText("");
+      return;
+    }
+    if (view === "intro-ww3") {
+      setSelectedTopicId("intro-ww3");
+      setIntroStep(0);
+      setTypedText("");
+      return;
+    }
+    stopTypingAmbience();
+    setSelectedTopicId("ww3");
+  };
+
+  const pushView = (view: AppView) => {
+    if (typeof window === "undefined") return;
+    window.history.pushState({ view }, "");
+  };
+
   const handleTopicClick = (topicId: string) => {
     if (topicId === "ww3") {
       unlockKeyboardAudio();
       setSelectedTopicId("intro-ww3");
       setIntroStep(0);
       setTypedText("");
+      pushView("intro-ww3");
       return;
     }
     // Unready / teaser topics: stamp flash, then back
@@ -47,6 +73,19 @@ export default function Page() {
     const hide = setTimeout(() => setTeaserFlashId(null), 3500);
     return () => clearTimeout(hide);
   }, [teaserFlashId, teaserFlashToken]);
+
+  // Browser / phone back: stay in-app (home ↔ intro ↔ topic)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    window.history.replaceState({ view: "home" }, "");
+    const onPop = (event: PopStateEvent) => {
+      const view = (event.state?.view as AppView | undefined) ?? "home";
+      applyView(view);
+    };
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const el = taglineRef.current;
@@ -125,13 +164,15 @@ export default function Page() {
   const handleStartSimulation = (_choice: "date" | "nowar") => {
     stopTypingAmbience();
     setSelectedTopicId("ww3");
+    pushView("ww3");
   };
 
   const handleBackToTopics = () => {
-    stopTypingAmbience();
-    setSelectedTopicId(null);
-    setIntroStep(0);
-    setTypedText("");
+    if (typeof window !== "undefined" && window.history.state?.view) {
+      window.history.back();
+      return;
+    }
+    applyView("home");
   };
 
   const topics = [
@@ -224,13 +265,13 @@ export default function Page() {
       <div className="fixed inset-0 pointer-events-none opacity-[0.02] bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:3rem_3rem] z-0"></div>
 
       <div className="relative z-10 flex flex-col min-h-screen">
-        <header className="border-b border-white/5 py-6 px-8 flex justify-between items-center bg-black/20 backdrop-blur-md">
-          <div className="flex items-center gap-3">
+        <header className="border-b border-white/5 py-6 px-6 sm:px-8 flex justify-between items-center bg-black/20 backdrop-blur-md gap-4">
+          <div className="flex items-center gap-3 min-w-0">
             <Logo />
           </div>
-          <div className="flex items-center gap-4">
-            <SoundToggle />
+          <div className="flex items-center gap-3 sm:gap-5 shrink-0">
             <LanguageSwitcher />
+            <SoundToggle />
           </div>
         </header>
 
@@ -282,7 +323,7 @@ export default function Page() {
                 )}
 
                 <div
-                  className={`w-full max-w-3xl flex flex-col md:flex-row gap-6 transition-all duration-1000 ${
+                  className={`w-full max-w-3xl flex flex-row gap-2.5 sm:gap-4 transition-all duration-1000 ${
                     introStep === 2
                       ? "opacity-100 translate-y-0"
                       : "opacity-0 translate-y-4 pointer-events-none"
@@ -290,54 +331,54 @@ export default function Page() {
                 >
                   <button
                     onClick={() => handleStartSimulation("date")}
-                    className="group relative flex-1 bg-zinc-900/40 hover:bg-amber-500/10 border border-zinc-800 hover:border-amber-500/50 p-6 flex items-center justify-center gap-4 transition-all duration-300 overflow-hidden cursor-pointer"
+                    className="group relative flex-1 min-w-0 rounded-xl bg-amber-950/35 border border-amber-500/45 shadow-[0_0_18px_rgba(245,158,11,0.12)] active:scale-[0.98] active:bg-amber-500/20 hover:bg-amber-500/15 hover:border-amber-500/70 p-3.5 sm:p-6 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 transition-all duration-300 overflow-hidden cursor-pointer touch-manipulation"
                   >
-                    <div className="absolute inset-0 bg-gradient-to-r from-amber-500/0 via-amber-500/5 to-amber-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-amber-500/0 via-amber-500/8 to-amber-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
+                      width="22"
+                      height="22"
                       viewBox="0 0 24 24"
                       fill="none"
                       stroke="currentColor"
                       strokeWidth="1.5"
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      className="text-amber-500"
+                      className="text-amber-400 shrink-0"
                     >
                       <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
                       <line x1="16" y1="2" x2="16" y2="6"></line>
                       <line x1="8" y1="2" x2="8" y2="6"></line>
                       <line x1="3" y1="10" x2="21" y2="10"></line>
                     </svg>
-                    <span className="text-sm font-light tracking-wide text-zinc-200">
+                    <span className="relative z-10 text-[11px] sm:text-sm font-medium tracking-wide text-amber-100 text-center leading-snug">
                       {t("intro.leaveDate")}
                     </span>
                   </button>
 
                   <button
                     onClick={() => handleStartSimulation("nowar")}
-                    className="group relative flex-1 bg-zinc-900/40 hover:bg-emerald-500/10 border border-zinc-800 hover:border-emerald-500/50 p-6 flex items-center justify-center gap-4 transition-all duration-300 overflow-hidden cursor-pointer"
+                    className="group relative flex-1 min-w-0 rounded-xl bg-emerald-950/35 border border-emerald-500/45 shadow-[0_0_18px_rgba(16,185,129,0.12)] active:scale-[0.98] active:bg-emerald-500/20 hover:bg-emerald-500/15 hover:border-emerald-500/70 p-3.5 sm:p-6 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 transition-all duration-300 overflow-hidden cursor-pointer touch-manipulation"
                   >
-                    <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/0 via-emerald-500/5 to-emerald-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/0 via-emerald-500/8 to-emerald-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
+                      width="22"
+                      height="22"
                       viewBox="0 0 24 24"
                       fill="none"
                       stroke="currentColor"
                       strokeWidth="1.5"
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      className="text-emerald-500"
+                      className="text-emerald-400 shrink-0"
                     >
                       <circle cx="12" cy="12" r="10"></circle>
                       <path d="M12 2v20"></path>
                       <path d="M12 12l5.5 8"></path>
                       <path d="M12 12l-5.5 8"></path>
                     </svg>
-                    <span className="text-sm font-light tracking-wide text-zinc-200">
+                    <span className="relative z-10 text-[11px] sm:text-sm font-medium tracking-wide text-emerald-100 text-center leading-snug">
                       {t("intro.noWar")}
                     </span>
                   </button>
@@ -365,12 +406,16 @@ export default function Page() {
               </HomeWorldGrid>
 
               <div className="w-full max-w-4xl">
-                <div className="flex items-end justify-between gap-4 mb-8 border-b border-white/5 pb-4">
+                <div className="flex items-end justify-between gap-4 mb-3">
                   <h2 className="text-sm md:text-base font-light tracking-wide text-zinc-400">
                     {t("home.sectionTitle")}
                   </h2>
                   <LiveVoteCounter />
                 </div>
+                <div
+                  aria-hidden
+                  className="mb-8 h-px w-full bg-white/25"
+                />
 
                 <div className="flex flex-col gap-4">
                   {topics.map((topic) => {
@@ -389,14 +434,14 @@ export default function Page() {
                             handleTopicClick(topic.id);
                           }
                         }}
-                        className={`group relative w-full overflow-hidden transition-all duration-500 border ${
+                        className={`group relative w-full overflow-hidden transition-all duration-300 border touch-manipulation ${
                           liveLook
-                            ? "border-zinc-800/80 hover:border-amber-500/40 bg-zinc-900/30 hover:bg-zinc-900/60 cursor-pointer shadow-xl shadow-black/50 hover:translate-x-1"
+                            ? "border-amber-500/30 bg-zinc-900/45 cursor-pointer shadow-xl shadow-black/50 active:scale-[0.99] active:border-amber-500/70 active:bg-zinc-900/80 md:border-zinc-800/80 md:bg-zinc-900/30 md:hover:border-amber-500/40 md:hover:bg-zinc-900/60 md:hover:translate-x-1 md:active:scale-100"
                             : "border-zinc-900 bg-black/40 cursor-not-allowed opacity-50"
                         }`}
                       >
                         {liveLook && (
-                          <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-amber-500 scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-center z-20"></div>
+                          <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-amber-500 scale-y-100 opacity-80 md:opacity-100 md:scale-y-0 md:group-hover:scale-y-100 transition-transform duration-300 origin-center z-20"></div>
                         )}
 
                         {isTeaser &&
@@ -455,9 +500,9 @@ export default function Page() {
                             <h3
                               className={`text-2xl md:text-3xl font-light tracking-wide mb-2 ${
                                 isActive
-                                  ? "text-white group-hover:text-amber-50 transition-colors"
+                                  ? "text-white md:group-hover:text-amber-50 transition-colors"
                                   : isTeaser
-                                    ? "text-zinc-200 group-hover:text-zinc-100 transition-colors"
+                                    ? "text-zinc-200 md:group-hover:text-zinc-100 transition-colors"
                                     : "text-zinc-500"
                               }`}
                             >
@@ -474,14 +519,14 @@ export default function Page() {
 
                           <div className="flex-shrink-0 mt-4 md:mt-0 border-t md:border-t-0 border-white/5 pt-4 md:pt-0 flex md:justify-end">
                             {isActive ? (
-                              <div className="flex items-center gap-4 text-xs tracking-wide text-zinc-500 group-hover:text-amber-500 transition-colors">
+                              <div className="flex items-center gap-4 text-xs tracking-wide text-amber-500 md:group-hover:text-amber-400 transition-colors">
                                 {t("home.ctaEnter")}
-                                <span className="w-8 md:w-16 h-[1px] bg-zinc-700 group-hover:bg-amber-500 transition-all duration-300 group-hover:translate-x-2"></span>
+                                <span className="w-8 md:w-16 h-[1px] bg-amber-500/70 md:group-hover:bg-amber-400 transition-all duration-300 md:group-hover:translate-x-2"></span>
                               </div>
                             ) : isTeaser ? (
-                              <div className="flex items-center gap-4 text-xs tracking-wide text-zinc-600 group-hover:text-zinc-400 transition-colors">
+                              <div className="flex items-center gap-4 text-xs tracking-wide text-amber-500/70 md:group-hover:text-amber-500/90 transition-colors">
                                 {t("home.ctaEnter")}
-                                <span className="w-8 md:w-16 h-[1px] bg-zinc-700 group-hover:bg-zinc-500 transition-all duration-300 group-hover:translate-x-2"></span>
+                                <span className="w-8 md:w-16 h-[1px] bg-amber-500/40 md:group-hover:bg-amber-500/60 transition-all duration-300 md:group-hover:translate-x-2"></span>
                               </div>
                             ) : (
                               <div className="text-[10px] tracking-wide font-mono text-zinc-600">

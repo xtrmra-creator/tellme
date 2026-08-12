@@ -115,7 +115,9 @@ export default function WTFDynamicApp({ topic }) {
     ? userHandle.startsWith("@")
       ? userHandle
       : `@${userHandle}`
-    : t("dynamic.anon");
+    : t("dynamic.displayNamePlaceholder");
+
+  const hasCustomHandle = Boolean(userHandle.trim());
 
   const predictionLabel =
     selectedOpt?.type === "positive"
@@ -382,7 +384,7 @@ export default function WTFDynamicApp({ topic }) {
               <span className="text-xs text-red-500 font-mono tracking-wide">
                 {t("dynamic.sealed")}
               </span>
-              <p className="text-[10px] text-zinc-500 font-mono max-w-xs leading-relaxed">
+              <p className="text-[10px] text-red-500/90 font-mono max-w-xs leading-relaxed">
                 {t("dynamic.sealedHint")}
               </p>
             </div>
@@ -434,7 +436,13 @@ export default function WTFDynamicApp({ topic }) {
                   <span className="text-[9px] text-zinc-500 tracking-[0.2em] uppercase">
                     {t("dynamic.tagSignature")}
                   </span>
-                  <span className="text-lg text-amber-400 font-bold tracking-[0.15em] uppercase">
+                  <span
+                    className={`text-center px-1 leading-snug ${
+                      hasCustomHandle
+                        ? "text-lg text-amber-400 font-bold tracking-[0.15em] uppercase"
+                        : "text-xs font-mono font-normal tracking-wide text-zinc-600 normal-case"
+                    }`}
+                  >
                     {displayHandle}
                   </span>
                 </div>
@@ -589,8 +597,8 @@ export default function WTFDynamicApp({ topic }) {
         {/* Stats + email gate — unchanged content; overlay scoped to this block only */}
         <div className="relative w-full max-w-lg">
           {isLocked && (
-            <div className="absolute inset-0 z-20 bg-black/10 backdrop-blur-[2px] flex flex-col items-center justify-center p-6 text-center animate-in fade-in rounded-3xl">
-              <div className="w-full max-w-md mb-4 rounded-2xl border border-zinc-800/70 bg-black/75 backdrop-blur-md shadow-[0_12px_40px_rgba(0,0,0,0.45)] px-4 py-4">
+            <div className="absolute inset-0 z-20 bg-black/75 backdrop-blur-[10px] sm:bg-black/65 sm:backdrop-blur-[8px] flex flex-col items-center justify-center p-3 sm:p-6 text-center animate-in fade-in rounded-3xl">
+              <div className="w-full max-w-md mb-4 rounded-2xl border border-zinc-800/70 bg-black/85 backdrop-blur-md shadow-[0_12px_40px_rgba(0,0,0,0.55)] px-3 py-4 sm:px-4">
                 <div className="mb-3 font-mono space-y-1.5">
                   <p className="text-amber-500 text-xs tracking-wide leading-relaxed">
                     {t("dynamic.unlockStatsLead")}
@@ -600,8 +608,8 @@ export default function WTFDynamicApp({ topic }) {
                   </p>
                 </div>
 
-                <div className="flex gap-2 w-full">
-                  <div className="relative flex-1 min-w-0">
+                <div className="flex flex-col gap-2 w-full">
+                  <div className="relative w-full">
                     <input
                       type="email"
                       value={emailInput}
@@ -613,14 +621,14 @@ export default function WTFDynamicApp({ topic }) {
                           ? t("dynamic.emailPlaceholder")
                           : ""
                       }
-                      className="w-full bg-black/90 border border-zinc-700 rounded-xl text-white p-3 text-xs font-mono outline-none focus:border-amber-500 lowercase shadow-xl caret-amber-500"
+                      className="w-full bg-black/90 border border-zinc-700 rounded-xl text-white p-3.5 text-sm font-mono outline-none focus:border-amber-500 lowercase shadow-xl caret-amber-500"
                     />
                     {!emailInput.trim() && !emailFocused && (
                       <div
                         aria-hidden
-                        className="pointer-events-none absolute inset-0 flex items-center px-3"
+                        className="pointer-events-none absolute inset-0 flex items-center px-3.5"
                       >
-                        <span className="flex items-center max-w-full text-xs font-mono text-zinc-600 lowercase">
+                        <span className="flex items-center max-w-full text-sm font-mono text-zinc-600 lowercase">
                           <span className="idle-input-caret mr-0.5 inline-block h-[0.9em] w-px shrink-0 self-center bg-amber-500/80" />
                           <span className="truncate">
                             {t("dynamic.emailPlaceholder")}
@@ -629,27 +637,29 @@ export default function WTFDynamicApp({ topic }) {
                       </div>
                     )}
                   </div>
-                  <button
-                    onClick={submitEmailAndUnlock}
-                    disabled={!isEmailValid}
-                    className={`px-6 rounded-xl text-xs font-bold tracking-wide font-mono transition-all shadow-xl shrink-0 ${
-                      isEmailValid
-                        ? "bg-amber-500 hover:bg-amber-400 text-black cursor-pointer"
-                        : "bg-amber-500/30 text-black/50 cursor-not-allowed"
-                    }`}
-                  >
-                    {t("dynamic.view")}
-                  </button>
+                  <div className="flex justify-end">
+                    <button
+                      onClick={submitEmailAndUnlock}
+                      disabled={!isEmailValid}
+                      className={`min-w-[5.5rem] px-5 py-2.5 rounded-xl text-xs font-bold tracking-wide font-mono transition-all shadow-xl ${
+                        isEmailValid
+                          ? "bg-amber-500 hover:bg-amber-400 text-black cursor-pointer"
+                          : "bg-amber-500/30 text-black/50 cursor-not-allowed"
+                      }`}
+                    >
+                      {t("dynamic.view")}
+                    </button>
+                  </div>
                 </div>
 
-                <label className="mt-3 flex items-center gap-2.5 cursor-pointer text-left group rounded-xl border border-zinc-700 bg-black/90 px-3 py-2.5 hover:border-amber-500/40 transition-colors">
+                <label className="mt-3 flex items-start gap-2.5 cursor-pointer text-left group rounded-xl border border-zinc-700 bg-black/90 px-3 py-2.5 hover:border-amber-500/40 transition-colors">
                   <input
                     type="checkbox"
                     checked={notifyAiTopic}
                     onChange={(e) => setNotifyAiTopic(e.target.checked)}
-                    className="h-3.5 w-3.5 shrink-0 rounded border-zinc-600 bg-black accent-amber-500 cursor-pointer"
+                    className="mt-0.5 h-3.5 w-3.5 shrink-0 rounded border-zinc-600 bg-black accent-amber-500 cursor-pointer"
                   />
-                  <span className="text-[10px] md:text-[11px] font-mono tracking-wide leading-snug text-amber-500 whitespace-nowrap">
+                  <span className="text-[10px] sm:text-[11px] font-mono tracking-wide leading-snug text-amber-500 break-words whitespace-normal">
                     {t("dynamic.notifyAiTopic")}
                   </span>
                 </label>
@@ -659,8 +669,12 @@ export default function WTFDynamicApp({ topic }) {
                 <button
                   type="button"
                   onClick={handleGoogleSignIn}
-                  className="w-full flex items-center justify-center gap-2 bg-zinc-900/90 hover:bg-zinc-800 text-zinc-300 rounded-xl border border-zinc-700 py-3 px-4 text-[10px] font-mono tracking-wide cursor-pointer transition-colors shadow-xl"
+                  className="relative w-full overflow-hidden flex items-center justify-center gap-2 bg-zinc-900/90 hover:bg-zinc-800 text-zinc-300 rounded-xl border border-zinc-700 border-l-4 border-l-[#4285F4] py-3 px-4 text-[10px] font-mono tracking-wide cursor-pointer transition-colors shadow-xl"
                 >
+                  <span
+                    aria-hidden
+                    className="absolute left-0 top-0 bottom-0 w-1.5 bg-[#4285F4]"
+                  />
                   <svg
                     className="w-4 h-4 shrink-0"
                     viewBox="0 0 24 24"
@@ -716,7 +730,7 @@ export default function WTFDynamicApp({ topic }) {
           {!isBadgeOnly && (
             <div
               className={`w-full select-none space-y-4 font-mono text-xs transition-all duration-700 ${
-                isUnlockedWithData ? "opacity-100" : "opacity-90"
+                isUnlockedWithData ? "opacity-100" : "opacity-25 blur-[2px]"
               }`}
             >
               {pagedStatRows.map((row) => (

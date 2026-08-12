@@ -5,7 +5,9 @@ import { useEffect, useRef, type ReactNode } from "react";
 const CELL = 24;
 /** Match WeightedTypingGrid awakened amber (#f59e0b @ 0.1). */
 const GLOW = "rgba(245, 158, 11, 0.1)";
+const GLOW_MOBILE = "rgba(245, 158, 11, 0.17)";
 const GLOW_SOFT = "rgba(245, 158, 11, 0.06)";
+const GLOW_SOFT_MOBILE = "rgba(245, 158, 11, 0.11)";
 const FEATHER = 28;
 
 type HomeWorldGridProps = {
@@ -69,10 +71,14 @@ export default function HomeWorldGrid({
     const cy = h * 0.46;
     const rx = Math.min(w * 0.48, 420);
     const ry = Math.min(h * 0.42, rx * 0.58);
+    const mobile = w < 640;
+    const gridGlow = mobile ? GLOW_MOBILE : GLOW;
+    const arcGlow = mobile ? GLOW_SOFT_MOBILE : GLOW_SOFT;
+    const gridLine = mobile ? 1.2 : 1;
 
     // --- Awakened grid across canvas ---
-    ctx.strokeStyle = GLOW;
-    ctx.lineWidth = 1;
+    ctx.strokeStyle = gridGlow;
+    ctx.lineWidth = gridLine;
     for (let x = 0; x <= w; x += CELL) {
       ctx.beginPath();
       ctx.moveTo(x + 0.5, 0);
@@ -92,8 +98,8 @@ export default function HomeWorldGrid({
     ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2);
     ctx.clip();
 
-    ctx.strokeStyle = GLOW_SOFT;
-    ctx.lineWidth = 1;
+    ctx.strokeStyle = arcGlow;
+    ctx.lineWidth = gridLine;
 
     // Parallels (horizontal ellipses)
     for (let i = -3; i <= 3; i++) {
@@ -126,8 +132,10 @@ export default function HomeWorldGrid({
     ctx.restore();
 
     // Soft rim of the flattened world
-    ctx.strokeStyle = "rgba(245, 158, 11, 0.14)";
-    ctx.lineWidth = 1.25;
+    ctx.strokeStyle = mobile
+      ? "rgba(245, 158, 11, 0.22)"
+      : "rgba(245, 158, 11, 0.14)";
+    ctx.lineWidth = mobile ? 1.45 : 1.25;
     ctx.beginPath();
     ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2);
     ctx.stroke();
@@ -192,7 +200,7 @@ export default function HomeWorldGrid({
         >
           {coords.nw && (
             <p
-              className="absolute -left-10 top-[14%] max-w-[42%] text-left text-[8px] leading-snug sm:-left-12 sm:top-[16%] sm:max-w-[36%] sm:text-[9px] md:-left-14 md:text-[10px]"
+              className="absolute left-[26%] top-[15%] max-w-[52%] text-left text-[8px] leading-snug sm:left-[30%] sm:top-[16%] sm:max-w-[40%] sm:text-[9px] md:left-[28%] md:text-[10px]"
               style={{ color: "rgba(255, 176, 0, 0.42)" }}
             >
               {coords.nw}
