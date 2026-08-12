@@ -452,15 +452,15 @@ export default function Page() {
                     </span>
                   </h1>
 
-                  <div className="mt-8 w-full max-w-[220px] sm:max-w-[260px] px-1 font-mono">
+                  <div className="mt-8 w-full max-w-[220px] sm:max-w-[260px] font-mono">
                     <div
-                      className="text-center text-[10px] sm:text-[11px] text-zinc-200 tracking-[0.22em] uppercase leading-tight"
+                      className="px-1 text-center text-[10px] sm:text-[11px] text-zinc-200 tracking-[0.22em] uppercase leading-tight"
                       aria-hidden
                     >
                       {t("home.demoBarLabel")}
                     </div>
                     <div
-                      className="mt-1 flex items-baseline justify-between text-[9px] sm:text-[10px] leading-none"
+                      className="mt-1 flex items-baseline justify-between px-1 text-[9px] sm:text-[10px] leading-none"
                       aria-hidden
                     >
                       <span className="text-red-400/90">%</span>
@@ -474,8 +474,8 @@ export default function Page() {
                       <div className="bg-emerald-500 w-1/2" />
                     </div>
                     <p
-                      className="mt-2 w-full text-right text-[8px] sm:text-[9px] leading-snug tracking-[0.14em] uppercase"
-                      style={{ color: "#555555" }}
+                      className="mt-2 w-full text-right text-[8px] sm:text-[9px] leading-snug tracking-[0.12em] uppercase"
+                      style={{ color: "#bf8a29" }}
                     >
                       {t("home.mottoSe")}
                     </p>
