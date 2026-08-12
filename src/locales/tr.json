@@ -6,7 +6,9 @@
   },
   "brand": {
     "footer": "© 2026 wwtellme.com // Küresel öngörü sistemi",
-    "footerNote": "Toplam katılım, lansman öncesi taban ile mühürlenmiş canlı tahminleri kapsar. Mühür herkese açıktır; e-posta veya Google canlı oranları açar."
+    "footerNote": "Toplam katılım, lansman öncesi taban ile mühürlenmiş canlı tahminleri kapsar. Mühür herkese açıktır; e-posta veya Google canlı oranları açar.",
+    "footerCountries": "{count} farklı ülkeden katılım",
+    "footerCountriesFallback": "Dünya genelinden katılım açık"
   },
   "nav": {
     "backHome": "Ana Ekrana Dön",

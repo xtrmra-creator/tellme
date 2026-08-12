@@ -6,7 +6,9 @@
   },
   "brand": {
     "footer": "© 2026 wwtellme.com // Sistema global de previsão",
-    "footerNote": "A participação total inclui uma base pré-lançamento mais previsões seladas ao vivo. Selar está aberto a todos; e-mail ou Google desbloqueia as stats ao vivo."
+    "footerNote": "A participação total inclui uma base pré-lançamento mais previsões seladas ao vivo. Selar está aberto a todos; e-mail ou Google desbloqueia as stats ao vivo.",
+    "footerCountries": "Participação de {count} países",
+    "footerCountriesFallback": "Participação aberta em todo o mundo"
   },
   "nav": {
     "backHome": "Voltar ao início",

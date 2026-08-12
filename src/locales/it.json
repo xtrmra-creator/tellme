@@ -6,7 +6,9 @@
   },
   "brand": {
     "footer": "© 2026 wwtellme.com // Sistema di previsione globale",
-    "footerNote": "La partecipazione totale include una base pre-lancio più le previsioni sigillate live. Sigillare è aperto a tutti; email o Google sbloccano le stats live."
+    "footerNote": "La partecipazione totale include una base pre-lancio più le previsioni sigillate live. Sigillare è aperto a tutti; email o Google sbloccano le stats live.",
+    "footerCountries": "Partecipazione da {count} paesi",
+    "footerCountriesFallback": "Partecipazione aperta in tutto il mondo"
   },
   "nav": {
     "backHome": "Torna alla home",

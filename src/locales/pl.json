@@ -6,7 +6,9 @@
   },
   "brand": {
     "footer": "© 2026 wwtellme.com // Globalny system prognoz",
-    "footerNote": "Całkowity udział obejmuje bazę przedsprzedażową oraz live zapieczętowane prognozy. Pieczętowanie jest otwarte dla wszystkich; e-mail lub Google odblokowuje live statystyki."
+    "footerNote": "Całkowity udział obejmuje bazę przedsprzedażową oraz live zapieczętowane prognozy. Pieczętowanie jest otwarte dla wszystkich; e-mail lub Google odblokowuje live statystyki.",
+    "footerCountries": "Udział z {count} krajów",
+    "footerCountriesFallback": "Udział otwarty na całym świecie"
   },
   "nav": {
     "backHome": "Powrót do strony głównej",

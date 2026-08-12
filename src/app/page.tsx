@@ -11,6 +11,7 @@ import WTFDynamicApp from "@/components/WTFDynamicApp";
 import WeightedTypingGrid from "@/components/WeightedTypingGrid";
 import HomeWorldGrid from "@/components/HomeWorldGrid";
 import { LiveVoteCounter } from "@/components/LiveVoteCounter";
+import { FooterCountryLine } from "@/components/FooterCountryLine";
 import { t } from "@/lib/i18n";
 import {
   unlockKeyboardAudio,
@@ -645,6 +646,7 @@ export default function Page() {
           <p className="text-[9px] md:text-[10px] font-mono tracking-wide text-zinc-600 max-w-md leading-relaxed">
             {t("brand.footerNote")}
           </p>
+          <FooterCountryLine />
         </footer>
       </div>
     </div>
