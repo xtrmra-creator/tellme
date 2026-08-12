@@ -483,12 +483,15 @@ export default function Page() {
                 </div>
               </HomeWorldGrid>
 
-              <p
-                className="mt-3 mb-8 sm:mt-4 sm:mb-10 max-w-[18rem] sm:max-w-md px-3 text-center font-mono text-[10px] sm:text-[11px] leading-snug tracking-[0.16em] sm:tracking-[0.2em] uppercase"
-                style={{ color: "#555555" }}
-              >
-                {t("home.brandExpand")}
-              </p>
+              <div className="mt-3 mb-8 sm:mt-4 sm:mb-10 flex flex-col items-center gap-2.5">
+                <p
+                  className="max-w-[18rem] sm:max-w-md px-3 text-center font-mono text-[10px] sm:text-[11px] leading-snug tracking-[0.16em] sm:tracking-[0.2em] uppercase"
+                  style={{ color: "#555555" }}
+                >
+                  {t("home.brandExpand")}
+                </p>
+                <FooterCountryLine />
+              </div>
 
               <div className="w-full max-w-4xl">
                 <div className="flex items-end justify-between gap-4 mb-3">
@@ -646,7 +649,6 @@ export default function Page() {
           <p className="text-[9px] md:text-[10px] font-mono tracking-wide text-zinc-600 max-w-md leading-relaxed">
             {t("brand.footerNote")}
           </p>
-          <FooterCountryLine />
         </footer>
       </div>
     </div>
