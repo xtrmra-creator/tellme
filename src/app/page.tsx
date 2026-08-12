@@ -265,14 +265,12 @@ export default function Page() {
       <div className="fixed inset-0 pointer-events-none opacity-[0.02] bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:3rem_3rem] z-0"></div>
 
       <div className="relative z-10 flex flex-col min-h-screen">
-        <header className="border-b border-white/5 py-6 px-6 sm:px-8 flex justify-between items-center bg-black/20 backdrop-blur-md gap-4">
-          <div className="flex items-center gap-3 min-w-0">
+        <header className="border-b border-white/5 py-4 px-6 sm:py-6 sm:px-8 flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center bg-black/20 backdrop-blur-md">
+          <div className="flex w-full items-center justify-between gap-3 sm:w-auto">
             <Logo />
-          </div>
-          <div className="flex items-center gap-3 sm:gap-5 shrink-0">
-            <LanguageSwitcher />
             <SoundToggle />
           </div>
+          <LanguageSwitcher />
         </header>
 
         <main className="flex-grow w-full max-w-5xl mx-auto px-6 py-16 flex flex-col items-center justify-center">
@@ -402,6 +400,23 @@ export default function Page() {
                       tellme
                     </span>
                   </h1>
+
+                  <div
+                    className="mt-8 w-full max-w-[220px] sm:max-w-[260px] px-1 font-mono"
+                    aria-hidden
+                  >
+                    <div className="text-center text-[10px] sm:text-[11px] text-zinc-200 tracking-[0.22em] uppercase leading-tight">
+                      {t("home.demoBarLabel")}
+                    </div>
+                    <div className="mt-1 flex items-baseline justify-between text-[9px] sm:text-[10px] leading-none">
+                      <span className="text-red-400/90">%</span>
+                      <span className="text-emerald-400/90">%</span>
+                    </div>
+                    <div className="mt-0.5 w-full h-2 bg-zinc-800 rounded-full flex overflow-hidden">
+                      <div className="bg-red-600 w-1/2" />
+                      <div className="bg-emerald-500 w-1/2" />
+                    </div>
+                  </div>
                 </div>
               </HomeWorldGrid>
 

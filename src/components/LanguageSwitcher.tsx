@@ -19,7 +19,7 @@ export function LanguageSwitcher() {
   const { locale, changeLanguage } = useLocale();
 
   return (
-    <div className="flex items-center gap-3 text-[10px] tracking-widest font-mono text-zinc-600">
+    <div className="flex w-full items-center justify-center gap-2 text-[10px] tracking-widest font-mono text-zinc-600 sm:w-auto sm:justify-end sm:gap-3">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="14"
@@ -30,20 +30,25 @@ export function LanguageSwitcher() {
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
-        className="text-zinc-500"
+        className="hidden shrink-0 text-zinc-500 sm:block"
         aria-hidden
       >
         <circle cx="12" cy="12" r="10"></circle>
         <line x1="2" y1="12" x2="22" y2="12"></line>
         <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
       </svg>
-      <div className="flex flex-wrap items-center justify-end gap-x-2 gap-y-1">
+      <div className="grid w-full max-w-[17rem] grid-cols-5 gap-x-1.5 gap-y-1.5 justify-items-center sm:flex sm:max-w-none sm:flex-wrap sm:items-center sm:justify-end sm:gap-x-2 sm:gap-y-1">
         {SWITCHER_CODES.map((code, i) => {
           const active = isActiveLocale(code);
           const selected = locale === code;
           return (
-            <span key={code} className="flex items-center gap-2">
-              {i > 0 && <span className="text-zinc-800">|</span>}
+            <span
+              key={code}
+              className="flex items-center gap-2"
+            >
+              {i > 0 && (
+                <span className="hidden text-zinc-800 sm:inline">|</span>
+              )}
               <button
                 type="button"
                 onClick={() => active && changeLanguage(code)}
