@@ -170,7 +170,9 @@
       "ID": "Indonésia",
       "PK": "Paquistão",
       "IR": "Irão"
-    }
+    },
+    "alreadyVoted": "Já votaste",
+    "alreadyVotedHint": "O teu selo anterior está abaixo. Não podes votar de novo neste dispositivo ou conta."
   },
   "badgeModal": {
     "close": "[ Fechar ]",

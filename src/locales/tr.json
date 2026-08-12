@@ -167,7 +167,9 @@
       "ID": "Endonezya",
       "PK": "Pakistan",
       "IR": "İran"
-    }
+    },
+    "alreadyVoted": "Daha önce oy kullandınız",
+    "alreadyVotedHint": "Önceki mührünüz aşağıda. Bu cihaz veya hesapla tekrar oy veremezsiniz."
   },
   "badgeModal": {
     "close": "[ Kapa ]",

@@ -167,7 +167,9 @@
       "ID": "Indonesien",
       "PK": "Pakistan",
       "IR": "Iran"
-    }
+    },
+    "alreadyVoted": "Du hast bereits abgestimmt",
+    "alreadyVotedHint": "Deine frühere Versiegelung siehst du unten. Mit diesem Gerät oder Konto ist keine erneute Stimme möglich."
   },
   "badgeModal": {
     "close": "[ Schließen ]",

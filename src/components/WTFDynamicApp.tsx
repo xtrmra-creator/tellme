@@ -526,6 +526,19 @@ export default function WTFDynamicApp({ topic, resume = null }) {
               <p className="text-[10px] text-red-500/90 font-mono max-w-xs leading-relaxed">
                 {t("dynamic.sealedHint")}
               </p>
+              {voteLocked && (
+                <div
+                  role="status"
+                  className="mt-3 w-full max-w-[300px] rounded-xl border border-amber-500/45 bg-amber-500/10 px-3 py-2.5"
+                >
+                  <p className="text-[11px] sm:text-xs font-mono font-bold tracking-wide text-amber-400 leading-snug">
+                    {t("dynamic.alreadyVoted")}
+                  </p>
+                  <p className="mt-1 text-[9px] sm:text-[10px] font-mono tracking-wide text-amber-200/80 leading-relaxed">
+                    {t("dynamic.alreadyVotedHint")}
+                  </p>
+                </div>
+              )}
             </div>
 
             <div className="relative w-full max-w-[300px]">
@@ -736,8 +749,8 @@ export default function WTFDynamicApp({ topic, resume = null }) {
         {/* Stats + email gate — unchanged content; overlay scoped to this block only */}
         <div className="relative w-full max-w-lg">
           {isLocked && (
-            <div className="relative z-20 bg-black/75 backdrop-blur-[10px] sm:bg-black/65 sm:backdrop-blur-[8px] flex flex-col items-center justify-start p-3 sm:p-6 text-center animate-in fade-in rounded-3xl mb-4 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
-              <div className="w-full max-w-md mb-4 rounded-2xl border border-zinc-800/70 bg-black/85 backdrop-blur-md shadow-[0_12px_40px_rgba(0,0,0,0.55)] px-3 py-4 sm:px-4 scroll-mt-24">
+            <div className="relative z-20 bg-black/88 backdrop-blur-[14px] sm:bg-black/82 sm:backdrop-blur-[12px] flex flex-col items-center justify-start p-3 sm:p-6 text-center animate-in fade-in rounded-3xl mb-4 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+              <div className="w-full max-w-md mb-4 rounded-2xl border border-zinc-800/70 bg-black/90 backdrop-blur-md shadow-[0_12px_40px_rgba(0,0,0,0.55)] px-3 py-4 sm:px-4 scroll-mt-24">
                 <div className="mb-3 font-mono space-y-1.5">
                   <p className="text-amber-500 text-xs tracking-wide leading-relaxed">
                     {t("dynamic.unlockStatsLead")}
@@ -883,7 +896,7 @@ export default function WTFDynamicApp({ topic, resume = null }) {
           {!isBadgeOnly && (
             <div
               className={`w-full select-none space-y-4 font-mono text-xs transition-all duration-700 ${
-                isUnlockedWithData ? "opacity-100" : "opacity-25 blur-[2px]"
+                isUnlockedWithData ? "opacity-100" : "opacity-[0.12] blur-[5px]"
               }`}
             >
               {pagedStatRows.map((row) => (

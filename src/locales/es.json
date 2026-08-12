@@ -167,7 +167,9 @@
       "ID": "Indonesia",
       "PK": "Pakistán",
       "IR": "Irán"
-    }
+    },
+    "alreadyVoted": "Ya has votado",
+    "alreadyVotedHint": "Tu sello anterior está abajo. No puedes votar de nuevo desde este dispositivo o cuenta."
   },
   "badgeModal": {
     "close": "[ Cerrar ]",

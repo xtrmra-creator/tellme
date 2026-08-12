@@ -170,7 +170,9 @@
       "ID": "Indonezja",
       "PK": "Pakistan",
       "IR": "Iran"
-    }
+    },
+    "alreadyVoted": "Już oddałeś głos",
+    "alreadyVotedHint": "Twoja wcześniejsza pieczęć jest poniżej. Nie możesz głosować ponownie z tego urządzenia lub konta."
   },
   "badgeModal": {
     "close": "[ Zamknij ]",

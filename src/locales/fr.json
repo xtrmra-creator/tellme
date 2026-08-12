@@ -167,7 +167,9 @@
       "ID": "Indonésie",
       "PK": "Pakistan",
       "IR": "Iran"
-    }
+    },
+    "alreadyVoted": "Tu as déjà voté",
+    "alreadyVotedHint": "Ton sceau précédent est ci-dessous. Impossible de voter à nouveau depuis cet appareil ou compte."
   },
   "badgeModal": {
     "close": "[ Fermer ]",

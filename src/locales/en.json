@@ -167,7 +167,9 @@
       "ID": "Indonesia",
       "PK": "Pakistan",
       "IR": "Iran"
-    }
+    },
+    "alreadyVoted": "You already cast a forecast",
+    "alreadyVotedHint": "Your previous seal is shown below. You cannot vote again from this device or account."
   },
   "badgeModal": {
     "close": "[ Close ]",

@@ -170,7 +170,9 @@
       "ID": "Indonesia",
       "PK": "Pakistan",
       "IR": "Iran"
-    }
+    },
+    "alreadyVoted": "Hai già votato",
+    "alreadyVotedHint": "Il tuo sigillo precedente è sotto. Non puoi votare di nuovo da questo dispositivo o account."
   },
   "badgeModal": {
     "close": "[ Chiudi ]",
