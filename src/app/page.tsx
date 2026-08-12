@@ -468,6 +468,10 @@ export default function Page() {
                       <div className="bg-emerald-500 w-1/2" />
                     </div>
                   </div>
+
+                  <p className="mt-6 max-w-[18rem] sm:max-w-md px-2 text-center font-mono text-[9px] sm:text-[10px] leading-snug tracking-[0.18em] sm:tracking-[0.22em] uppercase text-zinc-500">
+                    {t("home.brandExpand")}
+                  </p>
                 </div>
               </HomeWorldGrid>
 
