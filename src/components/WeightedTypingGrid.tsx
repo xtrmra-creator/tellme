@@ -217,7 +217,7 @@ export default function WeightedTypingGrid({
   return (
     <div
       ref={rootRef}
-      className={`relative isolate overflow-hidden rounded-xl ${className}`}
+      className={`relative isolate overflow-clip rounded-xl ${className}`}
     >
       <div
         aria-hidden

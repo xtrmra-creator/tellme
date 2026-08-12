@@ -18,6 +18,12 @@ import {
   stopTypingAmbience,
   subscribeSoundEnabled,
 } from "@/lib/keyboardSound";
+import {
+  clearSealResume,
+  loadSealResume,
+  type SealResume,
+} from "@/lib/sealResume";
+import { supabase } from "@/lib/supabase";
 
 export default function Page() {
   const { locale } = useLocale();
@@ -27,6 +33,7 @@ export default function Page() {
   const [teaserFlashId, setTeaserFlashId] = useState(null);
   const [teaserFlashToken, setTeaserFlashToken] = useState(0);
   const [taglineScan, setTaglineScan] = useState(false);
+  const [sealResume, setSealResume] = useState<SealResume | null>(null);
   const taglineRef = useRef(null);
 
   type AppView = "home" | "intro-ww3" | "ww3";
@@ -34,6 +41,8 @@ export default function Page() {
   const applyView = (view: AppView) => {
     if (view === "home") {
       stopTypingAmbience();
+      clearSealResume();
+      setSealResume(null);
       setSelectedTopicId(null);
       setIntroStep(0);
       setTypedText("");
@@ -77,12 +86,30 @@ export default function Page() {
   // Browser / phone back: stay in-app (home ↔ intro ↔ topic)
   useEffect(() => {
     if (typeof window === "undefined") return;
+    const resume = loadSealResume();
     window.history.replaceState({ view: "home" }, "");
+    if (resume) {
+      setSealResume(resume);
+      window.history.pushState({ view: "intro-ww3" }, "");
+      window.history.pushState({ view: "ww3" }, "");
+      applyView("ww3");
+    }
     const onPop = (event: PopStateEvent) => {
       const view = (event.state?.view as AppView | undefined) ?? "home";
       applyView(view);
     };
     window.addEventListener("popstate", onPop);
+
+    if (supabase) {
+      void supabase.auth.getSession().then(() => {
+        const url = new URL(window.location.href);
+        if (url.searchParams.has("code") || url.hash.includes("access_token")) {
+          const view = (window.history.state?.view as AppView | undefined) ?? "home";
+          window.history.replaceState({ view }, "", url.pathname);
+        }
+      });
+    }
+
     return () => window.removeEventListener("popstate", onPop);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -168,11 +195,28 @@ export default function Page() {
   };
 
   const handleBackToTopics = () => {
-    if (typeof window !== "undefined" && window.history.state?.view) {
+    const current =
+      selectedTopicId === "ww3"
+        ? "ww3"
+        : selectedTopicId === "intro-ww3"
+          ? "intro-ww3"
+          : "home";
+    const target = current === "ww3" ? "intro-ww3" : "home";
+    if (
+      typeof window !== "undefined" &&
+      window.history.state?.view === current
+    ) {
       window.history.back();
       return;
     }
+    applyView(target);
+  };
+
+  const handleLogoHome = () => {
     applyView("home");
+    if (typeof window !== "undefined") {
+      window.history.replaceState({ view: "home" }, "");
+    }
   };
 
   const topics = [
@@ -194,7 +238,7 @@ export default function Page() {
   const ww3Topic = getTopic("ww3");
 
   return (
-    <div className="min-h-screen bg-[#050505] text-zinc-300 font-sans selection:bg-amber-500/30">
+    <div className="min-h-dvh bg-[#050505] text-zinc-300 font-sans selection:bg-amber-500/30">
       <style jsx>{`
         @keyframes text-scan {
           0% {
@@ -264,10 +308,17 @@ export default function Page() {
       <div className="fixed inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-zinc-900/10 via-[#050505] to-[#050505] z-0"></div>
       <div className="fixed inset-0 pointer-events-none opacity-[0.02] bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:3rem_3rem] z-0"></div>
 
-      <div className="relative z-10 flex flex-col min-h-screen">
-        <header className="border-b border-white/5 py-4 px-6 sm:py-6 sm:px-8 flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center bg-black/20 backdrop-blur-md">
+      <div className="relative z-10 flex flex-col min-h-dvh">
+        <header className="border-b border-white/5 px-6 pb-4 pt-[max(1rem,env(safe-area-inset-top))] sm:px-8 sm:pb-6 sm:pt-[max(1.5rem,env(safe-area-inset-top))] flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center bg-black/20 backdrop-blur-md">
           <div className="flex w-full items-center justify-between gap-3 sm:w-auto">
-            <Logo />
+            <button
+              type="button"
+              onClick={handleLogoHome}
+              className="cursor-pointer rounded-sm text-left"
+              aria-label={t("nav.backHome")}
+            >
+              <Logo />
+            </button>
             <SoundToggle />
           </div>
           <LanguageSwitcher />
@@ -278,18 +329,18 @@ export default function Page() {
             <div className="w-full animate-in fade-in slide-in-from-bottom-4 duration-700">
               <button
                 onClick={handleBackToTopics}
-                className="group mb-12 text-xs tracking-[0.15em] text-zinc-500 hover:text-amber-500 flex items-center gap-4 transition-all uppercase cursor-pointer"
+                className="sticky top-[max(0.5rem,env(safe-area-inset-top))] z-40 group mb-12 text-xs tracking-[0.15em] text-zinc-500 hover:text-amber-500 flex items-center gap-4 transition-all uppercase cursor-pointer bg-[#050505]/85 backdrop-blur-sm py-2 pr-3 -mt-2"
               >
                 <span className="w-8 h-[1px] bg-zinc-700 group-hover:bg-amber-500 transition-colors"></span>
-                {t("nav.backHome")}
+                {t("nav.backIntro")}
               </button>
-              <WTFDynamicApp key={locale} topic={ww3Topic} />
+              <WTFDynamicApp key={locale} topic={ww3Topic} resume={sealResume} />
             </div>
           ) : selectedTopicId === "intro-ww3" ? (
             <div className="w-full flex flex-col items-center animate-in fade-in duration-700">
               <button
                 onClick={handleBackToTopics}
-                className="self-start group mb-12 text-xs tracking-[0.15em] text-zinc-500 hover:text-amber-500 flex items-center gap-4 transition-all uppercase cursor-pointer"
+                className="sticky top-[max(0.5rem,env(safe-area-inset-top))] z-40 self-start group mb-12 text-xs tracking-[0.15em] text-zinc-500 hover:text-amber-500 flex items-center gap-4 transition-all uppercase cursor-pointer bg-[#050505]/85 backdrop-blur-sm py-2 pr-3 -mt-2"
               >
                 <span className="w-8 h-[1px] bg-zinc-700 group-hover:bg-amber-500 transition-colors"></span>
                 {t("nav.backTopics")}
@@ -449,7 +500,7 @@ export default function Page() {
                             handleTopicClick(topic.id);
                           }
                         }}
-                        className={`group relative w-full overflow-hidden transition-all duration-300 border touch-manipulation ${
+                        className={`group relative w-full overflow-clip transition-all duration-300 border touch-manipulation ${
                           liveLook
                             ? "border-amber-500/30 bg-zinc-900/45 cursor-pointer shadow-xl shadow-black/50 active:scale-[0.99] active:border-amber-500/70 active:bg-zinc-900/80 md:border-zinc-800/80 md:bg-zinc-900/30 md:hover:border-amber-500/40 md:hover:bg-zinc-900/60 md:hover:translate-x-1 md:active:scale-100"
                             : "border-zinc-900 bg-black/40 cursor-not-allowed opacity-50"
@@ -559,7 +610,7 @@ export default function Page() {
           )}
         </main>
 
-        <footer className="mt-auto border-t border-white/5 py-8 px-6 flex flex-col items-center gap-5 text-center">
+        <footer className="mt-auto border-t border-white/5 px-6 pt-8 pb-[max(2rem,env(safe-area-inset-bottom))] flex flex-col items-center gap-5 text-center">
           <div className="relative py-1 flex items-center justify-center gap-4 text-[10px] md:text-xs font-light tracking-wide max-w-3xl">
             <span className="hidden md:block w-8 md:w-16 h-[1px] bg-zinc-800 shrink-0"></span>
             <span

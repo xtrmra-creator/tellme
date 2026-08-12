@@ -15,37 +15,52 @@ import {
 import { useLiveCount } from "@/components/LiveVoteCounter";
 import { signInWithGoogle, supabase } from "@/lib/supabase";
 import Link from "next/link";
+import {
+  saveSealResume,
+  clearSealResume,
+  loadSealResume,
+} from "@/lib/sealResume";
 
 const DAYS = Array.from({ length: 31 }, (_, i) =>
   String(i + 1).padStart(2, "0"),
 );
 const YEARS = Array.from({ length: 20 }, (_, i) => String(2026 + i));
 
-export default function WTFDynamicApp({ topic }) {
+export default function WTFDynamicApp({ topic, resume = null }) {
   const { locale } = useLocale();
   const MONTHS = getMonths();
+  const initialResume = loadSealResume() ?? resume ?? null;
 
-  const [userHandle, setUserHandle] = useState("");
+  const [userHandle, setUserHandle] = useState(initialResume?.userHandle ?? "");
   const [handleFocused, setHandleFocused] = useState(false);
 
-  const [selectedOpt, setSelectedOpt] = useState(null);
+  const [selectedOpt, setSelectedOpt] = useState(() =>
+    initialResume?.optionId
+      ? (topic.options.find((o) => o.id === initialResume.optionId) ?? null)
+      : null,
+  );
 
-  const [step, setStep] = useState("initial");
-  const [day, setDay] = useState("01");
-  const [month, setMonth] = useState("10");
-  const [year, setYear] = useState("2027");
+  const [step, setStep] = useState(
+    initialResume?.step === "result" ? "result" : "initial",
+  );
+  const [day, setDay] = useState(initialResume?.day ?? "01");
+  const [month, setMonth] = useState(initialResume?.month ?? "10");
+  const [year, setYear] = useState(initialResume?.year ?? "2027");
 
   const [isUnlockedWithData, setIsUnlockedWithData] = useState(false);
   const [isBadgeOnly, setIsBadgeOnly] = useState(false);
 
   const [emailInput, setEmailInput] = useState("");
   const [emailFocused, setEmailFocused] = useState(false);
-  const [notifyAiTopic, setNotifyAiTopic] = useState(false);
+  const [notifyAiTopic, setNotifyAiTopic] = useState(
+    initialResume?.notifyAiTopic ?? false,
+  );
   const [statsPage, setStatsPage] = useState(0);
   const [nationality, setNationality] = useState(
-    () => hookCountryFromLocale(locale),
+    () => initialResume?.nationality || hookCountryFromLocale(locale),
   );
-  const sealedRef = useRef(false);
+  const sealedRef = useRef(initialResume?.step === "result");
+  const skipLocaleNationality = useRef(Boolean(initialResume?.nationality));
   const { mode: liveMode, simFloor, byCountry } = useLiveCount();
 
   const liveTallies = useMemo(() => {
@@ -79,6 +94,10 @@ export default function WTFDynamicApp({ topic }) {
 
   useEffect(() => {
     setStatsPage(0);
+    if (skipLocaleNationality.current) {
+      skipLocaleNationality.current = false;
+      return;
+    }
     setNationality(hookCountryFromLocale(locale));
   }, [locale]);
 
@@ -101,6 +120,7 @@ export default function WTFDynamicApp({ topic }) {
     setIsUnlockedWithData(false);
     setIsBadgeOnly(false);
     sealedRef.current = false;
+    clearSealResume();
   };
 
   const sealForecast = () => setStep("result");
@@ -181,11 +201,34 @@ export default function WTFDynamicApp({ topic }) {
     });
   };
 
+  const persistSealResume = () => {
+    if (!selectedOpt) return;
+    saveSealResume({
+      topicId: "ww3",
+      step: "result",
+      optionId: selectedOpt.id,
+      day,
+      month,
+      year,
+      nationality,
+      userHandle,
+      notifyAiTopic,
+    });
+  };
+
   const handleGoogleSignIn = () => {
+    persistSealResume();
     void signInWithGoogle().catch(() => {
       /* OAuth not configured or blocked */
     });
   };
+
+  useEffect(() => {
+    if (step !== "result" || !selectedOpt) return;
+    persistSealResume();
+    // persistSealResume closes over latest fields
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step, selectedOpt, day, month, year, nationality, userHandle, notifyAiTopic]);
 
   useEffect(() => {
     if (!supabase) return;
@@ -360,7 +403,7 @@ export default function WTFDynamicApp({ topic }) {
         </div>
       )}
 
-      <div className="relative p-8 border border-zinc-800 bg-zinc-900/10 min-h-[400px] flex flex-col justify-center items-center overflow-hidden rounded-3xl">
+      <div className="relative p-8 border border-zinc-800 bg-zinc-900/10 min-h-[400px] flex flex-col justify-center items-center rounded-3xl overflow-visible">
         {step === "result" && (
           <button
             onClick={handleResetChoice}
@@ -418,7 +461,7 @@ export default function WTFDynamicApp({ topic }) {
               )}
             </div>
 
-            <div className="relative w-full max-w-[300px] aspect-[1/1.618] bg-gradient-to-b from-[#121212] to-black rounded-[2.5rem] border border-zinc-800/80 shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden flex flex-col pt-4 font-mono">
+            <div className="relative w-full max-w-[300px] aspect-[1/1.618] bg-gradient-to-b from-[#121212] to-black rounded-[2.5rem] border border-zinc-800/80 shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-clip flex flex-col pt-4 font-mono">
               <div className="absolute top-3 left-1/2 -translate-x-1/2 w-4 h-4 bg-black rounded-full border border-zinc-700/70 shadow-[inset_0_2px_4px_rgba(0,0,0,0.9)]"></div>
               <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-32 bg-amber-500/10 blur-[40px] pointer-events-none"></div>
 
@@ -597,8 +640,8 @@ export default function WTFDynamicApp({ topic }) {
         {/* Stats + email gate — unchanged content; overlay scoped to this block only */}
         <div className="relative w-full max-w-lg">
           {isLocked && (
-            <div className="absolute inset-0 z-20 bg-black/75 backdrop-blur-[10px] sm:bg-black/65 sm:backdrop-blur-[8px] flex flex-col items-center justify-center p-3 sm:p-6 text-center animate-in fade-in rounded-3xl">
-              <div className="w-full max-w-md mb-4 rounded-2xl border border-zinc-800/70 bg-black/85 backdrop-blur-md shadow-[0_12px_40px_rgba(0,0,0,0.55)] px-3 py-4 sm:px-4">
+            <div className="relative z-20 bg-black/75 backdrop-blur-[10px] sm:bg-black/65 sm:backdrop-blur-[8px] flex flex-col items-center justify-start p-3 sm:p-6 text-center animate-in fade-in rounded-3xl mb-4 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+              <div className="w-full max-w-md mb-4 rounded-2xl border border-zinc-800/70 bg-black/85 backdrop-blur-md shadow-[0_12px_40px_rgba(0,0,0,0.55)] px-3 py-4 sm:px-4 scroll-mt-24">
                 <div className="mb-3 font-mono space-y-1.5">
                   <p className="text-amber-500 text-xs tracking-wide leading-relaxed">
                     {t("dynamic.unlockStatsLead")}
@@ -612,9 +655,25 @@ export default function WTFDynamicApp({ topic }) {
                   <div className="relative w-full">
                     <input
                       type="email"
+                      name="email"
+                      autoCapitalize="none"
+                      autoCorrect="off"
+                      autoComplete="email"
+                      spellCheck={false}
+                      inputMode="email"
+                      enterKeyHint="go"
                       value={emailInput}
                       onChange={(e) => setEmailInput(e.target.value)}
-                      onFocus={() => setEmailFocused(true)}
+                      onFocus={(e) => {
+                        setEmailFocused(true);
+                        const el = e.currentTarget;
+                        window.setTimeout(() => {
+                          el.scrollIntoView({
+                            block: "center",
+                            behavior: "smooth",
+                          });
+                        }, 350);
+                      }}
                       onBlur={() => setEmailFocused(false)}
                       placeholder={
                         emailFocused || emailInput.trim()
@@ -652,13 +711,15 @@ export default function WTFDynamicApp({ topic }) {
                   </div>
                 </div>
 
-                <label className="mt-3 flex items-start gap-2.5 cursor-pointer text-left group rounded-xl border border-zinc-700 bg-black/90 px-3 py-2.5 hover:border-amber-500/40 transition-colors">
-                  <input
-                    type="checkbox"
-                    checked={notifyAiTopic}
-                    onChange={(e) => setNotifyAiTopic(e.target.checked)}
-                    className="mt-0.5 h-3.5 w-3.5 shrink-0 rounded border-zinc-600 bg-black accent-amber-500 cursor-pointer"
-                  />
+                <label className="mt-3 flex items-start gap-2.5 cursor-pointer text-left group rounded-xl border border-zinc-700 bg-black/90 px-3 py-2.5 hover:border-[#4285F4]/50 transition-colors">
+                  <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-sm border-2 border-[#4285F4] bg-black">
+                    <input
+                      type="checkbox"
+                      checked={notifyAiTopic}
+                      onChange={(e) => setNotifyAiTopic(e.target.checked)}
+                      className="h-4 w-4 accent-[#4285F4] cursor-pointer"
+                    />
+                  </span>
                   <span className="text-[10px] sm:text-[11px] font-mono tracking-wide leading-snug text-amber-500 break-words whitespace-normal">
                     {t("dynamic.notifyAiTopic")}
                   </span>
@@ -669,12 +730,8 @@ export default function WTFDynamicApp({ topic }) {
                 <button
                   type="button"
                   onClick={handleGoogleSignIn}
-                  className="relative w-full overflow-hidden flex items-center justify-center gap-2 bg-zinc-900/90 hover:bg-zinc-800 text-zinc-300 rounded-xl border border-zinc-700 border-l-4 border-l-[#4285F4] py-3 px-4 text-[10px] font-mono tracking-wide cursor-pointer transition-colors shadow-xl"
+                  className="w-full flex items-center justify-center gap-2 bg-zinc-900/90 hover:bg-zinc-800 text-zinc-300 rounded-xl border border-zinc-700 py-3 px-4 text-[10px] font-mono tracking-wide cursor-pointer transition-colors shadow-xl"
                 >
-                  <span
-                    aria-hidden
-                    className="absolute left-0 top-0 bottom-0 w-1.5 bg-[#4285F4]"
-                  />
                   <svg
                     className="w-4 h-4 shrink-0"
                     viewBox="0 0 24 24"
