@@ -1,4 +1,4 @@
-{
+﻿{
   "meta": {
     "title": "WWtellme",
     "description": "Globale Krisenvorhersage- und Umfrageplattform",
@@ -93,12 +93,12 @@
     "sealedHint": "Deine Wahl ist gespeichert. Verteilung und Erkennungsmarke siehst du unten.",
     "displayNamePlaceholder": "Name beim Teilen",
     "shareSocial": "In sozialen Medien teilen",
-    "unlockStatsLead": "Um das globale Gleichgewicht zu steuern und die Statistiken freizuschalten",
-    "unlockStatsSub": "Hinterlasse deine soziale Signatur und setze deine Meinung in die Welt.",
+    "unlockStatsLead": "Mach diese Versiegelung dauerhaft und schalte Live-Statistiken frei",
+    "unlockStatsSub": "Bestätige per E-Mail oder Google — behalte deine Stimme und verfolge den Welt-Split.",
     "emailPlaceholder": "deine E-Mail-Adresse",
     "view": "Ansehen",
     "notifyAiTopic": "Sag mir Bescheid, wenn die KI-Apokalypse zur Abstimmung öffnet!",
-    "continueGoogle": "Mit Google fortfahren",
+    "continueGoogle": "Mit Google bestätigen",
     "authLegalLead": "Mit der Anmeldung akzeptierst du die",
     "authLegalMid": "und die",
     "authLegalEnd": ".",

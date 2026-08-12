@@ -1,4 +1,4 @@
-{
+﻿{
   "meta": {
     "title": "WWtellme",
     "description": "Plateforme mondiale de prévision de crises et de sondages",
@@ -93,12 +93,12 @@
     "sealedHint": "Ton choix est enregistré. Tu peux voir la répartition et ton badge ci-dessous.",
     "displayNamePlaceholder": "Nom visible au partage",
     "shareSocial": "Partager sur les réseaux",
-    "unlockStatsLead": "Pour orienter l'équilibre mondial et débloquer les statistiques",
-    "unlockStatsSub": "Laisse ta signature sociale et inscris ton avis dans le monde.",
+    "unlockStatsLead": "Rends ce sceau permanent et débloque les stats en direct",
+    "unlockStatsSub": "Vérifie par e-mail ou Google — garde ton vote, puis suis le partage mondial.",
     "emailPlaceholder": "ton adresse e-mail",
     "view": "Voir",
     "notifyAiTopic": "Préviens-moi quand l'apocalypse IA ouvre au vote !",
-    "continueGoogle": "Continuer avec Google",
+    "continueGoogle": "Vérifier avec Google",
     "authLegalLead": "En vous connectant, vous acceptez les",
     "authLegalMid": "et la",
     "authLegalEnd": ".",

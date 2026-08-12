@@ -6,7 +6,7 @@
   },
   "brand": {
     "footer": "© 2026 wwtellme.com // Küresel öngörü sistemi",
-    "footerNote": "Toplam katılım verileri lansman ön testleri ve canlı oyların toplamını içermektedir."
+    "footerNote": "Toplam katılım, lansman öncesi taban ile mühürlenmiş canlı tahminleri kapsar. Mühür herkese açıktır; e-posta veya Google canlı oranları açar."
   },
   "nav": {
     "backHome": "Ana Ekrana Dön",
@@ -93,12 +93,12 @@
     "sealedHint": "Seçiminiz kaydedildi. Dağılımı ve künyenizi aşağıda görebilirsiniz.",
     "displayNamePlaceholder": "Paylaşımda görünecek ad",
     "shareSocial": "Sosyal medyada paylaş",
-    "unlockStatsLead": "Küresel dengeye yön vermek ve istatistikleri açmak için",
-    "unlockStatsSub": "Sosyal imzanı at ve dünyaya bir fikirde sen bırak.",
+    "unlockStatsLead": "Oyun kalıcı kalsın ve canlı oranları aç",
+    "unlockStatsSub": "E-posta veya Google ile doğrula — mührün bu cihazda kalsın, dünya dağılımını izle.",
     "emailPlaceholder": "e-posta adresiniz",
     "view": "Gör",
     "notifyAiTopic": "Yapay zeka kıyameti oylamaya açılınca haber ver!",
-    "continueGoogle": "Google ile devam",
+    "continueGoogle": "Google ile doğrula",
     "authLegalLead": "Giriş yaparak",
     "authLegalMid": "ve",
     "authLegalEnd": "'nı kabul etmiş olursunuz.",

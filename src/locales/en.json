@@ -6,7 +6,7 @@
   },
   "brand": {
     "footer": "© 2026 wwtellme.com // Global forecast system",
-    "footerNote": "Total participation includes pre-launch tests and live votes."
+    "footerNote": "Total participation includes a pre-launch base plus live sealed forecasts. Sealing is open to everyone; email or Google unlocks live stats."
   },
   "nav": {
     "backHome": "Back to Home",
@@ -93,12 +93,12 @@
     "sealedHint": "Your choice is saved. See the split and your dog tag below.",
     "displayNamePlaceholder": "Name shown on share",
     "shareSocial": "Share on social",
-    "unlockStatsLead": "To steer the global balance and unlock the stats",
-    "unlockStatsSub": "Leave your social signature and put your take on the world.",
+    "unlockStatsLead": "Make this seal permanent and unlock live stats",
+    "unlockStatsSub": "Verify with email or Google — keep your vote, then watch the world split update.",
     "emailPlaceholder": "your email address",
     "view": "View",
     "notifyAiTopic": "Tell me when AI apocalypse opens for voting!",
-    "continueGoogle": "Continue with Google",
+    "continueGoogle": "Verify with Google",
     "authLegalLead": "By signing in, you accept the",
     "authLegalMid": "and",
     "authLegalEnd": ".",

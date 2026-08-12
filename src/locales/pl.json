@@ -1,4 +1,4 @@
-{
+﻿{
   "meta": {
     "title": "WWtellme",
     "description": "Globalna platforma prognoz kryzysów i ankiet",
@@ -96,12 +96,12 @@
     "sealedHint": "Twój wybór został zapisany. Podział i Twój znacznik zobaczysz poniżej.",
     "displayNamePlaceholder": "Nazwa przy udostępnianiu",
     "shareSocial": "Udostępnij w mediach społecznościowych",
-    "unlockStatsLead": "Aby sterować globalną równowagą i odblokować statystyki",
-    "unlockStatsSub": "Zostaw swój społecznościowy podpis i wnieś swoją opinię do świata.",
+    "unlockStatsLead": "Uczyń pieczęć trwałą i odblokuj live statystyki",
+    "unlockStatsSub": "Zweryfikuj e-mailem lub Google — zachowaj głos i śledź światowy podział.",
     "emailPlaceholder": "Twój adres e-mail",
     "view": "Zobacz",
     "notifyAiTopic": "Powiadom mnie, gdy apokalipsa AI otworzy się do głosowania!",
-    "continueGoogle": "Kontynuuj z Google",
+    "continueGoogle": "Zweryfikuj przez Google",
     "authLegalLead": "Logując się, akceptujesz",
     "authLegalMid": "oraz",
     "authLegalEnd": ".",

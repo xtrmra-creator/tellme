@@ -1,4 +1,4 @@
-{
+﻿{
   "meta": {
     "title": "WWtellme",
     "description": "Глобальная платформа прогнозов кризисов и опросов",
@@ -93,12 +93,12 @@
     "sealedHint": "Твой выбор сохранён. Распределение и жетон — ниже.",
     "displayNamePlaceholder": "Имя при публикации",
     "shareSocial": "Поделиться в соцсетях",
-    "unlockStatsLead": "Чтобы влиять на глобальный баланс и открыть статистику",
-    "unlockStatsSub": "Оставь социальную подпись и внеси своё мнение в мир.",
+    "unlockStatsLead": "Сделай печать постоянной и открой живую статистику",
+    "unlockStatsSub": "Подтверди почтой или Google — сохрани голос и следи за раскладом мира.",
     "emailPlaceholder": "твой e-mail",
     "view": "Смотреть",
     "notifyAiTopic": "Сообщи, когда апокалипсис ИИ откроется для голосования!",
-    "continueGoogle": "Продолжить с Google",
+    "continueGoogle": "Подтвердить через Google",
     "authLegalLead": "Входя, вы принимаете",
     "authLegalMid": "и",
     "authLegalEnd": ".",

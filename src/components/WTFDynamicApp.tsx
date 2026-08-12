@@ -18,7 +18,7 @@ import Link from "next/link";
 import {
   saveSealResume,
   clearSealResume,
-  loadSealResume,
+  loadAnySeal,
 } from "@/lib/sealResume";
 
 const DAYS = Array.from({ length: 31 }, (_, i) =>
@@ -29,7 +29,7 @@ const YEARS = Array.from({ length: 20 }, (_, i) => String(2026 + i));
 export default function WTFDynamicApp({ topic, resume = null }) {
   const { locale } = useLocale();
   const MONTHS = getMonths();
-  const initialResume = loadSealResume() ?? resume ?? null;
+  const initialResume = loadAnySeal() ?? resume ?? null;
 
   const [userHandle, setUserHandle] = useState(initialResume?.userHandle ?? "");
   const [handleFocused, setHandleFocused] = useState(false);
@@ -61,7 +61,9 @@ export default function WTFDynamicApp({ topic, resume = null }) {
   );
   const sealedRef = useRef(initialResume?.step === "result");
   const skipLocaleNationality = useRef(Boolean(initialResume?.nationality));
-  const [voteLocked, setVoteLocked] = useState(false);
+  const [voteLocked, setVoteLocked] = useState(() =>
+    Boolean(initialResume?.step === "result"),
+  );
   const { mode: liveMode, simFloor, byCountry } = useLiveCount();
 
   const applyExistingPrediction = (pred) => {
@@ -213,9 +215,9 @@ export default function WTFDynamicApp({ topic, resume = null }) {
   );
 
   useEffect(() => {
-    if (step !== "result" || sealedRef.current || !selectedOpt || voteLocked)
-      return;
+    if (step !== "result" || sealedRef.current || !selectedOpt) return;
     sealedRef.current = true;
+    setVoteLocked(true);
     const isNever = selectedOpt.type === "positive";
     void (async () => {
       let authHeader = {};
@@ -237,14 +239,10 @@ export default function WTFDynamicApp({ topic, resume = null }) {
       if (res?.status === 409) {
         const body = await res.json().catch(() => null);
         if (body?.prediction) applyExistingPrediction(body.prediction);
-        else setVoteLocked(true);
-      } else if (res?.ok && supabase) {
-        const { data } = await supabase.auth.getSession();
-        if (data.session) setVoteLocked(true);
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [step, selectedOpt, locale, nationality, year, month, day, voteLocked]);
+  }, [step, selectedOpt, locale, nationality, year, month, day]);
 
   const submitEmailAndUnlock = () => {
     setIsUnlockedWithData(true);
