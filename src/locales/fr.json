@@ -7,8 +7,7 @@
   "brand": {
     "footer": "© 2026 wwtellme.com // Système de prévision mondiale",
     "footerNote": "La participation totale inclut une base pré-lancement plus les prévisions scellées en direct. Sceller est ouvert à tous ; e-mail ou Google débloque les stats live.",
-    "footerCountries": "Participation de {count} pays",
-    "footerCountriesFallback": "Participation ouverte dans le monde entier"
+    "footerCountriesLive": "{count}+ pays — participation en direct ouverte"
   },
   "nav": {
     "backHome": "Retour à l'accueil",

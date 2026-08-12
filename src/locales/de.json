@@ -7,8 +7,7 @@
   "brand": {
     "footer": "© 2026 wwtellme.com // Globales Prognosesystem",
     "footerNote": "Die Gesamtbeteiligung umfasst eine Vorab-Basis plus live versiegelte Prognosen. Versiegeln ist für alle offen; E-Mail oder Google schaltet Live-Stats frei.",
-    "footerCountries": "{count} Länder nehmen teil",
-    "footerCountriesFallback": "Weltweite Teilnahme ist offen"
+    "footerCountriesLive": "{count}+ Länder — Live-Teilnahme offen"
   },
   "nav": {
     "backHome": "Zur Startseite",

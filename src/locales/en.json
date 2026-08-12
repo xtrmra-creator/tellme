@@ -7,8 +7,7 @@
   "brand": {
     "footer": "© 2026 wwtellme.com // Global forecast system",
     "footerNote": "Total participation includes a pre-launch base plus live sealed forecasts. Sealing is open to everyone; email or Google unlocks live stats.",
-    "footerCountries": "{count} countries participating",
-    "footerCountriesFallback": "Open to participation worldwide"
+    "footerCountriesLive": "{count}+ countries — live participation open"
   },
   "nav": {
     "backHome": "Back to Home",
