@@ -5,7 +5,8 @@
     "ogDescription": "¿Qué dice tu país? Sella un pronóstico y mira el reparto."
   },
   "brand": {
-    "footer": "© 2026 wwtellme.com // Sistema de pronóstico global"
+    "footer": "© 2026 wwtellme.com // Sistema de pronóstico global",
+    "footerNote": "La participación total incluye pruebas previas al lanzamiento y votos en vivo."
   },
   "nav": {
     "backHome": "Volver al inicio",

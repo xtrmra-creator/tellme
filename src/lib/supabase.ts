@@ -36,6 +36,8 @@ export async function signInWithGoogle() {
   if (!supabase) {
     throw new Error("Supabase is not configured");
   }
+  // TODO: Complete Supabase Google + Apple OAuth (Apple UI removed for now;
+  // add signInWithOAuth({ provider: 'apple' }) when Apple provider is ready).
   return supabase.auth.signInWithOAuth({
     provider: "google",
     options: {

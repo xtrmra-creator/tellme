@@ -1,26 +1,40 @@
-/** Seeded live counter: slow simulated ticks until real traffic takes over. */
+/**
+ * Live participation counter.
+ *
+ * Cold start: UI always shows INITIAL_BASE_VOTES + real DB seals so the
+ * counter never collapses when real traffic begins.
+ *
+ * TODO: Wire full Supabase Google + Apple OAuth (Google is partially live;
+ * Apple sign-in still pending). Session should unlock stats and optionally
+ * attribute seals to auth.users.
+ */
 
-export const LIVE_COUNT_BASE = 20417;
-export const LIVE_TICK_MS = 35_000;
-/** Real sealed forecasts at/above this → freeze sim, add real, then only real grows. */
+/** Pre-launch / soft-launch base so the board never looks empty. */
+export const INITIAL_BASE_VOTES = 20_000;
+
+/** @deprecated Use INITIAL_BASE_VOTES */
+export const LIVE_COUNT_BASE = INITIAL_BASE_VOTES;
+
+export const LIVE_TICK_MS = 75_000;
+/** Kept for server freeze helpers / bar merge threshold if needed. */
 export const LIVE_REAL_MIN = 1000;
 const EPOCH_MS = Date.UTC(2026, 7, 12, 0, 0, 0);
-const FREEZE_KEY = "wwtellme-live-sim-freeze";
 
 function incrementForTick(i: number): number {
   let x = ((i + 1) * 2654435761) >>> 0;
   x ^= x >>> 16;
-  return 1 + (x % 4);
+  return 1 + (x % 2);
 }
 
 type TickCache = { ticks: number; count: number };
-const tickCache: TickCache = { ticks: 0, count: LIVE_COUNT_BASE };
+const tickCache: TickCache = { ticks: 0, count: INITIAL_BASE_VOTES };
 
+/** Slow ambient climb from INITIAL_BASE_VOTES (+1–2 every LIVE_TICK_MS). */
 export function simulatedCountAt(now = Date.now()): number {
   const ticks = Math.max(0, Math.floor((now - EPOCH_MS) / LIVE_TICK_MS));
   if (ticks < tickCache.ticks) {
     tickCache.ticks = 0;
-    tickCache.count = LIVE_COUNT_BASE;
+    tickCache.count = INITIAL_BASE_VOTES;
   }
   while (tickCache.ticks < ticks) {
     tickCache.count += incrementForTick(tickCache.ticks);
@@ -29,52 +43,28 @@ export function simulatedCountAt(now = Date.now()): number {
   return tickCache.count;
 }
 
-function readFrozenSim(): number | null {
-  if (typeof window === "undefined") return null;
-  try {
-    const raw = localStorage.getItem(FREEZE_KEY);
-    if (!raw) return null;
-    const n = Number.parseInt(raw, 10);
-    return Number.isFinite(n) && n > 0 ? n : null;
-  } catch {
-    return null;
-  }
-}
-
-function writeFrozenSim(value: number): void {
-  if (typeof window === "undefined") return;
-  try {
-    localStorage.setItem(FREEZE_KEY, String(value));
-  } catch {
-    /* ignore */
-  }
-}
-
-/** Snapshot the visible sim total once; later ticks must not move this. */
-export function freezeSimAt(now = Date.now()): number {
-  const existing = readFrozenSim();
-  if (existing !== null) return existing;
-  const current = simulatedCountAt(now);
-  writeFrozenSim(current);
-  return current;
-}
-
+/**
+ * Visible total = slow ambient base + real seals (never drops below base).
+ */
 export function displayLiveCount(
   realTotal: number | null,
   now = Date.now(),
-  serverFloor: number | null = null,
+  _serverFloor: number | null = null,
 ): {
   count: number;
   mode: "sim" | "real";
   simFloor: number;
 } {
-  if (typeof realTotal === "number" && realTotal >= LIVE_REAL_MIN) {
-    const frozen =
-      serverFloor && serverFloor > 0 ? serverFloor : freezeSimAt(now);
-    return { count: frozen + realTotal, mode: "real", simFloor: frozen };
-  }
-  const sim = simulatedCountAt(now);
-  return { count: sim, mode: "sim", simFloor: sim };
+  const real =
+    typeof realTotal === "number" && Number.isFinite(realTotal)
+      ? Math.max(0, Math.floor(realTotal))
+      : 0;
+  const ambient = simulatedCountAt(now);
+  return {
+    count: ambient + real,
+    mode: real > 0 ? "real" : "sim",
+    simFloor: ambient,
+  };
 }
 
 export type RealStatsSnapshot = {
@@ -92,7 +82,10 @@ export async function fetchRealStats(): Promise<RealStatsSnapshot | null> {
     return {
       total: data.total,
       byCountry: Array.isArray(data.byCountry) ? data.byCountry : [],
-      simFloor: typeof data.simFloor === "number" ? data.simFloor : null,
+      simFloor:
+        typeof data.simFloor === "number"
+          ? data.simFloor
+          : INITIAL_BASE_VOTES,
     };
   } catch {
     return null;

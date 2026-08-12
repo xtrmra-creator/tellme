@@ -5,7 +5,8 @@
     "ogDescription": "What does your country say? Seal a forecast and see the split."
   },
   "brand": {
-    "footer": "© 2026 wwtellme.com // Global forecast system"
+    "footer": "© 2026 wwtellme.com // Global forecast system",
+    "footerNote": "Total participation includes pre-launch tests and live votes."
   },
   "nav": {
     "backHome": "Back to Home",

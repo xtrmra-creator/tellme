@@ -5,7 +5,8 @@
     "ogDescription": "Co mówi twój kraj? Zapeczętuj prognozę i zobacz podział."
   },
   "brand": {
-    "footer": "© 2026 wwtellme.com // Globalny system prognoz"
+    "footer": "© 2026 wwtellme.com // Globalny system prognoz",
+    "footerNote": "Całkowity udział obejmuje testy przedpremierowe i głosy na żywo."
   },
   "nav": {
     "backHome": "Powrót do strony głównej",

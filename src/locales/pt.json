@@ -5,7 +5,8 @@
     "ogDescription": "O que diz o teu país? Sela uma previsão e vê a divisão."
   },
   "brand": {
-    "footer": "© 2026 wwtellme.com // Sistema global de previsão"
+    "footer": "© 2026 wwtellme.com // Sistema global de previsão",
+    "footerNote": "A participação total inclui testes pré-lançamento e votos ao vivo."
   },
   "nav": {
     "backHome": "Voltar ao início",

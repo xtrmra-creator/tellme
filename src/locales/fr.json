@@ -5,7 +5,8 @@
     "ogDescription": "Que dit ton pays ? Scelle une prévision et vois la répartition."
   },
   "brand": {
-    "footer": "© 2026 wwtellme.com // Système de prévision mondiale"
+    "footer": "© 2026 wwtellme.com // Système de prévision mondiale",
+    "footerNote": "La participation totale inclut les tests pré-lancement et les votes en direct."
   },
   "nav": {
     "backHome": "Retour à l'accueil",

@@ -5,7 +5,8 @@
     "ogDescription": "Was sagt dein Land? Versiegle eine Prognose und sieh die Verteilung."
   },
   "brand": {
-    "footer": "© 2026 wwtellme.com // Globales Prognosesystem"
+    "footer": "© 2026 wwtellme.com // Globales Prognosesystem",
+    "footerNote": "Die Gesamtbeteiligung umfasst Vorabtests und Live-Stimmen."
   },
   "nav": {
     "backHome": "Zur Startseite",

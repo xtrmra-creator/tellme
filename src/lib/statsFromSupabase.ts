@@ -1,8 +1,5 @@
 import { getSupabaseServer } from "@/lib/supabaseServer";
-import {
-  LIVE_REAL_MIN,
-  simulatedCountAt,
-} from "@/lib/liveCount";
+import { INITIAL_BASE_VOTES } from "@/lib/liveCount";
 
 export type PublicPrediction = {
   nationality: string;
@@ -24,30 +21,6 @@ async function readPredictions(): Promise<PublicPrediction[]> {
   const fromTable = await supabase.from("predictions").select(cols);
   if (fromTable.error || !fromTable.data) return [];
   return fromTable.data as PublicPrediction[];
-}
-
-async function readOrFreezeSimFloor(realTotal: number): Promise<number | null> {
-  const supabase = getSupabaseServer();
-  if (!supabase) return null;
-
-  const existing = await supabase
-    .from("live_counter_state")
-    .select("sim_floor")
-    .eq("id", 1)
-    .maybeSingle();
-
-  if (existing.data?.sim_floor) return existing.data.sim_floor as number;
-
-  if (realTotal < LIVE_REAL_MIN) return null;
-
-  const floor = simulatedCountAt();
-  const { error } = await supabase.from("live_counter_state").upsert({
-    id: 1,
-    sim_floor: floor,
-    frozen_at: new Date().toISOString(),
-  });
-  if (error) return floor;
-  return floor;
 }
 
 export async function getSupabaseStats() {
@@ -75,13 +48,12 @@ export async function getSupabaseStats() {
     }),
   );
 
-  const simFloor = await readOrFreezeSimFloor(total);
-
   return {
     total,
     neverCount,
     neverRate,
     byCountry,
-    simFloor,
+    /** Stable base layer for UI: INITIAL_BASE_VOTES + total = displayed count */
+    simFloor: INITIAL_BASE_VOTES,
   };
 }

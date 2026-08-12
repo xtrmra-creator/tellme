@@ -5,7 +5,8 @@
     "ogDescription": "Cosa dice il tuo paese? Sigilla una previsione e vedi lo split."
   },
   "brand": {
-    "footer": "© 2026 wwtellme.com // Sistema di previsione globale"
+    "footer": "© 2026 wwtellme.com // Sistema di previsione globale",
+    "footerNote": "La partecipazione totale include i test pre-lancio e i voti live."
   },
   "nav": {
     "backHome": "Torna alla home",

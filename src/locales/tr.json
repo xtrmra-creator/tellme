@@ -5,7 +5,8 @@
     "ogDescription": "Ülken ne diyor? Tahminini mühürle, dünyanın oranını gör."
   },
   "brand": {
-    "footer": "© 2026 wwtellme.com // Küresel öngörü sistemi"
+    "footer": "© 2026 wwtellme.com // Küresel öngörü sistemi",
+    "footerNote": "Toplam katılım verileri lansman ön testleri ve canlı oyların toplamını içermektedir."
   },
   "nav": {
     "backHome": "Ana Ekrana Dön",

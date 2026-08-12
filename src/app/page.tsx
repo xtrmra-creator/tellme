@@ -513,6 +513,9 @@ export default function Page() {
           <p className="text-[10px] font-mono tracking-widest text-zinc-700">
             {t("brand.footer")}
           </p>
+          <p className="text-[9px] md:text-[10px] font-mono tracking-wide text-zinc-600 max-w-md leading-relaxed">
+            {t("brand.footerNote")}
+          </p>
         </footer>
       </div>
     </div>

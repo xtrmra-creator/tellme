@@ -10,7 +10,7 @@ Code for stats, shared freeze, PII hide, rate limit, and seal/email POST is in t
 ## Already in code (do not undo)
 
 1. `/api/stats` reads Supabase (`predictions_public` + freeze row).
-2. Shared freeze table `live_counter_state`; clients prefer `simFloor` from the API. Formula stays `frozenSim + realTotal`.
+2. Shared freeze / cold-start base: UI count is `INITIAL_BASE_VOTES (20000) + realTotal` from `/api/stats`.
 3. `vercel.json` does not use Node 18 or `@supabase_*` aliases — env vars must be set in the Vercel dashboard.
 4. Anon cannot SELECT IPs (`predictions_public` only) and cannot INSERT after migration `002_go_live.sql`.
 5. Best-effort rate limits on `/api/predictions`, `/api/email`, `/api/geo`, `/api/stats`.
@@ -26,7 +26,7 @@ Code for stats, shared freeze, PII hide, rate limit, and seal/email POST is in t
 
 ## Intentional, do not “fix” unless asked
 
-- Simulated ~20k base on the counter is **on purpose**. After 1000 real votes it stays `frozenSim + real`.
+- Simulated ~20k base on the counter is **on purpose**. Display is always `INITIAL_BASE_VOTES + real`. Do not drop the number to the raw real count.
 
 ## Block pattern
 

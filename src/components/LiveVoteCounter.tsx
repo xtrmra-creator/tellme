@@ -31,7 +31,7 @@ export function useLiveCount() {
   }, []);
 
   return {
-    ...displayLiveCount(realStats?.total ?? null, now, realStats?.simFloor),
+    ...displayLiveCount(realStats?.total ?? null, now),
     byCountry: realStats?.byCountry ?? [],
   };
 }
