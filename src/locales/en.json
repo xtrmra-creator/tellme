@@ -44,7 +44,12 @@
       },
       "ai": {
         "title": "AI apocalypse",
-        "description": "When will artificial general intelligence (AGI) put humanity on the clock?",
+        "description": "",
+        "badge": "Coming soon"
+      },
+      "pandemic": {
+        "title": "PANDEMIC",
+        "description": "",
         "badge": "Coming soon"
       }
     }

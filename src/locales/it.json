@@ -47,7 +47,12 @@
       },
       "ai": {
         "title": "Apocalisse dell'IA",
-        "description": "Quando l'intelligenza artificiale generale (AGI) metterà l'umanità sotto pressione?",
+        "description": "",
+        "badge": "Prossimamente"
+      },
+      "pandemic": {
+        "title": "PANDEMIA",
+        "description": "",
         "badge": "Prossimamente"
       }
     }

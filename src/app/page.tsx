@@ -234,6 +234,13 @@ export default function Page() {
       status: "teaser" as const,
       soonLabel: t("home.topics.ai.badge"),
     },
+    {
+      id: "pandemic",
+      title: t("home.topics.pandemic.title"),
+      description: t("home.topics.pandemic.description"),
+      status: "teaser" as const,
+      soonLabel: t("home.topics.pandemic.badge"),
+    },
   ];
 
   const ww3Topic = getTopic("ww3");
@@ -592,13 +599,15 @@ export default function Page() {
                             >
                               {topic.title}
                             </h3>
-                            <p
-                              className={`text-sm leading-relaxed max-w-xl ${
-                                isTeaser ? "text-zinc-500" : "text-zinc-400"
-                              }`}
-                            >
-                              {topic.description}
-                            </p>
+                            {topic.description ? (
+                              <p
+                                className={`text-sm leading-relaxed max-w-xl ${
+                                  isTeaser ? "text-zinc-500" : "text-zinc-400"
+                                }`}
+                              >
+                                {topic.description}
+                              </p>
+                            ) : null}
                           </div>
 
                           <div className="flex-shrink-0 mt-4 md:mt-0 border-t md:border-t-0 border-white/5 pt-4 md:pt-0 flex md:justify-end">

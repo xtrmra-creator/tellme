@@ -44,7 +44,12 @@
       },
       "ai": {
         "title": "Yapay zeka kıyameti",
-        "description": "İnsanlığın sonunu getirecek olan genel yapay zeka (AGI) ne zaman devreye girecek?",
+        "description": "",
+        "badge": "Yakında"
+      },
+      "pandemic": {
+        "title": "PANDEMİ",
+        "description": "",
         "badge": "Yakında"
       }
     }

@@ -44,7 +44,12 @@
       },
       "ai": {
         "title": "Apocalipsis de la IA",
-        "description": "¿Cuándo pondrá la inteligencia artificial general (AGI) a la humanidad contra el reloj?",
+        "description": "",
+        "badge": "Próximamente"
+      },
+      "pandemic": {
+        "title": "PANDEMIA",
+        "description": "",
         "badge": "Próximamente"
       }
     }

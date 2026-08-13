@@ -47,7 +47,12 @@
       },
       "ai": {
         "title": "Apokalipsa AI",
-        "description": "Kiedy ogólna sztuczna inteligencja (AGI) postawi ludzkość pod presją czasu?",
+        "description": "",
+        "badge": "Wkrótce"
+      },
+      "pandemic": {
+        "title": "PANDEMIA",
+        "description": "",
         "badge": "Wkrótce"
       }
     }

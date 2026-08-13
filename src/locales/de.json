@@ -44,7 +44,12 @@
       },
       "ai": {
         "title": "KI-Apokalypse",
-        "description": "Wann stellt allgemeine künstliche Intelligenz (AGI) die Menschheit auf die Uhr?",
+        "description": "",
+        "badge": "Demnächst"
+      },
+      "pandemic": {
+        "title": "PANDEMIE",
+        "description": "",
         "badge": "Demnächst"
       }
     }
