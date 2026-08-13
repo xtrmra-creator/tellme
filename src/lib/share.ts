@@ -1,6 +1,6 @@
 /** Social share: native app schemes on mobile, web/store fallback if app missing. */
 
-import { t } from "@/lib/i18n";
+import { isActiveLocale, setLocale, t, type Locale } from "@/lib/i18n";
 import { STAT_ROWS } from "@/data/statRows";
 import { buildSharePageUrl, type ShareCardInput } from "@/lib/shareCard";
 import { getSiteUrl } from "@/lib/shareSite";
@@ -16,15 +16,28 @@ export type SharePayload = {
   textWithUrl: string;
 };
 
+function resolveShareLocale(explicit?: string): string {
+  if (explicit && isActiveLocale(explicit)) return explicit;
+  if (typeof document !== "undefined") {
+    const lang = document.documentElement.lang?.slice(0, 2);
+    if (lang && isActiveLocale(lang)) return lang;
+  }
+  return "en";
+}
+
 export function buildSharePayload(input: ShareCardInput): SharePayload {
-  const url = buildSharePageUrl(input);
+  const locale = resolveShareLocale(input.locale);
+  if (isActiveLocale(locale)) setLocale(locale as Locale);
+
+  const card: ShareCardInput = { ...input, locale };
+  const url = buildSharePageUrl(card);
   const text = t("dynamic.shareCaption", {
-    topic: input.topicTitle,
+    topic: card.topicTitle,
     count: STAT_ROWS.length,
   });
   return {
     url,
-    title: input.topicTitle,
+    title: card.topicTitle,
     text,
     textWithUrl: `${text}\n\n🔗 ${url}`,
   };
@@ -216,13 +229,9 @@ function buildTargets(payload: SharePayload): Record<SharePlatform, AppTarget> {
       store: storeUrl("333903271", "com.twitter.android"),
     },
     facebook: {
-      native: `fb://facewebmodal/f?href=${encodeURIComponent(fbWeb)}`,
-      androidIntent: androidIntent(
-        "fb",
-        `facewebmodal/f?href=${encodeURIComponent(fbWeb)}`,
-        "com.facebook.katana",
-        fbWeb,
-      ),
+      // Prefer HTTPS sharer — native fb:// nesting often strips share query params.
+      native: null,
+      androidIntent: null,
       web: fbWeb,
       store: storeUrl("284882215", "com.facebook.katana"),
       // Facebook blocks pre-filled captions — copy so the user can paste.

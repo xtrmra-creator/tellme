@@ -16,33 +16,103 @@ function clamp(s: string, n: number): string {
   return `${t.slice(0, n - 1)}…`;
 }
 
-/** Normalize callsign for share URLs / OG (always @prefix, no spaces collapse). */
+/** Normalize callsign for share URLs / OG (always @prefix). */
 export function normalizeShareHandle(raw?: string): string | undefined {
   if (!raw) return undefined;
   let h = raw.trim().replace(/\s+/g, " ");
   if (!h) return undefined;
   if (!h.startsWith("@")) h = `@${h}`;
-  // Keep letters/numbers/_/./space/- for display names like "@Ali Veli"
   h = h.replace(/[^\p{L}\p{N}_.@ -]/gu, "");
   if (h === "@") return undefined;
   return clamp(h, 36);
 }
 
-/** Query keys kept short for Facebook / WhatsApp URL length limits. */
+type WireCard = {
+  h?: string;
+  t: string;
+  p: string;
+  c: string;
+  r: number;
+  l: string;
+  n?: 1;
+};
+
+function toBase64Url(json: string): string {
+  if (typeof Buffer !== "undefined") {
+    return Buffer.from(json, "utf8")
+      .toString("base64")
+      .replace(/\+/g, "-")
+      .replace(/\//g, "_")
+      .replace(/=+$/, "");
+  }
+  // Browser
+  const bytes = new TextEncoder().encode(json);
+  let binary = "";
+  bytes.forEach((b) => {
+    binary += String.fromCharCode(b);
+  });
+  return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+}
+
+function fromBase64Url(d: string): string | null {
+  try {
+    const pad = d.length % 4 === 0 ? "" : "=".repeat(4 - (d.length % 4));
+    const b64 = d.replace(/-/g, "+").replace(/_/g, "/") + pad;
+    if (typeof Buffer !== "undefined") {
+      return Buffer.from(b64, "base64").toString("utf8");
+    }
+    const binary = atob(b64);
+    const bytes = Uint8Array.from(binary, (ch) => ch.charCodeAt(0));
+    return new TextDecoder().decode(bytes);
+  } catch {
+    return null;
+  }
+}
+
+export function encodeShareCard(input: ShareCardInput): string {
+  const wire: WireCard = {
+    t: clamp(input.topicTitle, 64),
+    p: clamp(input.prediction, 72),
+    c: clamp(input.country, 40),
+    r: Math.max(0, Math.min(100, Math.round(input.risk))),
+    l: clamp(input.locale || "en", 5),
+  };
+  const handle = normalizeShareHandle(input.handle);
+  if (handle) wire.h = handle;
+  if (input.isPeace) wire.n = 1;
+  return toBase64Url(JSON.stringify(wire));
+}
+
+export function decodeShareCard(d: string): ShareCardInput | null {
+  const json = fromBase64Url(d.trim());
+  if (!json) return null;
+  try {
+    const wire = JSON.parse(json) as WireCard;
+    if (!wire || typeof wire.t !== "string") return null;
+    return {
+      topicTitle: clamp(wire.t || "WWtellme", 64),
+      prediction: clamp(wire.p || "—", 72),
+      country: clamp(wire.c || "World", 40),
+      risk: Number.isFinite(wire.r)
+        ? Math.max(0, Math.min(100, Number(wire.r)))
+        : 50,
+      handle: normalizeShareHandle(wire.h),
+      isPeace: wire.n === 1,
+      locale: wire.l ? clamp(String(wire.l), 5) : undefined,
+    };
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Compact share query: single `d` payload.
+ * Avoids Facebook native sharer stripping `&`-separated params when nested.
+ */
 export function shareCardSearchParams(input: ShareCardInput): URLSearchParams {
   const q = new URLSearchParams();
-  // `h` early — some crawlers/clients truncate long query strings from the end.
-  const handle = normalizeShareHandle(input.handle);
-  if (handle) q.set("h", handle);
-  q.set("t", clamp(input.topicTitle, 64));
-  q.set("p", clamp(input.prediction, 72));
-  q.set("c", clamp(input.country, 40));
-  q.set("r", String(Math.max(0, Math.min(100, Math.round(input.risk)))));
-  if (input.isPeace) q.set("n", "1");
-  // Always set locale — Facebook crawler ignores browser cookies/language.
-  q.set("l", clamp(input.locale || "en", 5));
-  // Bump when OG card design / meta locale changes so crawlers refresh.
-  q.set("v", "5");
+  q.set("d", encodeShareCard(input));
+  q.set("v", "6");
   return q;
 }
 
@@ -67,6 +137,13 @@ export function parseShareCardParams(
     return v ?? "";
   };
 
+  const packed = get("d");
+  if (packed) {
+    const decoded = decodeShareCard(packed);
+    if (decoded) return decoded;
+  }
+
+  // Legacy flat query (pre-v6) for old links / debugger
   const riskRaw = Number(get("r"));
   return {
     topicTitle: clamp(get("t") || "WWtellme", 64),

@@ -2,11 +2,20 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { LocaleProvider } from "@/components/LocaleProvider";
 import { t } from "@/lib/i18n";
+import { encodeShareCard } from "@/lib/shareCard";
 import { Analytics } from "@vercel/analytics/next";
 
 const SITE_URL = "https://wwtellme.com";
-/** Default social preview (1200×630) — absolute URL for Facebook crawlers. */
-const DEFAULT_OG_IMAGE = `${SITE_URL}/api/og?t=WWtellme&p=Seal%20your%20forecast&c=World&r=50&l=en&v=5`;
+const DEFAULT_OG_IMAGE = `${SITE_URL}/api/og?${new URLSearchParams({
+  d: encodeShareCard({
+    topicTitle: "WWtellme",
+    prediction: "Seal your forecast",
+    country: "World",
+    risk: 50,
+    locale: "en",
+  }),
+  v: "6",
+}).toString()}`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
