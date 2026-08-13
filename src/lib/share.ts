@@ -353,8 +353,8 @@ export async function shareTo(
 ): Promise<{ copied: boolean; sharedImage?: boolean }> {
   const { url, text, textWithUrl, title, imageUrl } = payload;
 
-  // Instagram: share the künye PNG via the system sheet (Feed / Story / DM).
-  // Meta does not allow silent auto-post to Feed from a website.
+  // Instagram: system share sheet with story PNG only.
+  // Never force App Store / Instagram login if the user cancels or has no app.
   if (platform === "instagram") {
     const file = await fetchBadgeFile(imageUrl);
     if (
@@ -371,23 +371,22 @@ export async function shareTo(
           text: textWithUrl,
         });
         return { copied: false, sharedImage: true };
-      } catch {
-        /* cancelled — fall through */
+      } catch (err) {
+        const name =
+          err && typeof err === "object" && "name" in err
+            ? String((err as { name?: string }).name)
+            : "";
+        // Dismissed share sheet — stay on site, no Instagram redirect.
+        if (name === "AbortError" || name === "NotAllowedError") {
+          return { copied: false, sharedImage: false };
+        }
       }
     }
 
+    // Soft fallback: leave the badge on device + caption in clipboard.
+    // Do not open instagram.com / Play Store / App Store.
     if (file) downloadBadge(file);
     const copied = await copyText(textWithUrl);
-    const target = buildTargets(payload).instagram;
-    if (!isMobileDevice()) {
-      openExternal(target.web);
-      return { copied, sharedImage: Boolean(file) };
-    }
-    openNativeOrFallback(
-      target.native,
-      target.androidIntent,
-      target.store || target.web,
-    );
     return { copied, sharedImage: Boolean(file) };
   }
 

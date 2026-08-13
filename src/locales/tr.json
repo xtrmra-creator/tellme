@@ -133,7 +133,7 @@
     "shareAlertVk": "VK Paylaşım!",
     "shareCaptionCopied": "Metin kopyalandı — link kartının altındaki yazı alanına yapıştır.",
     "shareIgImageHint": "Paylaşım menüsünden Instagram Stories seç — dikey künye eklendi.",
-    "shareIgFallbackHint": "Hikâye görseli indirildi + metin kopyalandı. Instagram → Hikâyen → görseli ekle.",
+    "shareIgFallbackHint": "Hikâye görseli kaydedildi + metin kopyalandı. İstersen Instagram’ı sen açıp ekle.",
     "shareNeedName": "Önce paylaşımda görünecek adı yaz.",
     "statRisk": "savaş",
     "statStable": "barış",
