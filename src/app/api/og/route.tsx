@@ -1,68 +1,99 @@
 import { ImageResponse } from "next/og";
 import { parseShareCardParams } from "@/lib/shareCard";
 
-const TEASE = {
+const COPY = {
   en: {
-    sealedLine: (h: string) => `${h} sealed a forecast`,
-    classified: "classified",
-    ask: "What does your country say? →",
+    callsign: "Callsign",
+    threat: "Threat",
+    myGuess: "My prediction",
+    worldSays: "World says",
+    ask: "What does your country say?",
+    verified: "Verified",
   },
   tr: {
-    sealedLine: (h: string) => `${h} bir tahmin mühürledi`,
-    classified: "gizli",
-    ask: "Senin ülken ne diyor? →",
+    callsign: "İmza",
+    threat: "Tehdit",
+    myGuess: "Benim tahminim",
+    worldSays: "Dünya ne söylüyor?",
+    ask: "Senin ülken ne diyor?",
+    verified: "Verified",
   },
   de: {
-    sealedLine: (h: string) => `${h} hat eine Prognose versiegelt`,
-    classified: "geheim",
-    ask: "Was sagt dein Land? →",
+    callsign: "Rufzeichen",
+    threat: "Bedrohung",
+    myGuess: "Meine Prognose",
+    worldSays: "Die Welt sagt",
+    ask: "Was sagt dein Land?",
+    verified: "Verified",
   },
   fr: {
-    sealedLine: (h: string) => `${h} a scellé une prévision`,
-    classified: "classifié",
-    ask: "Que dit ton pays ? →",
+    callsign: "Indicatif",
+    threat: "Menace",
+    myGuess: "Ma prévision",
+    worldSays: "Le monde dit",
+    ask: "Que dit ton pays ?",
+    verified: "Verified",
   },
   es: {
-    sealedLine: (h: string) => `${h} selló un pronóstico`,
-    classified: "clasificado",
-    ask: "¿Qué dice tu país? →",
+    callsign: "Indicativo",
+    threat: "Amenaza",
+    myGuess: "Mi predicción",
+    worldSays: "El mundo dice",
+    ask: "¿Qué dice tu país?",
+    verified: "Verified",
   },
   ru: {
-    sealedLine: (h: string) => `${h} запечатал прогноз`,
-    classified: "секретно",
-    ask: "Что говорит твоя страна? →",
+    callsign: "Позывной",
+    threat: "Угроза",
+    myGuess: "Мой прогноз",
+    worldSays: "Мир говорит",
+    ask: "Что говорит твоя страна?",
+    verified: "Verified",
   },
   it: {
-    sealedLine: (h: string) => `${h} ha sigillato una previsione`,
-    classified: "classificato",
-    ask: "Cosa dice il tuo paese? →",
+    callsign: "Indicativo",
+    threat: "Minaccia",
+    myGuess: "La mia previsione",
+    worldSays: "Il mondo dice",
+    ask: "Cosa dice il tuo paese?",
+    verified: "Verified",
   },
   pl: {
-    sealedLine: (h: string) => `${h} zapieczętował prognozę`,
-    classified: "tajne",
-    ask: "Co mówi twój kraj? →",
+    callsign: "Sygnał",
+    threat: "Zagrożenie",
+    myGuess: "Moja prognoza",
+    worldSays: "Świat mówi",
+    ask: "Co mówi twój kraj?",
+    verified: "Verified",
   },
   pt: {
-    sealedLine: (h: string) => `${h} selou uma previsão`,
-    classified: "classificado",
-    ask: "O que diz o teu país? →",
+    callsign: "Indicativo",
+    threat: "Ameaça",
+    myGuess: "A minha previsão",
+    worldSays: "O mundo diz",
+    ask: "O que diz o teu país?",
+    verified: "Verified",
   },
 } as const;
 
-type TeaseLocale = keyof typeof TEASE;
+type CopyLocale = keyof typeof COPY;
 
-function teaseCopy(locale?: string) {
-  const key = (locale || "en").slice(0, 2).toLowerCase() as TeaseLocale;
-  return TEASE[key] ?? TEASE.en;
+function labels(locale?: string) {
+  const key = (locale || "en").slice(0, 2).toLowerCase() as CopyLocale;
+  return COPY[key] ?? COPY.en;
 }
 
-/** Teaser card: enough to hook, not enough to spoil — curiosity over data dump. */
+/** Open dog-tag card — full prediction visible, nothing redacted. */
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const card = parseShareCardParams(searchParams);
   const handle = card.handle || "@anon";
   const topic = card.topicTitle || "WWtellme";
-  const copy = teaseCopy(card.locale);
+  const pred = card.prediction || "—";
+  const riskColor = card.isPeace ? "#34d399" : "#f59e0b";
+  const L = labels(card.locale);
+  const risk = Math.max(0, Math.min(100, card.risk));
+  const stable = 100 - risk;
 
   return new ImageResponse(
     (
@@ -102,13 +133,13 @@ export async function GET(req: Request) {
             display: "flex",
             flexDirection: "column",
             width: 920,
-            height: 460,
+            height: 500,
             borderRadius: 28,
             border: "1px solid #3f3f46",
             background:
               "linear-gradient(160deg, #141414 0%, #0a0a0a 55%, #111 100%)",
             boxShadow: "0 24px 80px rgba(0,0,0,0.65)",
-            padding: "40px 48px",
+            padding: "36px 44px",
             justifyContent: "space-between",
             position: "relative",
           }}
@@ -121,13 +152,13 @@ export async function GET(req: Request) {
             }}
           >
             <div style={{ display: "flex", alignItems: "baseline", gap: 4 }}>
-              <span style={{ color: "#f59e0b", fontSize: 34, fontWeight: 900 }}>
+              <span style={{ color: "#f59e0b", fontSize: 32, fontWeight: 900 }}>
                 WW
               </span>
               <span
                 style={{
                   color: "#d4d4d8",
-                  fontSize: 28,
+                  fontSize: 26,
                   fontWeight: 300,
                   fontStyle: "italic",
                 }}
@@ -140,16 +171,22 @@ export async function GET(req: Request) {
                 display: "flex",
                 alignItems: "center",
                 gap: 8,
-                border: "1px solid #b45309",
-                borderRadius: 999,
-                padding: "8px 16px",
-                color: "#fbbf24",
+                color: "#f59e0b",
                 fontSize: 16,
                 letterSpacing: 4,
                 textTransform: "uppercase",
               }}
             >
-              ● SEALED
+              <div
+                style={{
+                  width: 8,
+                  height: 8,
+                  borderRadius: 999,
+                  background: "#f59e0b",
+                  display: "flex",
+                }}
+              />
+              {L.verified}
             </div>
           </div>
 
@@ -157,67 +194,103 @@ export async function GET(req: Request) {
             style={{
               display: "flex",
               flexDirection: "column",
-              gap: 18,
-              marginTop: 8,
+              gap: 16,
             }}
           >
-            <span
-              style={{
-                color: "#71717a",
-                fontSize: 16,
-                letterSpacing: 5,
-                textTransform: "uppercase",
-              }}
-            >
-              {copy.sealedLine(handle)}
-            </span>
-            <span
-              style={{
-                color: "#fafafa",
-                fontSize: 40,
-                fontWeight: 700,
-                lineHeight: 1.15,
-              }}
-            >
-              {topic}
-            </span>
+            <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+              <span
+                style={{
+                  color: "#71717a",
+                  fontSize: 14,
+                  letterSpacing: 4,
+                  textTransform: "uppercase",
+                }}
+              >
+                {L.callsign}
+              </span>
+              <span style={{ color: "#fbbf24", fontSize: 34, fontWeight: 700 }}>
+                {handle}
+              </span>
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+              <span
+                style={{
+                  color: "#71717a",
+                  fontSize: 14,
+                  letterSpacing: 4,
+                  textTransform: "uppercase",
+                }}
+              >
+                {L.threat}
+              </span>
+              <span style={{ color: "#fafafa", fontSize: 30, fontWeight: 600 }}>
+                {topic}
+              </span>
+            </div>
+
+            <div style={{ display: "flex", gap: 40 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                <span
+                  style={{
+                    color: "#71717a",
+                    fontSize: 14,
+                    letterSpacing: 4,
+                    textTransform: "uppercase",
+                  }}
+                >
+                  {L.myGuess}
+                </span>
+                <span
+                  style={{ color: riskColor, fontSize: 26, fontWeight: 700 }}
+                >
+                  {pred}
+                </span>
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                <span
+                  style={{
+                    color: "#71717a",
+                    fontSize: 14,
+                    letterSpacing: 4,
+                    textTransform: "uppercase",
+                  }}
+                >
+                  {L.worldSays}
+                </span>
+                <span style={{ color: "#fafafa", fontSize: 26, fontWeight: 700 }}>
+                  {card.country} · {risk}%
+                </span>
+              </div>
+            </div>
 
             <div
               style={{
                 display: "flex",
-                alignItems: "center",
-                gap: 14,
+                width: "100%",
+                height: 12,
+                borderRadius: 999,
+                overflow: "hidden",
+                background: "#27272a",
                 marginTop: 4,
               }}
             >
               <div
                 style={{
+                  width: `${risk}%`,
+                  height: "100%",
+                  background: "#dc2626",
                   display: "flex",
-                  height: 28,
-                  width: 220,
-                  borderRadius: 6,
-                  background: "#27272a",
                 }}
               />
               <div
                 style={{
+                  width: `${stable}%`,
+                  height: "100%",
+                  background: "#10b981",
                   display: "flex",
-                  height: 28,
-                  width: 120,
-                  borderRadius: 6,
-                  background: "#3f3f46",
                 }}
               />
-              <span
-                style={{
-                  color: "#52525b",
-                  fontSize: 18,
-                  letterSpacing: 3,
-                  textTransform: "uppercase",
-                }}
-              >
-                {copy.classified}
-              </span>
             </div>
           </div>
 
@@ -226,23 +299,15 @@ export async function GET(req: Request) {
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              borderTop: "1px solid #27272a",
-              paddingTop: 22,
             }}
           >
-            <span
-              style={{
-                color: "#f59e0b",
-                fontSize: 22,
-                letterSpacing: 1,
-              }}
-            >
-              {copy.ask}
+            <span style={{ color: "#a1a1aa", fontSize: 18, letterSpacing: 1 }}>
+              {L.ask}
             </span>
             <span
               style={{
                 color: "#52525b",
-                fontSize: 16,
+                fontSize: 14,
                 letterSpacing: 3,
                 textTransform: "uppercase",
               }}
