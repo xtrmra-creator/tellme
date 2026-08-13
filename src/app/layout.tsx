@@ -4,8 +4,12 @@ import { LocaleProvider } from "@/components/LocaleProvider";
 import { t } from "@/lib/i18n";
 import { Analytics } from "@vercel/analytics/next";
 
+const SITE_URL = "https://wwtellme.com";
+/** Default social preview (1200×630) — absolute URL for Facebook crawlers. */
+const DEFAULT_OG_IMAGE = `${SITE_URL}/api/og?t=WWtellme&p=Seal%20your%20forecast&c=World&r=50&v=3`;
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://wwtellme.com"),
+  metadataBase: new URL(SITE_URL),
   title: t("meta.title"),
   description: t("meta.description"),
   icons: {
@@ -15,15 +19,26 @@ export const metadata: Metadata = {
   openGraph: {
     title: t("meta.title"),
     description: t("meta.ogDescription"),
-    url: "https://wwtellme.com",
+    url: SITE_URL,
     siteName: "WWtellme",
     type: "website",
     locale: "en_US",
+    images: [
+      {
+        url: DEFAULT_OG_IMAGE,
+        secureUrl: DEFAULT_OG_IMAGE,
+        width: 1200,
+        height: 630,
+        type: "image/png",
+        alt: "WWtellme",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: t("meta.title"),
     description: t("meta.ogDescription"),
+    images: [DEFAULT_OG_IMAGE],
   },
 };
 
