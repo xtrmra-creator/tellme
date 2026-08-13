@@ -66,11 +66,11 @@ export default function HomeWorldGrid({
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, w, h);
 
-    // Flattened world ellipse — wider than tall ("basık dünya")
+    // Flattened world ellipse — wider than tall, slightly more compressed
     const cx = w * 0.5;
-    const cy = h * 0.46;
-    const rx = Math.min(w * 0.48, 420);
-    const ry = Math.min(h * 0.42, rx * 0.58);
+    const cy = h * 0.5;
+    const rx = Math.min(w * 0.46, 400);
+    const ry = Math.min(h * 0.36, rx * 0.48);
     const mobile = w < 640;
     const gridGlow = mobile ? GLOW_MOBILE : GLOW;
     const arcGlow = mobile ? GLOW_SOFT_MOBILE : GLOW_SOFT;

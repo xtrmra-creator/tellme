@@ -437,53 +437,49 @@ export default function Page() {
             </div>
           ) : (
             <div className="w-full flex flex-col items-center animate-in fade-in duration-1000">
-              <HomeWorldGrid
-                className="w-full max-w-3xl px-4 pt-12 pb-8 sm:pt-14 sm:pb-10"
-                coords={{
-                  nw: t("home.mottoNw"),
-                  n: t("home.mottoN"),
-                }}
-              >
-                <div className="text-center select-none flex flex-col items-center">
-                  <h1 className="text-7xl md:text-[8rem] leading-none font-black tracking-tighter drop-shadow-2xl">
-                    <span className="text-amber-500">WW</span>
-                    <span className="text-zinc-200 italic font-light tracking-tight">
-                      tellme
-                    </span>
-                  </h1>
-
-                  <div className="mt-8 w-full max-w-[220px] sm:max-w-[260px] font-mono">
-                    <div
-                      className="px-1 text-center text-[10px] sm:text-[11px] text-zinc-200 tracking-[0.22em] uppercase leading-tight"
-                      aria-hidden
-                    >
-                      {t("home.demoBarLabel")}
-                    </div>
-                    <div
-                      className="mt-1 flex items-baseline justify-between px-1 text-[9px] sm:text-[10px] leading-none"
-                      aria-hidden
-                    >
-                      <span className="text-red-400/90">%</span>
-                      <span className="text-emerald-400/90">%</span>
-                    </div>
-                    <div
-                      className="mt-0.5 w-full h-2 bg-zinc-800 rounded-full flex overflow-hidden"
-                      aria-hidden
-                    >
-                      <div className="bg-red-600 w-1/2" />
-                      <div className="bg-emerald-500 w-1/2" />
-                    </div>
-                    <p
-                      className="mt-2 w-full text-right text-[8px] sm:text-[9px] leading-snug tracking-[0.12em] uppercase"
+              <HomeWorldGrid className="w-full max-w-3xl px-4 pt-6 pb-0 sm:pt-8 sm:pb-0">
+                <div className="relative flex items-center justify-center min-h-[14rem] sm:min-h-[16rem] md:min-h-[18rem]">
+                  <h1 className="relative z-[3] mx-auto flex flex-wrap items-baseline justify-center gap-x-2 px-3 text-center leading-none drop-shadow-2xl">
+                    <span
+                      className="font-mono text-[1.25rem] sm:text-3xl md:text-4xl font-bold tracking-[0.14em] sm:tracking-[0.2em] uppercase"
                       style={{ color: "#bf8a29" }}
                     >
-                      {t("home.mottoSe")}
-                    </p>
-                  </div>
+                      WORLD WORLD
+                    </span>
+                    <span
+                      className="text-[1.25rem] sm:text-3xl md:text-4xl italic font-light tracking-tight"
+                      style={{ color: "#bf8a29" }}
+                    >
+                      TELL ME
+                    </span>
+                  </h1>
                 </div>
               </HomeWorldGrid>
 
-              <div className="mt-3 mb-8 sm:mt-4 sm:mb-10 flex flex-col items-center gap-2.5">
+              <div className="mt-2 w-full max-w-[220px] sm:max-w-[260px] font-mono">
+                <div
+                  className="px-1 text-center text-[10px] sm:text-[11px] text-zinc-200 tracking-[0.22em] uppercase leading-tight"
+                  aria-hidden
+                >
+                  {t("home.demoBarLabel")}
+                </div>
+                <div
+                  className="mt-1 flex items-baseline justify-between px-1 text-[9px] sm:text-[10px] leading-none"
+                  aria-hidden
+                >
+                  <span className="text-red-400/90">%</span>
+                  <span className="text-emerald-400/90">%</span>
+                </div>
+                <div
+                  className="mt-0.5 w-full h-2 bg-zinc-800 rounded-full flex overflow-hidden"
+                  aria-hidden
+                >
+                  <div className="bg-red-600 w-1/2" />
+                  <div className="bg-emerald-500 w-1/2" />
+                </div>
+              </div>
+
+              <div className="mt-2 mb-8 sm:mt-2.5 sm:mb-10 flex flex-col items-center gap-2">
                 <p
                   className="max-w-[18rem] sm:max-w-md px-3 text-center font-mono text-[10px] sm:text-[11px] leading-snug tracking-[0.16em] sm:tracking-[0.2em] uppercase"
                   style={{ color: "#555555" }}
