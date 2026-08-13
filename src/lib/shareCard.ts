@@ -123,10 +123,10 @@ export function buildSharePageUrl(input: ShareCardInput): string {
 export function buildOgImageUrl(
   input: ShareCardInput,
   origin = getSiteUrl(),
-  opts?: { format?: "og" | "ig" },
+  opts?: { format?: "og" | "ig" | "story" },
 ): string {
   const q = shareCardSearchParams(input);
-  if (opts?.format === "ig") q.set("fmt", "ig");
+  if (opts?.format === "ig" || opts?.format === "story") q.set("fmt", "story");
   return `${origin}/api/og?${q.toString()}`;
 }
 

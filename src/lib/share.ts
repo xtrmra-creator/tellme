@@ -37,7 +37,7 @@ export function buildSharePayload(input: ShareCardInput): SharePayload {
 
   const card: ShareCardInput = { ...input, locale };
   const url = buildSharePageUrl(card);
-  const imageUrl = buildOgImageUrl(card, undefined, { format: "ig" });
+  const imageUrl = buildOgImageUrl(card, undefined, { format: "story" });
   const text = t("dynamic.shareCaption", {
     topic: card.topicTitle,
     count: STAT_ROWS.length,

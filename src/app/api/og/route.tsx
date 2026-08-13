@@ -94,8 +94,8 @@ type CardBits = {
   L: (typeof COPY)[CopyLocale];
 };
 
-/** Instagram Feed/Story — square 1080×1080, vertical dog-tag (no landscape crop). */
-function igSquare(card: CardBits) {
+/** Instagram Stories — 1080×1920 (9:16), dog-tag in the safe center zone. */
+function igStory(card: CardBits) {
   const { handle, topic, pred, riskColor, risk, stable, country, L } = card;
   return new ImageResponse(
     (
@@ -104,6 +104,7 @@ function igSquare(card: CardBits) {
           width: "100%",
           height: "100%",
           display: "flex",
+          flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
           background: "#050505",
@@ -112,16 +113,38 @@ function igSquare(card: CardBits) {
       >
         <div
           style={{
+            position: "absolute",
+            inset: 0,
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)",
+            backgroundSize: "36px 36px",
+            display: "flex",
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background:
+              "radial-gradient(ellipse at center, transparent 30%, #050505 78%)",
+            display: "flex",
+          }}
+        />
+
+        {/* Safe zone: away from IG story top/bottom chrome */}
+        <div
+          style={{
             display: "flex",
             flexDirection: "column",
-            width: 860,
-            height: 980,
-            borderRadius: 48,
+            width: 900,
+            height: 1280,
+            borderRadius: 56,
             border: "1px solid #3f3f46",
             background:
-              "linear-gradient(180deg, #161616 0%, #0a0a0a 55%, #050505 100%)",
-            padding: "48px 52px",
+              "linear-gradient(180deg, #181818 0%, #0a0a0a 50%, #050505 100%)",
+            padding: "56px 56px",
             justifyContent: "space-between",
+            position: "relative",
           }}
         >
           <div
@@ -132,13 +155,13 @@ function igSquare(card: CardBits) {
             }}
           >
             <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
-              <span style={{ color: "#f59e0b", fontSize: 42, fontWeight: 900 }}>
+              <span style={{ color: "#f59e0b", fontSize: 48, fontWeight: 900 }}>
                 WW
               </span>
               <span
                 style={{
-                  color: "#d4d4d8",
-                  fontSize: 34,
+                  color: "#e4e4e7",
+                  fontSize: 40,
                   fontWeight: 300,
                   fontStyle: "italic",
                 }}
@@ -152,15 +175,15 @@ function igSquare(card: CardBits) {
                 alignItems: "center",
                 gap: 10,
                 color: "#f59e0b",
-                fontSize: 20,
+                fontSize: 22,
                 letterSpacing: 4,
                 textTransform: "uppercase",
               }}
             >
               <div
                 style={{
-                  width: 10,
-                  height: 10,
+                  width: 12,
+                  height: 12,
                   borderRadius: 999,
                   background: "#f59e0b",
                   display: "flex",
@@ -174,32 +197,32 @@ function igSquare(card: CardBits) {
             style={{
               display: "flex",
               flexDirection: "column",
-              gap: 36,
+              gap: 44,
               alignItems: "center",
               textAlign: "center",
             }}
           >
-            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               <span
                 style={{
                   color: "#71717a",
-                  fontSize: 18,
+                  fontSize: 20,
                   letterSpacing: 6,
                   textTransform: "uppercase",
                 }}
               >
                 {L.callsign}
               </span>
-              <span style={{ color: "#fbbf24", fontSize: 48, fontWeight: 700 }}>
+              <span style={{ color: "#fbbf24", fontSize: 56, fontWeight: 700 }}>
                 {handle}
               </span>
             </div>
 
-            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               <span
                 style={{
                   color: "#71717a",
-                  fontSize: 18,
+                  fontSize: 20,
                   letterSpacing: 6,
                   textTransform: "uppercase",
                 }}
@@ -209,27 +232,27 @@ function igSquare(card: CardBits) {
               <span
                 style={{
                   color: "#fafafa",
-                  fontSize: 36,
+                  fontSize: 40,
                   fontWeight: 600,
-                  maxWidth: 720,
+                  maxWidth: 760,
                 }}
               >
                 {topic}
               </span>
             </div>
 
-            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               <span
                 style={{
                   color: "#71717a",
-                  fontSize: 18,
+                  fontSize: 20,
                   letterSpacing: 6,
                   textTransform: "uppercase",
                 }}
               >
                 {L.myGuess}
               </span>
-              <span style={{ color: riskColor, fontSize: 34, fontWeight: 700 }}>
+              <span style={{ color: riskColor, fontSize: 40, fontWeight: 700 }}>
                 {pred}
               </span>
             </div>
@@ -238,7 +261,7 @@ function igSquare(card: CardBits) {
               style={{
                 display: "flex",
                 flexDirection: "column",
-                gap: 12,
+                gap: 14,
                 width: "100%",
                 alignItems: "center",
               }}
@@ -246,21 +269,21 @@ function igSquare(card: CardBits) {
               <span
                 style={{
                   color: "#71717a",
-                  fontSize: 18,
+                  fontSize: 20,
                   letterSpacing: 6,
                   textTransform: "uppercase",
                 }}
               >
                 {L.worldSays}
               </span>
-              <span style={{ color: "#fafafa", fontSize: 30, fontWeight: 700 }}>
+              <span style={{ color: "#fafafa", fontSize: 34, fontWeight: 700 }}>
                 {country} · {risk}%
               </span>
               <div
                 style={{
                   display: "flex",
                   width: "100%",
-                  height: 14,
+                  height: 16,
                   borderRadius: 999,
                   overflow: "hidden",
                   background: "#27272a",
@@ -292,14 +315,14 @@ function igSquare(card: CardBits) {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              gap: 10,
+              gap: 12,
             }}
           >
-            <span style={{ color: "#a1a1aa", fontSize: 22 }}>{L.ask}</span>
+            <span style={{ color: "#f59e0b", fontSize: 26 }}>{L.ask}</span>
             <span
               style={{
                 color: "#52525b",
-                fontSize: 16,
+                fontSize: 18,
                 letterSpacing: 4,
                 textTransform: "uppercase",
               }}
@@ -312,7 +335,7 @@ function igSquare(card: CardBits) {
     ),
     {
       width: 1080,
-      height: 1080,
+      height: 1920,
       headers: {
         "Cache-Control": "public, max-age=300, s-maxage=300",
       },
@@ -551,6 +574,6 @@ export async function GET(req: Request) {
   };
 
   const fmt = (searchParams.get("fmt") || "og").toLowerCase();
-  if (fmt === "ig") return igSquare(bits);
+  if (fmt === "ig" || fmt === "story") return igStory(bits);
   return ogLandscape(bits);
 }
