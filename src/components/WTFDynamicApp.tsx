@@ -66,6 +66,7 @@ export default function WTFDynamicApp({ topic, resume = null }) {
   );
   const [shareHint, setShareHint] = useState("");
   const handleInputRef = useRef(null);
+  const resultTopRef = useRef(null);
   const { mode: liveMode, simFloor, byCountry } = useLiveCount();
 
   const applyExistingPrediction = (pred) => {
@@ -149,6 +150,18 @@ export default function WTFDynamicApp({ topic, resume = null }) {
   useEffect(() => {
     if (statsPage > statsPageCount - 1) setStatsPage(0);
   }, [statsPage, statsPageCount]);
+
+  // After seal / restore: pin viewport to the top of the result card (warning + künye).
+  useEffect(() => {
+    if (step !== "result") return;
+    const timer = window.setTimeout(() => {
+      resultTopRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }, 80);
+    return () => window.clearTimeout(timer);
+  }, [step]);
 
   const handleOptionClick = (opt) => {
     if (voteLocked) return;
@@ -528,7 +541,10 @@ export default function WTFDynamicApp({ topic, resume = null }) {
         </div>
       )}
 
-      <div className="relative p-8 border border-zinc-800 bg-zinc-900/10 min-h-[400px] flex flex-col justify-center items-center rounded-3xl overflow-visible">
+      <div
+        ref={resultTopRef}
+        className="relative scroll-mt-[max(4.5rem,calc(env(safe-area-inset-top)+3rem))] p-8 border border-zinc-800 bg-zinc-900/10 min-h-[400px] flex flex-col justify-start items-center rounded-3xl overflow-visible"
+      >
         {step === "result" && !voteLocked && (
           <button
             onClick={handleResetChoice}
@@ -823,7 +839,7 @@ export default function WTFDynamicApp({ topic, resume = null }) {
                         const el = e.currentTarget;
                         window.setTimeout(() => {
                           el.scrollIntoView({
-                            block: "center",
+                            block: "nearest",
                             behavior: "smooth",
                           });
                         }, 350);
