@@ -132,6 +132,8 @@
     "shareAlertFb": "Share to Facebook!",
     "shareAlertVk": "Share to VK!",
     "shareCaptionCopied": "Caption copied — paste it under the link card.",
+    "shareIgImageHint": "Pick Feed or Story in the share sheet — your badge image is attached.",
+    "shareIgFallbackHint": "Badge downloaded + caption copied. Open Instagram → New post → add the image.",
     "shareNeedName": "Enter the name that will appear on the share first.",
     "statRisk": "war",
     "statStable": "peace",

@@ -132,6 +132,8 @@
     "shareAlertFb": "Facebook Paylaşım!",
     "shareAlertVk": "VK Paylaşım!",
     "shareCaptionCopied": "Metin kopyalandı — link kartının altındaki yazı alanına yapıştır.",
+    "shareIgImageHint": "Paylaşım menüsünden Gönderi veya Hikâye seç — künye görseli eklendi.",
+    "shareIgFallbackHint": "Künye indirildi + metin kopyalandı. Instagram → Yeni gönderi → görseli ekle.",
     "shareNeedName": "Önce paylaşımda görünecek adı yaz.",
     "statRisk": "savaş",
     "statStable": "barış",

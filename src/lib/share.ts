@@ -2,7 +2,11 @@
 
 import { isActiveLocale, setLocale, t, type Locale } from "@/lib/i18n";
 import { STAT_ROWS } from "@/data/statRows";
-import { buildSharePageUrl, type ShareCardInput } from "@/lib/shareCard";
+import {
+  buildOgImageUrl,
+  buildSharePageUrl,
+  type ShareCardInput,
+} from "@/lib/shareCard";
 import { getSiteUrl } from "@/lib/shareSite";
 
 export { getSiteUrl };
@@ -14,6 +18,8 @@ export type SharePayload = {
   text: string;
   /** Caption including site URL (for text-only share intents). */
   textWithUrl: string;
+  /** Dynamic OG badge PNG — used for Instagram image share. */
+  imageUrl: string;
 };
 
 function resolveShareLocale(explicit?: string): string {
@@ -31,6 +37,7 @@ export function buildSharePayload(input: ShareCardInput): SharePayload {
 
   const card: ShareCardInput = { ...input, locale };
   const url = buildSharePageUrl(card);
+  const imageUrl = buildOgImageUrl(card);
   const text = t("dynamic.shareCaption", {
     topic: card.topicTitle,
     count: STAT_ROWS.length,
@@ -40,6 +47,7 @@ export function buildSharePayload(input: ShareCardInput): SharePayload {
     title: card.topicTitle,
     text,
     textWithUrl: `${text}\n\n🔗 ${url}`,
+    imageUrl,
   };
 }
 
@@ -314,24 +322,73 @@ function buildTargets(payload: SharePayload): Record<SharePlatform, AppTarget> {
   };
 }
 
+async function fetchBadgeFile(imageUrl: string): Promise<File | null> {
+  try {
+    const res = await fetch(imageUrl);
+    if (!res.ok) return null;
+    const blob = await res.blob();
+    return new File([blob], "wwtellme-badge.png", {
+      type: blob.type || "image/png",
+    });
+  } catch {
+    return null;
+  }
+}
+
+function downloadBadge(file: File) {
+  const href = URL.createObjectURL(file);
+  const a = document.createElement("a");
+  a.href = href;
+  a.download = file.name;
+  a.rel = "noopener";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  window.setTimeout(() => URL.revokeObjectURL(href), 1500);
+}
+
 export async function shareTo(
   platform: SharePlatform,
   payload: SharePayload,
-): Promise<{ copied: boolean }> {
-  const { url, text, textWithUrl, title } = payload;
+): Promise<{ copied: boolean; sharedImage?: boolean }> {
+  const { url, text, textWithUrl, title, imageUrl } = payload;
 
-  // OS share sheet when available (best path for Instagram on mobile).
-  if (
-    platform === "instagram" &&
-    typeof navigator !== "undefined" &&
-    typeof navigator.share === "function"
-  ) {
-    try {
-      await navigator.share({ title, text: textWithUrl, url });
-      return { copied: false };
-    } catch {
-      /* cancelled or unsupported */
+  // Instagram: share the künye PNG via the system sheet (Feed / Story / DM).
+  // Meta does not allow silent auto-post to Feed from a website.
+  if (platform === "instagram") {
+    const file = await fetchBadgeFile(imageUrl);
+    if (
+      file &&
+      typeof navigator !== "undefined" &&
+      typeof navigator.share === "function" &&
+      typeof navigator.canShare === "function" &&
+      navigator.canShare({ files: [file] })
+    ) {
+      try {
+        await navigator.share({
+          files: [file],
+          title,
+          text: textWithUrl,
+        });
+        return { copied: false, sharedImage: true };
+      } catch {
+        /* cancelled — fall through */
+      }
     }
+
+    if (file) downloadBadge(file);
+    const copied = await copyText(textWithUrl);
+    const target = buildTargets(payload).instagram;
+    if (!isMobileDevice()) {
+      openExternal(target.web);
+      return { copied, sharedImage: Boolean(file) };
+    }
+    openNativeOrFallback(
+      target.native,
+      target.androidIntent,
+      target.store || target.web,
+    );
+    return { copied, sharedImage: Boolean(file) };
   }
 
   const target = buildTargets(payload)[platform];
@@ -355,11 +412,9 @@ export async function shareTo(
     return { copied };
   }
 
-  // Instagram / TikTok: no real share scheme → app, else store (caption already copied).
+  // TikTok: no real share scheme → app, else store (caption already copied).
   const fallback =
-    platform === "instagram" || platform === "tiktok"
-      ? target.store || target.web
-      : target.web;
+    platform === "tiktok" ? target.store || target.web : target.web;
 
   openNativeOrFallback(target.native, target.androidIntent, fallback);
   return { copied };

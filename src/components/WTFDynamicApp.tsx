@@ -369,7 +369,12 @@ export default function WTFDynamicApp({ topic, resume = null }) {
       isPeace: selectedOpt?.type === "positive",
       locale,
     });
-    void shareTo(platform, payload).then(({ copied }) => {
+    void shareTo(platform, payload).then(({ copied, sharedImage }) => {
+      if (platform === "instagram" && sharedImage) {
+        setShareHint(t("dynamic.shareIgImageHint"));
+        window.setTimeout(() => setShareHint(""), 4200);
+        return;
+      }
       if (!copied) return;
       if (
         platform === "facebook" ||
@@ -377,8 +382,12 @@ export default function WTFDynamicApp({ topic, resume = null }) {
         platform === "instagram" ||
         platform === "tiktok"
       ) {
-        setShareHint(t("dynamic.shareCaptionCopied"));
-        window.setTimeout(() => setShareHint(""), 3200);
+        setShareHint(
+          platform === "instagram"
+            ? t("dynamic.shareIgFallbackHint")
+            : t("dynamic.shareCaptionCopied"),
+        );
+        window.setTimeout(() => setShareHint(""), 4200);
       }
     });
   };
@@ -637,7 +646,7 @@ export default function WTFDynamicApp({ topic, resume = null }) {
                   <span
                     className={`text-center px-1 leading-snug ${
                       hasCustomHandle
-                        ? "text-lg text-amber-400 font-bold tracking-[0.15em] uppercase"
+                        ? "text-lg text-amber-400 font-bold tracking-[0.15em] normal-case"
                         : "text-xs font-mono font-normal tracking-wide text-zinc-600 normal-case"
                     }`}
                   >
