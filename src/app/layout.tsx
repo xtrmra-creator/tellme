@@ -6,7 +6,7 @@ import { Analytics } from "@vercel/analytics/next";
 
 const SITE_URL = "https://wwtellme.com";
 /** Default social preview (1200×630) — absolute URL for Facebook crawlers. */
-const DEFAULT_OG_IMAGE = `${SITE_URL}/api/og?t=WWtellme&p=Seal%20your%20forecast&c=World&r=50&l=en&v=4`;
+const DEFAULT_OG_IMAGE = `${SITE_URL}/api/og?t=WWtellme&p=Seal%20your%20forecast&c=World&r=50&l=en&v=5`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

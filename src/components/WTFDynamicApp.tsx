@@ -65,6 +65,7 @@ export default function WTFDynamicApp({ topic, resume = null }) {
     Boolean(initialResume?.step === "result"),
   );
   const [shareHint, setShareHint] = useState("");
+  const handleInputRef = useRef(null);
   const { mode: liveMode, simFloor, byCountry } = useLiveCount();
 
   const applyExistingPrediction = (pred) => {
@@ -331,10 +332,25 @@ export default function WTFDynamicApp({ topic, resume = null }) {
   }, []);
 
   const handleShare = (platform: SharePlatform) => {
+    const name = userHandle.trim();
+    if (!name) {
+      setShareHint(t("dynamic.shareNeedName"));
+      window.setTimeout(() => setShareHint(""), 3200);
+      try {
+        handleInputRef.current?.focus?.();
+        handleInputRef.current?.scrollIntoView?.({
+          behavior: "smooth",
+          block: "center",
+        });
+      } catch {
+        /* ignore */
+      }
+      return;
+    }
     const payload = buildSharePayload({
       topicTitle: topic.title,
       prediction: predictionLabel,
-      handle: userHandle.trim() ? displayHandle : undefined,
+      handle: displayHandle,
       country: hookCountryName,
       risk: hookTally.risk,
       isPeace: selectedOpt?.type === "positive",
@@ -556,6 +572,7 @@ export default function WTFDynamicApp({ topic, resume = null }) {
 
             <div className="relative w-full max-w-[300px]">
               <input
+                ref={handleInputRef}
                 type="text"
                 value={userHandle}
                 onChange={(e) => setUserHandle(e.target.value)}
