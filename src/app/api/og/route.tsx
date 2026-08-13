@@ -83,20 +83,246 @@ function labels(locale?: string) {
   return COPY[key] ?? COPY.en;
 }
 
-/** Open dog-tag card — full prediction visible, nothing redacted. */
-export async function GET(req: Request) {
-  const { searchParams } = new URL(req.url);
-  const card = parseShareCardParams(searchParams);
-  const handle =
-    card.handle ||
-    ((card.locale || "").startsWith("tr") ? "@anonim" : "@anon");
-  const topic = card.topicTitle || "WWtellme";
-  const pred = card.prediction || "—";
-  const riskColor = card.isPeace ? "#34d399" : "#f59e0b";
-  const L = labels(card.locale);
-  const risk = Math.max(0, Math.min(100, card.risk));
-  const stable = 100 - risk;
+type CardBits = {
+  handle: string;
+  topic: string;
+  pred: string;
+  riskColor: string;
+  risk: number;
+  stable: number;
+  country: string;
+  L: (typeof COPY)[CopyLocale];
+};
 
+/** Instagram Feed/Story — square 1080×1080, vertical dog-tag (no landscape crop). */
+function igSquare(card: CardBits) {
+  const { handle, topic, pred, riskColor, risk, stable, country, L } = card;
+  return new ImageResponse(
+    (
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          background: "#050505",
+          fontFamily: "ui-monospace, monospace",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            width: 860,
+            height: 980,
+            borderRadius: 48,
+            border: "1px solid #3f3f46",
+            background:
+              "linear-gradient(180deg, #161616 0%, #0a0a0a 55%, #050505 100%)",
+            padding: "48px 52px",
+            justifyContent: "space-between",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
+              <span style={{ color: "#f59e0b", fontSize: 42, fontWeight: 900 }}>
+                WW
+              </span>
+              <span
+                style={{
+                  color: "#d4d4d8",
+                  fontSize: 34,
+                  fontWeight: 300,
+                  fontStyle: "italic",
+                }}
+              >
+                tellme
+              </span>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 10,
+                color: "#f59e0b",
+                fontSize: 20,
+                letterSpacing: 4,
+                textTransform: "uppercase",
+              }}
+            >
+              <div
+                style={{
+                  width: 10,
+                  height: 10,
+                  borderRadius: 999,
+                  background: "#f59e0b",
+                  display: "flex",
+                }}
+              />
+              {L.verified}
+            </div>
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 36,
+              alignItems: "center",
+              textAlign: "center",
+            }}
+          >
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              <span
+                style={{
+                  color: "#71717a",
+                  fontSize: 18,
+                  letterSpacing: 6,
+                  textTransform: "uppercase",
+                }}
+              >
+                {L.callsign}
+              </span>
+              <span style={{ color: "#fbbf24", fontSize: 48, fontWeight: 700 }}>
+                {handle}
+              </span>
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              <span
+                style={{
+                  color: "#71717a",
+                  fontSize: 18,
+                  letterSpacing: 6,
+                  textTransform: "uppercase",
+                }}
+              >
+                {L.threat}
+              </span>
+              <span
+                style={{
+                  color: "#fafafa",
+                  fontSize: 36,
+                  fontWeight: 600,
+                  maxWidth: 720,
+                }}
+              >
+                {topic}
+              </span>
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              <span
+                style={{
+                  color: "#71717a",
+                  fontSize: 18,
+                  letterSpacing: 6,
+                  textTransform: "uppercase",
+                }}
+              >
+                {L.myGuess}
+              </span>
+              <span style={{ color: riskColor, fontSize: 34, fontWeight: 700 }}>
+                {pred}
+              </span>
+            </div>
+
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 12,
+                width: "100%",
+                alignItems: "center",
+              }}
+            >
+              <span
+                style={{
+                  color: "#71717a",
+                  fontSize: 18,
+                  letterSpacing: 6,
+                  textTransform: "uppercase",
+                }}
+              >
+                {L.worldSays}
+              </span>
+              <span style={{ color: "#fafafa", fontSize: 30, fontWeight: 700 }}>
+                {country} · {risk}%
+              </span>
+              <div
+                style={{
+                  display: "flex",
+                  width: "100%",
+                  height: 14,
+                  borderRadius: 999,
+                  overflow: "hidden",
+                  background: "#27272a",
+                  marginTop: 8,
+                }}
+              >
+                <div
+                  style={{
+                    width: `${risk}%`,
+                    height: "100%",
+                    background: "#dc2626",
+                    display: "flex",
+                  }}
+                />
+                <div
+                  style={{
+                    width: `${stable}%`,
+                    height: "100%",
+                    background: "#10b981",
+                    display: "flex",
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: 10,
+            }}
+          >
+            <span style={{ color: "#a1a1aa", fontSize: 22 }}>{L.ask}</span>
+            <span
+              style={{
+                color: "#52525b",
+                fontSize: 16,
+                letterSpacing: 4,
+                textTransform: "uppercase",
+              }}
+            >
+              WWTELLME.COM
+            </span>
+          </div>
+        </div>
+      </div>
+    ),
+    {
+      width: 1080,
+      height: 1080,
+      headers: {
+        "Cache-Control": "public, max-age=300, s-maxage=300",
+      },
+    },
+  );
+}
+
+/** Facebook / X / link previews — 1200×630 landscape. */
+function ogLandscape(card: CardBits) {
+  const { handle, topic, pred, riskColor, risk, stable, country, L } = card;
   return new ImageResponse(
     (
       <div
@@ -122,16 +348,6 @@ export async function GET(req: Request) {
         />
         <div
           style={{
-            position: "absolute",
-            inset: 0,
-            background:
-              "radial-gradient(ellipse at center, transparent 35%, #030303 85%)",
-            display: "flex",
-          }}
-        />
-
-        <div
-          style={{
             display: "flex",
             flexDirection: "column",
             width: 920,
@@ -140,7 +356,6 @@ export async function GET(req: Request) {
             border: "1px solid #3f3f46",
             background:
               "linear-gradient(160deg, #141414 0%, #0a0a0a 55%, #111 100%)",
-            boxShadow: "0 24px 80px rgba(0,0,0,0.65)",
             padding: "36px 44px",
             justifyContent: "space-between",
             position: "relative",
@@ -192,13 +407,7 @@ export async function GET(req: Request) {
             </div>
           </div>
 
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 16,
-            }}
-          >
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
               <span
                 style={{
@@ -214,7 +423,6 @@ export async function GET(req: Request) {
                 {handle}
               </span>
             </div>
-
             <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
               <span
                 style={{
@@ -230,7 +438,6 @@ export async function GET(req: Request) {
                 {topic}
               </span>
             </div>
-
             <div style={{ display: "flex", gap: 40 }}>
               <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
                 <span
@@ -261,11 +468,10 @@ export async function GET(req: Request) {
                   {L.worldSays}
                 </span>
                 <span style={{ color: "#fafafa", fontSize: 26, fontWeight: 700 }}>
-                  {card.country} · {risk}%
+                  {country} · {risk}%
                 </span>
               </div>
             </div>
-
             <div
               style={{
                 display: "flex",
@@ -274,7 +480,6 @@ export async function GET(req: Request) {
                 borderRadius: 999,
                 overflow: "hidden",
                 background: "#27272a",
-                marginTop: 4,
               }}
             >
               <div
@@ -303,9 +508,7 @@ export async function GET(req: Request) {
               alignItems: "center",
             }}
           >
-            <span style={{ color: "#a1a1aa", fontSize: 18, letterSpacing: 1 }}>
-              {L.ask}
-            </span>
+            <span style={{ color: "#a1a1aa", fontSize: 18 }}>{L.ask}</span>
             <span
               style={{
                 color: "#52525b",
@@ -328,4 +531,26 @@ export async function GET(req: Request) {
       },
     },
   );
+}
+
+export async function GET(req: Request) {
+  const { searchParams } = new URL(req.url);
+  const card = parseShareCardParams(searchParams);
+  const handle =
+    card.handle ||
+    ((card.locale || "").startsWith("tr") ? "@anonim" : "@anon");
+  const bits: CardBits = {
+    handle,
+    topic: card.topicTitle || "WWtellme",
+    pred: card.prediction || "—",
+    riskColor: card.isPeace ? "#34d399" : "#f59e0b",
+    risk: Math.max(0, Math.min(100, card.risk)),
+    stable: 100 - Math.max(0, Math.min(100, card.risk)),
+    country: card.country,
+    L: labels(card.locale),
+  };
+
+  const fmt = (searchParams.get("fmt") || "og").toLowerCase();
+  if (fmt === "ig") return igSquare(bits);
+  return ogLandscape(bits);
 }

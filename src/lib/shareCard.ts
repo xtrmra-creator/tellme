@@ -123,8 +123,11 @@ export function buildSharePageUrl(input: ShareCardInput): string {
 export function buildOgImageUrl(
   input: ShareCardInput,
   origin = getSiteUrl(),
+  opts?: { format?: "og" | "ig" },
 ): string {
-  return `${origin}/api/og?${shareCardSearchParams(input).toString()}`;
+  const q = shareCardSearchParams(input);
+  if (opts?.format === "ig") q.set("fmt", "ig");
+  return `${origin}/api/og?${q.toString()}`;
 }
 
 export function parseShareCardParams(
