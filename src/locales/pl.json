@@ -118,6 +118,7 @@
     "worldSays": "Co mówi świat?",
     "shareHook": "{country}: {risk}% wojna. Zapeczętowałem {prediction}. Co mówi twój kraj?",
     "shareHookPeace": "{country}: {risk}% wojna. Powiedziałem, że wojny nie będzie. Co mówi twój kraj?",
+    "shareCaption": "Kto lepiej widzi przyszłość? 👁️\n\n\"{topic}\" Żywe prognozy z {count}+ krajów — globalne udziały zmieniają się na bieżąco.\n\n🔮 Czy reszta świata myśli jak ty? Zapieczętuj znacznik i zobacz udziały.",
     "shareHookAsk": "Co mówi twój kraj?",
     "yourCountry": "Twój kraj",
     "anon": "@anon",

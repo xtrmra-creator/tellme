@@ -115,6 +115,7 @@
     "worldSays": "Was sagt die Welt?",
     "shareHook": "{country}: {risk}% Krieg. Ich habe {prediction} versiegelt. Was sagt dein Land?",
     "shareHookPeace": "{country}: {risk}% Krieg. Ich sagte: kein Krieg. Was sagt dein Land?",
+    "shareCaption": "Wer sieht die Zukunft besser? 👁️\n\n\"{topic}\" Live-Prognosen aus {count}+ Ländern — globale Quoten ändern sich in Echtzeit.\n\n🔮 Ist der Rest der Welt deiner Meinung? Versiegle deine Marke und sieh die Quoten.",
     "shareHookAsk": "Was sagt dein Land?",
     "yourCountry": "Dein Land",
     "anon": "@anon",

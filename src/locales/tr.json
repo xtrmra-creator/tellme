@@ -115,6 +115,7 @@
     "worldSays": "Dünya ne söylüyor?",
     "shareHook": "{country}: %{risk} savaş. Ben {prediction} mühürledim. Senin ülken ne diyor?",
     "shareHookPeace": "{country}: %{risk} savaş. Ben savaş çıkmaz dedim. Senin ülken ne diyor?",
+    "shareCaption": "Geleceği kim daha iyi görüyor? 👁️\n\n\"{topic}\" {count}+ ülkeden gelen canlı tahmin dağılımları ve küresel oranlar anlık olarak değişiyor.\n\n🔮 Dünyanın geri kalanı seninle aynı fikirde mi? Mühürlü künyeni oluştur, oranları gör.",
     "shareHookAsk": "Senin ülken ne diyor?",
     "yourCountry": "Ülken",
     "anon": "@anonim",

@@ -115,6 +115,7 @@
     "worldSays": "What is the world saying?",
     "shareHook": "{country}: {risk}% war. I sealed {prediction}. What does your country say?",
     "shareHookPeace": "{country}: {risk}% war. I said no war. What does your country say?",
+    "shareCaption": "Who sees the future better? 👁️\n\n\"{topic}\" Live prediction splits from {count}+ countries — global ratios shift in real time.\n\n🔮 Is the rest of the world with you? Seal your dog tag and see the odds.",
     "shareHookAsk": "What does your country say?",
     "yourCountry": "Your country",
     "anon": "@anon",

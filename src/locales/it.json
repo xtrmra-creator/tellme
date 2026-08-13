@@ -118,6 +118,7 @@
     "worldSays": "Cosa dice il mondo?",
     "shareHook": "{country}: {risk}% guerra. Ho sigillato {prediction}. Cosa dice il tuo paese?",
     "shareHookPeace": "{country}: {risk}% guerra. Ho detto: niente guerra. Cosa dice il tuo paese?",
+    "shareCaption": "Chi vede meglio il futuro? 👁️\n\n\"{topic}\" Previsioni live da {count}+ paesi — i rapporti globali cambiano in tempo reale.\n\n🔮 Il resto del mondo la pensa come te? Sigilla il badge e guarda i rapporti.",
     "shareHookAsk": "Cosa dice il tuo paese?",
     "yourCountry": "Il tuo paese",
     "anon": "@anon",

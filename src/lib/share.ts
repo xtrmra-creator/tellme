@@ -1,6 +1,7 @@
 /** Social share: native app schemes on mobile, web/store fallback if app missing. */
 
 import { t } from "@/lib/i18n";
+import { STAT_ROWS } from "@/data/statRows";
 import { buildSharePageUrl, type ShareCardInput } from "@/lib/shareCard";
 import { getSiteUrl } from "@/lib/shareSite";
 
@@ -17,21 +18,15 @@ export type SharePayload = {
 
 export function buildSharePayload(input: ShareCardInput): SharePayload {
   const url = buildSharePageUrl(input);
-  const body = t(
-    input.isPeace ? "dynamic.shareHookPeace" : "dynamic.shareHook",
-    {
-      country: input.country,
-      risk: input.risk,
-      prediction: input.prediction,
-    },
-  );
-  const who = input.handle?.trim() || "";
-  const text = who ? `${who} · ${body}` : body;
+  const text = t("dynamic.shareCaption", {
+    topic: input.topicTitle,
+    count: STAT_ROWS.length,
+  });
   return {
     url,
     title: input.topicTitle,
     text,
-    textWithUrl: `${text}\n${url}`,
+    textWithUrl: `${text}\n\n🔗 ${url}`,
   };
 }
 
