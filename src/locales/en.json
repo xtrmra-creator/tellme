@@ -194,7 +194,7 @@
     "location": "Target location:",
     "markedDate": "Marked date:",
     "systemDecision": "System call:",
-    "sealedFor": "This tag is sealed for {handle}. Screenshot it and share!",
+    "sealedFor": "This tag is sealed for {handle}. Share it with one tap!",
     "shareCta": "Share my prediction — keep the moment",
     "copied": "Tag copied to clipboard! (Simulation)",
     "selectNationality": "Select nationality",

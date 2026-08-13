@@ -194,7 +194,7 @@
     "location": "Ziellocation:",
     "markedDate": "Markiertes Datum:",
     "systemDecision": "Systementscheidung:",
-    "sealedFor": "Diese Marke ist für {handle} versiegelt. Mach einen Screenshot und teile sie!",
+    "sealedFor": "Diese Marke ist für {handle} versiegelt. Teile sie mit einem Tippen!",
     "shareCta": "Meine Prognose teilen — den Moment behalten",
     "copied": "Marke in die Zwischenablage kopiert! (Simulation)",
     "selectNationality": "Nationalität wählen",

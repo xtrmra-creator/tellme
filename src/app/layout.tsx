@@ -5,6 +5,7 @@ import { t } from "@/lib/i18n";
 import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://wwtellme.com"),
   title: t("meta.title"),
   description: t("meta.description"),
   icons: {

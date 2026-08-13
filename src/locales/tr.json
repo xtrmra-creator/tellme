@@ -194,7 +194,7 @@
     "location": "Hedef lokasyon:",
     "markedDate": "İşaretlenen tarih:",
     "systemDecision": "Sistem kararı:",
-    "sealedFor": "Bu künye {handle} adına mühürlendi. Şimdi ekran görüntüsü alarak paylaşabilirsin!",
+    "sealedFor": "Bu künye {handle} adına mühürlendi. Tek dokunuşla paylaş!",
     "shareCta": "Tahminimi paylaş, anı kalsın",
     "copied": "Künye panoya kopyalandı! (Simülasyon)",
     "selectNationality": "Uyruk seçin",

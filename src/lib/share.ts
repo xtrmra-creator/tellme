@@ -1,6 +1,10 @@
 /** Social share: native app schemes on mobile, web/store fallback if app missing. */
 
 import { t } from "@/lib/i18n";
+import { buildSharePageUrl, type ShareCardInput } from "@/lib/shareCard";
+import { getSiteUrl } from "@/lib/shareSite";
+
+export { getSiteUrl };
 
 export type SharePayload = {
   url: string;
@@ -11,22 +15,8 @@ export type SharePayload = {
   textWithUrl: string;
 };
 
-export function getSiteUrl(): string {
-  if (typeof window !== "undefined" && window.location?.origin) {
-    return window.location.origin;
-  }
-  return "https://wwtellme.com";
-}
-
-export function buildSharePayload(input: {
-  topicTitle: string;
-  prediction: string;
-  handle?: string;
-  country: string;
-  risk: number;
-  isPeace?: boolean;
-}): SharePayload {
-  const url = getSiteUrl();
+export function buildSharePayload(input: ShareCardInput): SharePayload {
+  const url = buildSharePageUrl(input);
   const body = t(
     input.isPeace ? "dynamic.shareHookPeace" : "dynamic.shareHook",
     {
@@ -50,6 +40,7 @@ export type SharePlatform =
   | "facebook"
   | "whatsapp"
   | "telegram"
+  | "linkedin"
   | "vk"
   | "instagram"
   | "tiktok";
@@ -207,20 +198,22 @@ function buildTargets(payload: SharePayload): Record<SharePlatform, AppTarget> {
   const encodedUrl = encodeURIComponent(url);
   const encodedTitle = encodeURIComponent(title);
 
-  const xWeb = `https://twitter.com/intent/tweet?text=${encodedTextWithUrl}`;
+  // text + url separately so X attaches the large image card from OG tags.
+  const xWeb = `https://twitter.com/intent/tweet?text=${encodedText}&url=${encodedUrl}`;
   const fbWeb = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
   const waWeb = `https://api.whatsapp.com/send?text=${encodedTextWithUrl}`;
   const tgWeb = `https://t.me/share/url?url=${encodedUrl}&text=${encodedText}`;
+  const liWeb = `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`;
   const vkWeb = `https://vk.com/share.php?url=${encodedUrl}&title=${encodedTitle}&comment=${encodedText}`;
   const igWeb = "https://www.instagram.com/";
   const ttWeb = "https://www.tiktok.com/upload";
 
   return {
     x: {
-      native: `twitter://post?message=${encodedTextWithUrl}`,
+      native: `twitter://post?message=${encodeURIComponent(`${text}\n${url}`)}`,
       androidIntent: androidIntent(
         "twitter",
-        `post?message=${encodedTextWithUrl}`,
+        `post?message=${encodeURIComponent(`${text}\n${url}`)}`,
         "com.twitter.android",
         xWeb,
       ),
@@ -259,6 +252,11 @@ function buildTargets(payload: SharePayload): Record<SharePlatform, AppTarget> {
       ),
       web: tgWeb,
       store: storeUrl("686449807", "org.telegram.messenger"),
+    },
+    linkedin: {
+      native: null,
+      web: liWeb,
+      store: storeUrl("288429040", "com.linkedin.android"),
     },
     vk: {
       native: `vk://share?url=${encodedUrl}&title=${encodedTitle}`,

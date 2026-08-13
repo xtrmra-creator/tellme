@@ -194,7 +194,7 @@
     "location": "Lieu cible :",
     "markedDate": "Date marquée :",
     "systemDecision": "Décision du système :",
-    "sealedFor": "Ce badge est scellé pour {handle}. Fais une capture d'écran et partage !",
+    "sealedFor": "Ce badge est scellé pour {handle}. Partage-le en un tap !",
     "shareCta": "Partager ma prédiction — garder le moment",
     "copied": "Badge copié dans le presse-papiers ! (Simulation)",
     "selectNationality": "Sélectionner la nationalité",
