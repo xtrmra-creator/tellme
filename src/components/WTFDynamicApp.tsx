@@ -64,6 +64,7 @@ export default function WTFDynamicApp({ topic, resume = null }) {
   const [voteLocked, setVoteLocked] = useState(() =>
     Boolean(initialResume?.step === "result"),
   );
+  const [shareHint, setShareHint] = useState("");
   const { mode: liveMode, simFloor, byCountry } = useLiveCount();
 
   const applyExistingPrediction = (pred) => {
@@ -339,7 +340,18 @@ export default function WTFDynamicApp({ topic, resume = null }) {
       isPeace: selectedOpt?.type === "positive",
       locale,
     });
-    void shareTo(platform, payload);
+    void shareTo(platform, payload).then(({ copied }) => {
+      if (!copied) return;
+      if (
+        platform === "facebook" ||
+        platform === "linkedin" ||
+        platform === "instagram" ||
+        platform === "tiktok"
+      ) {
+        setShareHint(t("dynamic.shareCaptionCopied"));
+        window.setTimeout(() => setShareHint(""), 3200);
+      }
+    });
   };
 
   const faceSelect = ({ value, display, onChange, children, className = "" }) => (
@@ -754,6 +766,11 @@ export default function WTFDynamicApp({ topic, resume = null }) {
                 </svg>
               </button>
             </div>
+            {shareHint ? (
+              <p className="text-[10px] text-amber-500/90 text-center px-4 leading-snug animate-in fade-in">
+                {shareHint}
+              </p>
+            ) : null}
           </div>
         )}
 

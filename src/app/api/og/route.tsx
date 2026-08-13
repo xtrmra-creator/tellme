@@ -1,12 +1,68 @@
 import { ImageResponse } from "next/og";
 import { parseShareCardParams } from "@/lib/shareCard";
 
+const TEASE = {
+  en: {
+    sealedLine: (h: string) => `${h} sealed a forecast`,
+    classified: "classified",
+    ask: "What does your country say? →",
+  },
+  tr: {
+    sealedLine: (h: string) => `${h} bir tahmin mühürledi`,
+    classified: "gizli",
+    ask: "Senin ülken ne diyor? →",
+  },
+  de: {
+    sealedLine: (h: string) => `${h} hat eine Prognose versiegelt`,
+    classified: "geheim",
+    ask: "Was sagt dein Land? →",
+  },
+  fr: {
+    sealedLine: (h: string) => `${h} a scellé une prévision`,
+    classified: "classifié",
+    ask: "Que dit ton pays ? →",
+  },
+  es: {
+    sealedLine: (h: string) => `${h} selló un pronóstico`,
+    classified: "clasificado",
+    ask: "¿Qué dice tu país? →",
+  },
+  ru: {
+    sealedLine: (h: string) => `${h} запечатал прогноз`,
+    classified: "секретно",
+    ask: "Что говорит твоя страна? →",
+  },
+  it: {
+    sealedLine: (h: string) => `${h} ha sigillato una previsione`,
+    classified: "classificato",
+    ask: "Cosa dice il tuo paese? →",
+  },
+  pl: {
+    sealedLine: (h: string) => `${h} zapieczętował prognozę`,
+    classified: "tajne",
+    ask: "Co mówi twój kraj? →",
+  },
+  pt: {
+    sealedLine: (h: string) => `${h} selou uma previsão`,
+    classified: "classificado",
+    ask: "O que diz o teu país? →",
+  },
+} as const;
+
+type TeaseLocale = keyof typeof TEASE;
+
+function teaseCopy(locale?: string) {
+  const key = (locale || "en").slice(0, 2).toLowerCase() as TeaseLocale;
+  return TEASE[key] ?? TEASE.en;
+}
+
+/** Teaser card: enough to hook, not enough to spoil — curiosity over data dump. */
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const card = parseShareCardParams(searchParams);
   const handle = card.handle || "@anon";
-  const riskColor = card.isPeace ? "#34d399" : "#f59e0b";
-  const predLabel = card.prediction;
+  const topic = card.topicTitle || "WWtellme";
+  const copy = teaseCopy(card.locale);
 
   return new ImageResponse(
     (
@@ -15,10 +71,10 @@ export async function GET(req: Request) {
           width: "100%",
           height: "100%",
           display: "flex",
-          background: "#050505",
-          color: "#e4e4e7",
+          alignItems: "center",
+          justifyContent: "center",
+          background: "#030303",
           fontFamily: "ui-monospace, monospace",
-          position: "relative",
         }}
       >
         <div
@@ -26,19 +82,34 @@ export async function GET(req: Request) {
             position: "absolute",
             inset: 0,
             backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)",
-            backgroundSize: "32px 32px",
+              "linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px)",
+            backgroundSize: "40px 40px",
             display: "flex",
           }}
         />
         <div
           style={{
+            position: "absolute",
+            inset: 0,
+            background:
+              "radial-gradient(ellipse at center, transparent 35%, #030303 85%)",
+            display: "flex",
+          }}
+        />
+
+        <div
+          style={{
             display: "flex",
             flexDirection: "column",
+            width: 920,
+            height: 460,
+            borderRadius: 28,
+            border: "1px solid #3f3f46",
+            background:
+              "linear-gradient(160deg, #141414 0%, #0a0a0a 55%, #111 100%)",
+            boxShadow: "0 24px 80px rgba(0,0,0,0.65)",
+            padding: "40px 48px",
             justifyContent: "space-between",
-            width: "100%",
-            height: "100%",
-            padding: "56px 64px",
             position: "relative",
           }}
         >
@@ -50,13 +121,13 @@ export async function GET(req: Request) {
             }}
           >
             <div style={{ display: "flex", alignItems: "baseline", gap: 4 }}>
-              <span style={{ color: "#f59e0b", fontSize: 42, fontWeight: 900 }}>
+              <span style={{ color: "#f59e0b", fontSize: 34, fontWeight: 900 }}>
                 WW
               </span>
               <span
                 style={{
-                  color: "#e4e4e7",
-                  fontSize: 36,
+                  color: "#d4d4d8",
+                  fontSize: 28,
                   fontWeight: 300,
                   fontStyle: "italic",
                 }}
@@ -68,23 +139,17 @@ export async function GET(req: Request) {
               style={{
                 display: "flex",
                 alignItems: "center",
-                gap: 10,
-                color: "#f59e0b",
-                fontSize: 18,
+                gap: 8,
+                border: "1px solid #b45309",
+                borderRadius: 999,
+                padding: "8px 16px",
+                color: "#fbbf24",
+                fontSize: 16,
                 letterSpacing: 4,
                 textTransform: "uppercase",
               }}
             >
-              <div
-                style={{
-                  width: 10,
-                  height: 10,
-                  borderRadius: 999,
-                  background: "#f59e0b",
-                  display: "flex",
-                }}
-              />
-              Verified
+              ● SEALED
             </div>
           </div>
 
@@ -92,104 +157,67 @@ export async function GET(req: Request) {
             style={{
               display: "flex",
               flexDirection: "column",
-              gap: 28,
-              marginTop: 24,
+              gap: 18,
+              marginTop: 8,
             }}
           >
-            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              <span
-                style={{
-                  color: "#71717a",
-                  fontSize: 18,
-                  letterSpacing: 6,
-                  textTransform: "uppercase",
-                }}
-              >
-                Callsign
-              </span>
-              <span style={{ color: "#fbbf24", fontSize: 44, fontWeight: 700 }}>
-                {handle}
-              </span>
-            </div>
-
-            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              <span
-                style={{
-                  color: "#71717a",
-                  fontSize: 18,
-                  letterSpacing: 6,
-                  textTransform: "uppercase",
-                }}
-              >
-                Threat
-              </span>
-              <span style={{ color: "#fafafa", fontSize: 36, fontWeight: 600 }}>
-                {card.topicTitle}
-              </span>
-            </div>
-
-            <div style={{ display: "flex", gap: 48 }}>
-              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                <span
-                  style={{
-                    color: "#71717a",
-                    fontSize: 18,
-                    letterSpacing: 6,
-                    textTransform: "uppercase",
-                  }}
-                >
-                  My prediction
-                </span>
-                <span
-                  style={{ color: riskColor, fontSize: 32, fontWeight: 700 }}
-                >
-                  {predLabel}
-                </span>
-              </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                <span
-                  style={{
-                    color: "#71717a",
-                    fontSize: 18,
-                    letterSpacing: 6,
-                    textTransform: "uppercase",
-                  }}
-                >
-                  World says
-                </span>
-                <span style={{ color: "#fafafa", fontSize: 32, fontWeight: 700 }}>
-                  {card.country} · {card.risk}% war
-                </span>
-              </div>
-            </div>
+            <span
+              style={{
+                color: "#71717a",
+                fontSize: 16,
+                letterSpacing: 5,
+                textTransform: "uppercase",
+              }}
+            >
+              {copy.sealedLine(handle)}
+            </span>
+            <span
+              style={{
+                color: "#fafafa",
+                fontSize: 40,
+                fontWeight: 700,
+                lineHeight: 1.15,
+              }}
+            >
+              {topic}
+            </span>
 
             <div
               style={{
                 display: "flex",
-                width: "100%",
-                height: 16,
-                borderRadius: 999,
-                overflow: "hidden",
-                background: "#27272a",
-                marginTop: 8,
+                alignItems: "center",
+                gap: 14,
+                marginTop: 4,
               }}
             >
               <div
                 style={{
-                  width: `${card.risk}%`,
-                  height: "100%",
-                  background: "#dc2626",
                   display: "flex",
+                  height: 28,
+                  width: 220,
+                  borderRadius: 6,
+                  background: "#27272a",
                 }}
               />
               <div
                 style={{
-                  width: `${100 - card.risk}%`,
-                  height: "100%",
-                  background: "#10b981",
                   display: "flex",
+                  height: 28,
+                  width: 120,
+                  borderRadius: 6,
+                  background: "#3f3f46",
                 }}
               />
+              <span
+                style={{
+                  color: "#52525b",
+                  fontSize: 18,
+                  letterSpacing: 3,
+                  textTransform: "uppercase",
+                }}
+              >
+                {copy.classified}
+              </span>
             </div>
           </div>
 
@@ -197,24 +225,25 @@ export async function GET(req: Request) {
             style={{
               display: "flex",
               justifyContent: "space-between",
-              alignItems: "flex-end",
-              marginTop: 32,
+              alignItems: "center",
+              borderTop: "1px solid #27272a",
+              paddingTop: 22,
             }}
           >
             <span
               style={{
-                color: "#a1a1aa",
+                color: "#f59e0b",
                 fontSize: 22,
-                letterSpacing: 2,
+                letterSpacing: 1,
               }}
             >
-              What does your country say?
+              {copy.ask}
             </span>
             <span
               style={{
-                color: "#71717a",
-                fontSize: 20,
-                letterSpacing: 4,
+                color: "#52525b",
+                fontSize: 16,
+                letterSpacing: 3,
                 textTransform: "uppercase",
               }}
             >
@@ -228,7 +257,7 @@ export async function GET(req: Request) {
       width: 1200,
       height: 630,
       headers: {
-        "Cache-Control": "public, immutable, no-transform, max-age=86400",
+        "Cache-Control": "public, max-age=300, s-maxage=300",
       },
     },
   );

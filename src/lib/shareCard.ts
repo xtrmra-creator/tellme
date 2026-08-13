@@ -26,6 +26,8 @@ export function shareCardSearchParams(input: ShareCardInput): URLSearchParams {
   if (input.handle?.trim()) q.set("h", clamp(input.handle.trim(), 28));
   if (input.isPeace) q.set("n", "1");
   if (input.locale) q.set("l", clamp(input.locale, 5));
+  // Bump when OG card design changes so crawlers skip stale caches.
+  q.set("v", "2");
   return q;
 }
 

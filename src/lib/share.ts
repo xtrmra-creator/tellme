@@ -230,6 +230,8 @@ function buildTargets(payload: SharePayload): Record<SharePlatform, AppTarget> {
       ),
       web: fbWeb,
       store: storeUrl("284882215", "com.facebook.katana"),
+      // Facebook blocks pre-filled captions — copy so the user can paste.
+      copyFirst: true,
     },
     whatsapp: {
       native: `whatsapp://send?text=${encodedTextWithUrl}`,
@@ -257,6 +259,7 @@ function buildTargets(payload: SharePayload): Record<SharePlatform, AppTarget> {
       native: null,
       web: liWeb,
       store: storeUrl("288429040", "com.linkedin.android"),
+      copyFirst: true,
     },
     vk: {
       native: `vk://share?url=${encodedUrl}&title=${encodedTitle}`,
@@ -299,7 +302,7 @@ function buildTargets(payload: SharePayload): Record<SharePlatform, AppTarget> {
 export async function shareTo(
   platform: SharePlatform,
   payload: SharePayload,
-): Promise<void> {
+): Promise<{ copied: boolean }> {
   const { url, textWithUrl, title } = payload;
 
   // OS share sheet when available (best path for Instagram on mobile).
@@ -310,23 +313,24 @@ export async function shareTo(
   ) {
     try {
       await navigator.share({ title, text: textWithUrl, url });
-      return;
+      return { copied: false };
     } catch {
       /* cancelled or unsupported */
     }
   }
 
   const target = buildTargets(payload)[platform];
-  if (!target) return;
+  if (!target) return { copied: false };
 
+  let copied = false;
   if (target.copyFirst) {
-    await copyText(textWithUrl);
+    copied = await copyText(textWithUrl);
   }
 
   // Desktop: HTTPS intents only.
   if (!isMobileDevice()) {
     openExternal(target.web);
-    return;
+    return { copied };
   }
 
   // Instagram / TikTok: no real share scheme → app, else store (caption already copied).
@@ -336,4 +340,5 @@ export async function shareTo(
       : target.web;
 
   openNativeOrFallback(target.native, target.androidIntent, fallback);
+  return { copied };
 }

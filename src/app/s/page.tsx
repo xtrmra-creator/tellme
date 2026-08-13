@@ -11,15 +11,34 @@ type PageProps = {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
 
+function teaseTitle(card: {
+  handle?: string;
+  topicTitle: string;
+  country: string;
+}): string {
+  const who = card.handle?.trim() || "Someone";
+  return `${who} sealed a forecast on ${card.topicTitle} — what does ${card.country} say?`;
+}
+
+function teaseDescription(card: {
+  country: string;
+  risk: number;
+  isPeace?: boolean;
+  prediction: string;
+}): string {
+  if (card.isPeace) {
+    return `${card.country}: ${card.risk}% war. I said no war. Open the seal — what does your country say?`;
+  }
+  return `${card.country}: ${card.risk}% war. Forecast sealed. Open to see the tag — what does your country say?`;
+}
+
 export async function generateMetadata({
   searchParams,
 }: PageProps): Promise<Metadata> {
   const params = await searchParams;
   const card = parseShareCardParams(params);
-  const title = `${card.handle ? `${card.handle} · ` : ""}${card.topicTitle} | WWtellme`;
-  const description = card.isPeace
-    ? `${card.country}: ${card.risk}% war. I said no war. What does your country say?`
-    : `${card.country}: ${card.risk}% war. I sealed ${card.prediction}. What does your country say?`;
+  const title = teaseTitle(card);
+  const description = teaseDescription(card);
   const image = buildOgImageUrl(card, getSiteUrl());
   const pageUrl = buildSharePageUrl(card);
 
@@ -37,7 +56,7 @@ export async function generateMetadata({
           url: image,
           width: 1200,
           height: 630,
-          alt: "WWtellme forecast seal",
+          alt: "Sealed WWtellme forecast",
         },
       ],
     },
@@ -74,8 +93,7 @@ export default async function SharePage({ searchParams }: PageProps) {
             {card.topicTitle}
           </h1>
           <p className="text-sm text-zinc-400 max-w-md leading-relaxed">
-            {card.handle ? `${card.handle} · ` : ""}
-            {card.country}: {card.risk}% war — {card.prediction}
+            {teaseDescription(card)}
           </p>
         </div>
         <Link
