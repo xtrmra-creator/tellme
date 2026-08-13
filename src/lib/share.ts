@@ -62,8 +62,10 @@ type AppTarget = {
   web: string;
   /** App Store / Play Store when web share is not useful. */
   store?: string;
-  /** Prefer copying text before opening (Instagram / TikTok). */
+  /** Prefer copying text before opening (Instagram / TikTok / Facebook). */
   copyFirst?: boolean;
+  /** What to copy when copyFirst is set. */
+  copyKind?: "caption" | "captionAndUrl" | "urlThenCaption";
 };
 
 const FALLBACK_MS = 1600;
@@ -229,9 +231,8 @@ function buildTargets(payload: SharePayload): Record<SharePlatform, AppTarget> {
       store: storeUrl("333903271", "com.twitter.android"),
     },
     facebook: {
-      // Open the Facebook APP with our /s?d=… link (compact — params stay intact).
-      // Avoid fb://facewebmodal nesting (it used to strip query params → English/broken OG).
-      native: `fb://share/?link=${encodedUrl}`,
+      // Open Facebook's LINK sharer (attaches OG card). Compact d= URLs survive nesting.
+      native: `fb://facewebmodal/f?href=${encodeURIComponent(fbWeb)}`,
       androidIntent: androidIntent(
         "https",
         `www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
@@ -240,8 +241,9 @@ function buildTargets(payload: SharePayload): Record<SharePlatform, AppTarget> {
       ),
       web: fbWeb,
       store: storeUrl("284882215", "com.facebook.katana"),
-      // Facebook blocks pre-filled captions — copy so the user can paste.
+      // Caption only — URL is already on the sharer card (avoids text-only "yorum" posts).
       copyFirst: true,
+      copyKind: "caption",
     },
     whatsapp: {
       native: `whatsapp://send?text=${encodedTextWithUrl}`,
@@ -270,6 +272,7 @@ function buildTargets(payload: SharePayload): Record<SharePlatform, AppTarget> {
       web: liWeb,
       store: storeUrl("288429040", "com.linkedin.android"),
       copyFirst: true,
+      copyKind: "caption",
     },
     vk: {
       native: `vk://share?url=${encodedUrl}&title=${encodedTitle}`,
@@ -293,6 +296,7 @@ function buildTargets(payload: SharePayload): Record<SharePlatform, AppTarget> {
       web: igWeb,
       store: storeUrl("389801252", "com.instagram.android"),
       copyFirst: true,
+      copyKind: "captionAndUrl",
     },
     tiktok: {
       native: "tiktok://",
@@ -305,6 +309,7 @@ function buildTargets(payload: SharePayload): Record<SharePlatform, AppTarget> {
       web: ttWeb,
       store: storeUrl("835599320", "com.zhiliaoapp.musically"),
       copyFirst: true,
+      copyKind: "captionAndUrl",
     },
   };
 }
@@ -313,7 +318,7 @@ export async function shareTo(
   platform: SharePlatform,
   payload: SharePayload,
 ): Promise<{ copied: boolean }> {
-  const { url, textWithUrl, title } = payload;
+  const { url, text, textWithUrl, title } = payload;
 
   // OS share sheet when available (best path for Instagram on mobile).
   if (
@@ -334,7 +339,14 @@ export async function shareTo(
 
   let copied = false;
   if (target.copyFirst) {
-    copied = await copyText(textWithUrl);
+    const kind = target.copyKind ?? "captionAndUrl";
+    const clip =
+      kind === "caption"
+        ? text
+        : kind === "urlThenCaption"
+          ? `${url}\n\n${text}`
+          : textWithUrl;
+    copied = await copyText(clip);
   }
 
   // Desktop: HTTPS intents only.
