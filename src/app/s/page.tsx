@@ -5,42 +5,23 @@ import {
   buildSharePageUrl,
   parseShareCardParams,
 } from "@/lib/shareCard";
+import { shareOgDescription, shareOgTitle } from "@/lib/shareMeta";
 import { getSiteUrl } from "@/lib/shareSite";
 
 type PageProps = {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
 
-function teaseTitle(card: {
-  handle?: string;
-  topicTitle: string;
-  country: string;
-}): string {
-  const who = card.handle?.trim() || "Someone";
-  return `${who} sealed a forecast on ${card.topicTitle} — what does ${card.country} say?`;
-}
-
-function teaseDescription(card: {
-  country: string;
-  risk: number;
-  isPeace?: boolean;
-  prediction: string;
-}): string {
-  if (card.isPeace) {
-    return `${card.country}: ${card.risk}% war. I said no war. Open the seal — what does your country say?`;
-  }
-  return `${card.country}: ${card.risk}% war. Forecast sealed. Open to see the tag — what does your country say?`;
-}
-
 export async function generateMetadata({
   searchParams,
 }: PageProps): Promise<Metadata> {
   const params = await searchParams;
   const card = parseShareCardParams(params);
-  const title = teaseTitle(card);
-  const description = teaseDescription(card);
+  const title = shareOgTitle(card);
+  const description = shareOgDescription(card);
   const image = buildOgImageUrl(card, getSiteUrl());
   const pageUrl = buildSharePageUrl(card);
+  const locale = (card.locale || "en").slice(0, 2);
 
   return {
     title,
@@ -51,12 +32,15 @@ export async function generateMetadata({
       url: pageUrl,
       siteName: "WWtellme",
       type: "website",
+      locale: locale === "tr" ? "tr_TR" : `${locale}_${locale.toUpperCase()}`,
       images: [
         {
           url: image,
+          secureUrl: image,
           width: 1200,
           height: 630,
-          alt: "Sealed WWtellme forecast",
+          type: "image/png",
+          alt: title,
         },
       ],
     },
@@ -73,6 +57,8 @@ export default async function SharePage({ searchParams }: PageProps) {
   const params = await searchParams;
   const card = parseShareCardParams(params);
   const image = buildOgImageUrl(card, getSiteUrl());
+  const description = shareOgDescription(card);
+  const isTr = (card.locale || "").startsWith("tr");
 
   return (
     <main className="min-h-dvh bg-[#050505] text-zinc-300 flex flex-col items-center justify-center px-6 py-16">
@@ -92,15 +78,15 @@ export default async function SharePage({ searchParams }: PageProps) {
           <h1 className="text-2xl sm:text-3xl font-light text-white">
             {card.topicTitle}
           </h1>
-          <p className="text-sm text-zinc-400 max-w-md leading-relaxed">
-            {teaseDescription(card)}
+          <p className="text-sm text-zinc-400 max-w-md leading-relaxed whitespace-pre-line">
+            {description}
           </p>
         </div>
         <Link
           href="/"
           className="bg-amber-500 hover:bg-amber-400 text-black px-8 py-3 rounded-xl text-xs font-bold tracking-wide transition-colors"
         >
-          Seal your forecast
+          {isTr ? "Tahminini mühürle" : "Seal your forecast"}
         </Link>
       </div>
     </main>

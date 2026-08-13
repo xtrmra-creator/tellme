@@ -25,9 +25,10 @@ export function shareCardSearchParams(input: ShareCardInput): URLSearchParams {
   q.set("r", String(Math.max(0, Math.min(100, Math.round(input.risk)))));
   if (input.handle?.trim()) q.set("h", clamp(input.handle.trim(), 28));
   if (input.isPeace) q.set("n", "1");
-  if (input.locale) q.set("l", clamp(input.locale, 5));
-  // Bump when OG card design changes so crawlers skip stale caches.
-  q.set("v", "3");
+  // Always set locale — Facebook crawler ignores browser cookies/language.
+  q.set("l", clamp(input.locale || "en", 5));
+  // Bump when OG card design / meta locale changes so crawlers refresh.
+  q.set("v", "4");
   return q;
 }
 

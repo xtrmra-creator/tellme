@@ -87,7 +87,9 @@ function labels(locale?: string) {
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const card = parseShareCardParams(searchParams);
-  const handle = card.handle || "@anon";
+  const handle =
+    card.handle ||
+    ((card.locale || "").startsWith("tr") ? "@anonim" : "@anon");
   const topic = card.topicTitle || "WWtellme";
   const pred = card.prediction || "—";
   const riskColor = card.isPeace ? "#34d399" : "#f59e0b";
