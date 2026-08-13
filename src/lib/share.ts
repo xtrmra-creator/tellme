@@ -229,9 +229,15 @@ function buildTargets(payload: SharePayload): Record<SharePlatform, AppTarget> {
       store: storeUrl("333903271", "com.twitter.android"),
     },
     facebook: {
-      // Prefer HTTPS sharer — native fb:// nesting often strips share query params.
-      native: null,
-      androidIntent: null,
+      // Open the Facebook APP with our /s?d=… link (compact — params stay intact).
+      // Avoid fb://facewebmodal nesting (it used to strip query params → English/broken OG).
+      native: `fb://share/?link=${encodedUrl}`,
+      androidIntent: androidIntent(
+        "https",
+        `www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+        "com.facebook.katana",
+        fbWeb,
+      ),
       web: fbWeb,
       store: storeUrl("284882215", "com.facebook.katana"),
       // Facebook blocks pre-filled captions — copy so the user can paste.
